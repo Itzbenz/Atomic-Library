@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://dl.bintray.com/konsoletyper/teavm" }
+        google()
+    }
+}
+
+
+allprojects {
+
+    ext {
+        //Executed Magically
+        writeProcessors = {
+
+            if("$module.name" == "Annotation") {
+                new File(projectDir, "resources/META-INF/services/").mkdirs()
+                def processorFile = new File(projectDir, "resources/META-INF/services/javax.annotation.processing.Processor")
+                def text = new StringBuilder()
+                def files = new File(projectDir, "src/")
+                files.eachFileRecurse(groovy.io.FileType.FILES) { file ->
+                    if (file.name.endsWith(".java") && (file.text.contains(" extends BaseProcessor") || (file.text.contains(" extends AbstractProcessor") && !file.text.contains("abstract class")))) {
+                        text.append(file.path.substring(files.path.length() + 1)).append("\n")
+                    }
+                }
+                processorFile.text = text.toString().replace(".java", "").replace("/", ".").replace("\\", ".")
+            }
+            println "> Task Atom:$module.name:Annotation-Processor"
+            delete "src-gen/"
+
+        }
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://dl.bintray.com/konsoletyper/teavm" }
+        google()
+    }
+
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    group 'org.o7'
+    version '1.3'
+
+    ext.aproj = { String module ->
+        if (findProject(module) != null) {
+            return project(module)
+        } else {
+            return project(":Atom" + module)
+        }
+    }
+
+    compileJava {
+        options.fork = true
+        options.incremental = true
+    }
+
+    task pre {
+        writeProcessors()
+    }
+    dependencies {
+        compileJava.dependsOn(pre)
+
+    }
+
+    tasks.withType(JavaCompile){
+        new File(projectDir, "resources/").mkdirs()
+        new File(projectDir, "src/").mkdirs()
+        new File(projectDir, "src-gen/").mkdirs()
+        sourceSets.main.resources.srcDirs = ["resources/"]
+        sourceSets.main.java.srcDirs = ["src/", "src-gen/"]
+        options.annotationProcessorGeneratedSourcesDirectory = file("src-gen/")
+
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+        options.encoding = "UTF-8"
+
+    }
+}

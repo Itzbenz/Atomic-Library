@@ -1,7 +1,7 @@
 package Atom.Time;
 
 
-import Atom.Utility.Queue;
+import Atom.Struct.Queue;
 
 import java.util.concurrent.TimeUnit;
 

@@ -17,13 +17,21 @@ public class Random {
     public static boolean getBool(){
         return getInt(0, 1) != 0;
     }
+
     public static int getInt(){
       return getInt(0, 10000);
     }
-
+    public static int getInt(int max){
+        return getInt(0, max);
+    }
     public static int getInt(int min, int max){
         java.util.Random random = new java.util.Random();
 
         return random.nextInt((max - min) + 1) + min;
+    }
+
+    public static <T> T getRandom(T[] arrays){
+        int rnd = new java.util.Random().nextInt(arrays.length);
+        return arrays[rnd];
     }
 }

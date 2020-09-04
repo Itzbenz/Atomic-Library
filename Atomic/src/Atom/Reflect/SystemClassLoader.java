@@ -26,7 +26,7 @@ public class SystemClassLoader {
     public static void addURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("addURL", java.net.URL.class);
         method.setAccessible(true);
-        method.invoke(loader, url);
+        method.invoke(loader,  new Object[]{url});
     }
 
     public static URLClassLoader getURLSystemCl(){

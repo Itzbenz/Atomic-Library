@@ -2,6 +2,7 @@ package Atom.Struct;
 
 import java.util.*;
 
+//epic stuff from Arc
 @SuppressWarnings("unchecked")
 public class Queue<T> implements Iterable<T>{
     /** Number of elements in the queue. */

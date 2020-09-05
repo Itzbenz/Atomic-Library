@@ -16,6 +16,7 @@ public class BasicEncoder {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         return digest.digest(text.getBytes(Charset.forName("UTF-8")));
     }
+
     //@Annotation.Replicate(source = "SHA-256", target = {"SHA1, MD5"}, clazz = "Encoder")
     public static byte[] sha256(File file) throws NoSuchAlgorithmException, IOException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");

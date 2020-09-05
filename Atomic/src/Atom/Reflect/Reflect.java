@@ -4,6 +4,8 @@ import Atom.Random;
 import Atom.Struct.Filter;
 import org.reflections.Reflections;
 
+import java.util.*;
+
 public class Reflect {
 
     public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {

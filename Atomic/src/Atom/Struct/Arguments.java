@@ -7,9 +7,6 @@ public class Arguments {
     private HashMap<String, String> hashMap = new HashMap<>();
 
 
-    // arg: "-key GAY -gay KEY"
-    // prefixKey:  "-"
-    // prefixValue: " "
     public Arguments(String arg, String prefixKey, String prefixValue) {
         this(arg.split(prefixValue), prefixKey);
     }

@@ -115,3 +115,9 @@ android/libs/
 .idea/compiler.xml
 .idea/gradle.xml
 /.idea/
+/Atomic/build/
+/Test/build/
+/Log/build/
+/Log/src-gen/
+/Test/src-gen/
+/Atomic/src-gen/

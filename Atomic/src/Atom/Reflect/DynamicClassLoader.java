@@ -15,10 +15,16 @@
  */
 package Atom.Reflect;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public final class DynamicClassLoader extends URLClassLoader {
 
@@ -48,7 +54,27 @@ public final class DynamicClassLoader extends URLClassLoader {
     public void add(URL url) {
         addURL(url);
     }
-
+    public void loadJar(File file){
+        try {
+            if(!SystemClassLoader.isAlreadyLoaded(file.toURI().toURL())) {
+                add(file.toURI().toURL());
+            }
+            List<String> classNames = new ArrayList<>();
+            ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
+            for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
+                if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
+                    // This ZipEntry represents a class. Now, what class does it represent?
+                    String className = entry.getName().replace('/', '.'); // including ".class"
+                    classNames.add(className.substring(0, className.length() - ".class".length()));
+                }
+            }
+            for(String s : classNames){
+                loadClass(s, true);
+            }
+        }catch (Throwable t){
+            throw new RuntimeException("Failed to load jar: " + file.getAbsolutePath());
+        }
+    }
     public static DynamicClassLoader findAncestor(ClassLoader cl) {
         do {
 

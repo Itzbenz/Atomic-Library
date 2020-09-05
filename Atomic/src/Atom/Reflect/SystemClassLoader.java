@@ -2,7 +2,9 @@ package Atom.Reflect;
 
 import Atom.Utility.Utility;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -25,6 +27,13 @@ public class SystemClassLoader {
         return false;
     }
 
+    public static void addURL(File jar) throws IllegalAccessException, MalformedURLException, NoSuchMethodException, InvocationTargetException {
+        addURL(getURLSystemCl(), jar);
+    }
+
+    public static void addURL(URLClassLoader loader, File jar) throws MalformedURLException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        addURL(loader, jar.toURI().toURL());
+    }
     public static void addURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         if(isAlreadyLoaded(loader, url))throw new RuntimeException("URL already loaded: " + url);
         if(ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader){

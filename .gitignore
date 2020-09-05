@@ -114,3 +114,4 @@ android/libs/
 *.xml
 .idea/compiler.xml
 .idea/gradle.xml
+/.idea/

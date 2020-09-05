@@ -10,7 +10,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Annotation" />
             <option value="$PROJECT_DIR$/Atomic" />
             <option value="$PROJECT_DIR$/Log" />
             <option value="$PROJECT_DIR$/Test" />

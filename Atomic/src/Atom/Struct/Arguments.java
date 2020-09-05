@@ -10,20 +10,20 @@ public class Arguments {
     // arg: "-key GAY -gay KEY"
     // prefixKey:  "-"
     // prefixValue: " "
-    public Arguments(String arg, String prefixKey, String prefixValue){
+    public Arguments(String arg, String prefixKey, String prefixValue) {
         this(arg.split(prefixValue), prefixKey);
     }
 
-    public Arguments(String[] arg, String prefix){
+    public Arguments(String[] arg, String prefix) {
         HashMap<String, String> args = new HashMap<>();
-        if(arg.length  % 2 != 0)
+        if (arg.length % 2 != 0)
             throw new IllegalArgumentException("Not Enough Argument" + Arrays.toString(arg));
         boolean i = true;
         String k = "";
-        for(String d : arg) {
+        for (String d : arg) {
             if (d.startsWith(prefix)) {
                 k = d.replaceFirst(prefix, "");
-            }else {
+            } else {
                 args.put(k, d);
             }
             i = !i;
@@ -31,38 +31,39 @@ public class Arguments {
         hashMap = args;
     }
 
-    public Arguments(HashMap<String, String> a){
+    public Arguments(HashMap<String, String> a) {
         hashMap = a;
     }
 
-    public Arguments(){
+    public Arguments() {
 
     }
 
+    public static Arguments parse(String arg, String prefixKey, String prefixValue) {
+        if (arg.isEmpty()) return new Arguments();
+        return new Arguments(arg, prefixKey, prefixValue);
+    }
 
-    public void add(String key, String value){
-        if(hashMap.containsKey(key))
+    public static Arguments parse(String arg, String prefixKey) {
+        return parse(arg, prefixKey, " ");
+    }
+
+    public void add(String key, String value) {
+        if (hashMap.containsKey(key))
             hashMap.replace(key, value);
         else
             hashMap.put(key, value);
     }
 
-    public String get(String key){
+    public String get(String key) {
         return hashMap.getOrDefault(key, "");
     }
-    public String get(String key, String def){
+
+    public String get(String key, String def) {
         return hashMap.getOrDefault(key, def);
     }
 
-    public int size(){
+    public int size() {
         return hashMap.size();
-    }
-
-    public static Arguments parse(String arg, String prefixKey, String prefixValue){
-        if(arg.isEmpty()) return new Arguments();
-        return new Arguments(arg, prefixKey, prefixValue);
-    }
-    public static Arguments parse(String arg, String prefixKey){
-        return parse(arg, prefixKey, " ");
     }
 }

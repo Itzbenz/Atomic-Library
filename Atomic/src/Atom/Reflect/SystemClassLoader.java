@@ -27,6 +27,10 @@ public class SystemClassLoader {
 
     public static void addURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         if(isAlreadyLoaded(loader, url))throw new RuntimeException("URL already loaded: " + url);
+        if(ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader){
+            ((DynamicClassLoader) loader).add(url);
+            return;
+        }
         java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("addURL", java.net.URL.class);
         method.setAccessible(true);
         method.invoke(loader, new Object[]{url});

@@ -1,11 +1,11 @@
 Atom/Struct/Filter.java
  Atom.Struct.Filter
-Atom/Reflect/SystemClassLoader.java
- Atom.Reflect.SystemClassLoader
+Atom/Struct/Arguments.java
+ Atom.Struct.Arguments
 Atom/Time/Countdown.java
  Atom.Time.Countdown
-Atom/Reflect/DynamicClassLoader.java
- Atom.Reflect.DynamicClassLoader
+Atom/Manifest.java
+ Atom.Manifest
 Atom/Utility/BasicEncoder.java
  Atom.Utility.BasicEncoder
 Atom/Random.java
@@ -22,9 +22,9 @@ Atom/Struct/Queue.java
  Atom.Struct.Queue
  Atom.Struct.Queue$QueueIterable
  Atom.Struct.Queue$QueueIterable$QueueIterator
-Atom/Manifest.java
- Atom.Manifest
+Atom/Reflect/SystemClassLoader.java
+ Atom.Reflect.SystemClassLoader
+Atom/Reflect/DynamicClassLoader.java
+ Atom.Reflect.DynamicClassLoader
 Atom/Reflect/Reflect.java
  Atom.Reflect.Reflect
-Atom/Struct/Arguments.java
- Atom.Struct.Arguments

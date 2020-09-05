@@ -41,6 +41,10 @@ public final class DynamicClassLoader extends URLClassLoader {
         this(Thread.currentThread().getContextClassLoader());
     }
 
+    public Package[] gibPackages(){
+        return getPackages();
+    }
+
     public void add(URL url) {
         addURL(url);
     }

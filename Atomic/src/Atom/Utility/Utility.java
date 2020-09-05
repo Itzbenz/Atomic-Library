@@ -26,6 +26,20 @@ public class Utility {
         return args;
     }
 
+    public static int getJavaMajorVersion(){
+        String version;
+        version = System.getProperty("java.version");
+        if(version == null || version.isEmpty())
+            version = System.getProperty("java.runtime.version");
+        if(version.startsWith("1.")) {
+            version = version.substring(2, 3);
+        } else {
+            int dot = version.indexOf(".");
+            if(dot != -1) { version = version.substring(0, dot); }
+        } return Integer.parseInt(version);
+
+    }
+
     public static String joiner(String[] datas, String prefix) {
         StringBuilder data = new StringBuilder();
         for (int i = 0; i < datas.length; i++) {

@@ -17,7 +17,9 @@ package Atom.Reflect;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
@@ -54,9 +56,9 @@ public final class DynamicClassLoader extends URLClassLoader {
     public void add(URL url) {
         addURL(url);
     }
-    public void loadJar(File file){
-        try {
-            if(!SystemClassLoader.isAlreadyLoaded(file.toURI().toURL())) {
+    public void loadJar(File file) throws IOException, IllegalAccessException, ClassNotFoundException, UnsupportedClassVersionError {
+
+            if (!SystemClassLoader.isAlreadyLoaded(file.toURI().toURL())) {
                 add(file.toURI().toURL());
             }
             List<String> classNames = new ArrayList<>();
@@ -68,12 +70,10 @@ public final class DynamicClassLoader extends URLClassLoader {
                     classNames.add(className.substring(0, className.length() - ".class".length()));
                 }
             }
-            for(String s : classNames){
+            for (String s : classNames) {
                 loadClass(s, true);
             }
-        }catch (Throwable t){
-            throw new RuntimeException("Failed to load jar: " + file.getAbsolutePath());
-        }
+
     }
     public static DynamicClassLoader findAncestor(ClassLoader cl) {
         do {

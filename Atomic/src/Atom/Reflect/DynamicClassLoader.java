@@ -32,6 +32,8 @@ public final class DynamicClassLoader extends URLClassLoader {
         registerAsParallelCapable();
     }
 
+    //cant use name smh
+    //but it work flawlessly
     public DynamicClassLoader(String name, ClassLoader parent) {
         super(new URL[0], parent);
     }

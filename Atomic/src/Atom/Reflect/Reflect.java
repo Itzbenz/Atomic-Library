@@ -52,13 +52,13 @@ public class Reflect {
     public static ArrayList<Package> findPackages(Filter<Package> filter) {
         ArrayList<Package> a = new ArrayList<>();
         try {
-            if(! (SystemClassLoader.getURLSystemCl() instanceof DynamicClassLoader)) {
+            if (!(SystemClassLoader.getURLSystemCl() instanceof DynamicClassLoader)) {
                 for (Package p : Package.getPackages())
                     if (filter.accept(p)) a.add(p);
 
-            }else {
-                for(Package P : ((DynamicClassLoader) SystemClassLoader.getURLSystemCl()).gibPackages())
-                    if(filter.accept(P)) a.add(P);
+            } else {
+                for (Package P : ((DynamicClassLoader) SystemClassLoader.getURLSystemCl()).gibPackages())
+                    if (filter.accept(P)) a.add(P);
             }
 
         } catch (IllegalAccessException e) {

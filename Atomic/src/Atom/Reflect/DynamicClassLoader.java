@@ -17,9 +17,7 @@ package Atom.Reflect;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
@@ -49,32 +47,6 @@ public final class DynamicClassLoader extends URLClassLoader {
         this(Thread.currentThread().getContextClassLoader());
     }
 
-    public Package[] gibPackages(){
-        return getPackages();
-    }
-
-    public void add(URL url) {
-        addURL(url);
-    }
-    public void loadJar(File file) throws IOException, IllegalAccessException, ClassNotFoundException, UnsupportedClassVersionError {
-
-            if (!SystemClassLoader.isAlreadyLoaded(file.toURI().toURL())) {
-                add(file.toURI().toURL());
-            }
-            List<String> classNames = new ArrayList<>();
-            ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
-            for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-                if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
-                    // This ZipEntry represents a class. Now, what class does it represent?
-                    String className = entry.getName().replace('/', '.'); // including ".class"
-                    classNames.add(className.substring(0, className.length() - ".class".length()));
-                }
-            }
-            for (String s : classNames) {
-                loadClass(s, true);
-            }
-
-    }
     public static DynamicClassLoader findAncestor(ClassLoader cl) {
         do {
 
@@ -85,6 +57,34 @@ public final class DynamicClassLoader extends URLClassLoader {
         } while (cl != null);
 
         return null;
+    }
+
+    public Package[] gibPackages() {
+        return getPackages();
+    }
+
+    public void add(URL url) {
+        addURL(url);
+    }
+
+    public void loadJar(File file) throws IOException, IllegalAccessException, ClassNotFoundException, UnsupportedClassVersionError {
+
+        if (!SystemClassLoader.isAlreadyLoaded(file.toURI().toURL())) {
+            add(file.toURI().toURL());
+        }
+        List<String> classNames = new ArrayList<>();
+        ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
+        for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
+            if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
+                // This ZipEntry represents a class. Now, what class does it represent?
+                String className = entry.getName().replace('/', '.'); // including ".class"
+                classNames.add(className.substring(0, className.length() - ".class".length()));
+            }
+        }
+        for (String s : classNames) {
+            loadClass(s, true);
+        }
+
     }
 
     /*

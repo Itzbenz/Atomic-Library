@@ -34,9 +34,10 @@ public class SystemClassLoader {
     public static void addURL(URLClassLoader loader, File jar) throws MalformedURLException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         addURL(loader, jar.toURI().toURL());
     }
+
     public static void addURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        if(isAlreadyLoaded(loader, url))throw new RuntimeException("URL already loaded: " + url);
-        if(ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader){
+        if (isAlreadyLoaded(loader, url)) throw new RuntimeException("URL already loaded: " + url);
+        if (ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader) {
             ((DynamicClassLoader) loader).add(url);
             return;
         }
@@ -46,10 +47,11 @@ public class SystemClassLoader {
     }
 
     public static URLClassLoader getURLSystemCl() throws IllegalAccessException {
-        if(ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader){
-            return (DynamicClassLoader)ClassLoader.getSystemClassLoader();
+        if (ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader) {
+            return (DynamicClassLoader) ClassLoader.getSystemClassLoader();
         }
-        if(Utility.getJavaMajorVersion() > 8)throw new IllegalAccessException("Can't get system URLClassloader in java 9+");
+        if (Utility.getJavaMajorVersion() > 8)
+            throw new IllegalAccessException("Can't get system URLClassloader in java 9+");
         return (URLClassLoader) ClassLoader.getSystemClassLoader();
     }
 }

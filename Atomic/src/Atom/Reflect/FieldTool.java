@@ -11,6 +11,7 @@ public class FieldTool {
             try {
                 assignRandom(f);
             } catch (IllegalAccessException e) {
+                //yeet
             }
         }
     }

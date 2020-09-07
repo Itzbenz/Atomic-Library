@@ -1,6 +1,7 @@
 
 dependencies{
     compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
-    compile group: 'org.ow2.asm', name: 'asm', version: '9.0-beta'
+    compile group: 'net.bytebuddy', name: 'byte-buddy', version: '1.10.14'
+
 
 }

@@ -4,7 +4,6 @@ import Atom.Utility.Utility;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -17,6 +16,18 @@ import java.util.zip.ZipInputStream;
 
 //that a lot of exception
 public class SystemClassLoader {
+
+    public static Package[] getPackages() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        return getPackages(getURLSystemCl());
+    }
+
+    public static Package[] getPackages(URLClassLoader loader) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        if (ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader)
+           return ((DynamicClassLoader) loader).gibPackages();
+        java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("getPackages");
+        method.setAccessible(true);
+        return (Package[]) method.invoke(loader, new Object[0]);
+    }
 
     public static void addURL(URL url) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         addURL(getURLSystemCl(), url);
@@ -42,6 +53,7 @@ public class SystemClassLoader {
     public static void loadJar(File jar) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, IOException {
         loadJar(getURLSystemCl(), jar);
     }
+
     public static void loadJar(URLClassLoader loader, File file) throws UnsupportedClassVersionError, IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         if (!SystemClassLoader.isAlreadyLoaded(file)) addURL(file);
         List<String> classNames = new ArrayList<>();
@@ -74,7 +86,7 @@ public class SystemClassLoader {
         }
         java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("addURL", java.net.URL.class);
         method.setAccessible(true);
-        method.invoke(loader, new Object[]{url});
+        method.invoke(loader, url);
     }
 
     public static URLClassLoader getURLSystemCl() throws IllegalAccessException {

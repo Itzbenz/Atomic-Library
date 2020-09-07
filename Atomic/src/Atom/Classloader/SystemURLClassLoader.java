@@ -1,4 +1,4 @@
-package Atom.Reflect;
+package Atom.Classloader;
 
 import Atom.Utility.Utility;
 
@@ -15,15 +15,16 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 //that a lot of exception
-public class SystemClassLoader {
+public class SystemURLClassLoader {
 
+    //totally legit interface for modified and non modified URLClassloader
     public static Package[] getPackages() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         return getPackages(getURLSystemCl());
     }
 
     public static Package[] getPackages(URLClassLoader loader) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        if (ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader)
-           return ((DynamicClassLoader) loader).gibPackages();
+        if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader)
+           return ((JarClassLoader) loader).getPackages();
         java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("getPackages");
         method.setAccessible(true);
         return (Package[]) method.invoke(loader, new Object[0]);
@@ -55,7 +56,7 @@ public class SystemClassLoader {
     }
 
     public static void loadJar(URLClassLoader loader, File file) throws UnsupportedClassVersionError, IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
-        if (!SystemClassLoader.isAlreadyLoaded(file)) addURL(file);
+        if (!SystemURLClassLoader.isAlreadyLoaded(file)) addURL(file);
         List<String> classNames = new ArrayList<>();
         ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
@@ -80,8 +81,8 @@ public class SystemClassLoader {
 
     public static void addURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         if (isAlreadyLoaded(loader, url)) throw new RuntimeException("URL already loaded: " + url);
-        if (ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader) {
-            ((DynamicClassLoader) loader).add(url);
+        if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader) {
+            ((JarClassLoader) loader).addURL(url);
             return;
         }
         java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("addURL", java.net.URL.class);
@@ -90,8 +91,8 @@ public class SystemClassLoader {
     }
 
     public static URLClassLoader getURLSystemCl() throws IllegalAccessException {
-        if (ClassLoader.getSystemClassLoader() instanceof DynamicClassLoader) {
-            return (DynamicClassLoader) ClassLoader.getSystemClassLoader();
+        if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader) {
+            return (JarClassLoader) ClassLoader.getSystemClassLoader();
         }
         if (Utility.getJavaMajorVersion() > 8)
             throw new IllegalAccessException("Can't get system URLClassloader in java 9+");

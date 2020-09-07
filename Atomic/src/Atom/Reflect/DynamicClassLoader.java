@@ -61,6 +61,7 @@ public final class DynamicClassLoader extends URLClassLoader {
         return null;
     }
 
+    //Encapsulation evasion
     public Package[] gibPackages() {
         return getPackages();
     }
@@ -69,25 +70,7 @@ public final class DynamicClassLoader extends URLClassLoader {
         addURL(url);
     }
 
-    public void loadJar(File file) throws IOException, IllegalAccessException, ClassNotFoundException, UnsupportedClassVersionError {
 
-        if (!SystemClassLoader.isAlreadyLoaded(file.toURI().toURL())) {
-            add(file.toURI().toURL());
-        }
-        List<String> classNames = new ArrayList<>();
-        ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
-        for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-            if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
-                // This ZipEntry represents a class. Now, what class does it represent?
-                String className = entry.getName().replace('/', '.'); // including ".class"
-                classNames.add(className.substring(0, className.length() - ".class".length()));
-            }
-        }
-        for (String s : classNames) {
-            loadClass(s, true);
-        }
-
-    }
 
     /*
      *  Required for Java Agents when this classloader is used as the system classloader

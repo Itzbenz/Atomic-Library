@@ -3,15 +3,27 @@ package Atom.Reflect;
 import Atom.Utility.Utility;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
+//that a lot of exception
 public class SystemClassLoader {
 
     public static void addURL(URL url) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         addURL(getURLSystemCl(), url);
+    }
+
+    public static boolean isAlreadyLoaded(File jar) throws IllegalAccessException, MalformedURLException {
+        return isAlreadyLoaded(getURLSystemCl(), jar.toURI().toURL());
     }
 
     public static boolean isAlreadyLoaded(URL url) throws IllegalAccessException {
@@ -25,6 +37,25 @@ public class SystemClassLoader {
             }
         }
         return false;
+    }
+
+    public static void loadJar(File jar) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, IOException {
+        loadJar(getURLSystemCl(), jar);
+    }
+    public static void loadJar(URLClassLoader loader, File file) throws UnsupportedClassVersionError, IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
+        if (!SystemClassLoader.isAlreadyLoaded(file)) addURL(file);
+        List<String> classNames = new ArrayList<>();
+        ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
+        for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
+            if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
+                // This ZipEntry represents a class. Now, what class does it represent?
+                String className = entry.getName().replace('/', '.'); // including ".class"
+                classNames.add(className.substring(0, className.length() - ".class".length()));
+            }
+        }
+        for (String s : classNames) {
+            loader.loadClass(s);
+        }
     }
 
     public static void addURL(File jar) throws IllegalAccessException, MalformedURLException, NoSuchMethodException, InvocationTargetException {

@@ -1,8 +1,4 @@
 
 dependencies{
-    //implementation aproj(":Annotation")
-    //compileOnly aproj(":Annotation")
-    //annotationProcessor aproj(":Annotation")
     compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

@@ -5,13 +5,14 @@ import Atom.Classloader.SystemURLClassLoader;
 import Atom.Random;
 import Atom.Struct.Filter;
 import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 
 import java.util.*;
 
 public class Reflect {
 
     public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
-        Reflections reflections = new Reflections(packageName);
+        Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
         return reflections.getSubTypesOf(e);
     }
 

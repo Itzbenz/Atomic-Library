@@ -1,6 +1,5 @@
 package Atom.Classloader;
 
-import jdk.internal.perf.PerfCounter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -87,13 +86,8 @@ public final class JarClassLoader extends URLClassLoader {
                 if (c == null) {
                     // If still not found, then invoke findClass in order
                     // to find the class.
-                    long t1 = System.nanoTime();
                     c = findClass(name);
 
-                    // this is the defining class loader; record the stats
-                    PerfCounter.getParentDelegationTime().addTime(t1 - t0);
-                    PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
-                    PerfCounter.getFindClasses().increment();
                 }
             }
             if (resolve) {

@@ -1,4 +1,6 @@
 import Atom.Classloader.SystemURLClassLoader;
+import Atom.Reflect.Reflect;
+import Atom.Test.AInterface;
 import Atom.Test.Intercept;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.implementation.FixedValue;
@@ -6,7 +8,6 @@ import net.bytebuddy.implementation.FixedValue;
 import java.lang.reflect.InvocationTargetException;
 
 import static net.bytebuddy.matcher.ElementMatchers.named;
-import static org.junit.Assert.assertThat;
 
 public class Test {
 
@@ -23,5 +24,12 @@ public class Test {
 
         Intercept b = new Intercept();
         System.out.println(a.neat("second"));
+    }
+
+    @org.junit.Test
+    public void reflection() {
+        for (Class<? extends AInterface> a : Reflect.getExtendedClass("Atom.Test.Int", AInterface.class))
+            System.out.println(a.getName());
+
     }
 }

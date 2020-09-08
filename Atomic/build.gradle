@@ -3,6 +3,7 @@ dependencies{
     implementation 'junit:junit:4.12'
     compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
     compile group: 'net.bytebuddy', name: 'byte-buddy', version: '1.10.14'
+    compile group: 'org.ow2.asm', name: 'asm', version: '8.0.1'
 
 
 }

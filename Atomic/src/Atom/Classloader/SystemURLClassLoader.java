@@ -18,16 +18,20 @@ import java.util.zip.ZipInputStream;
 public class SystemURLClassLoader {
 
     //totally legit interface for modified and non modified URLClassloader
-    public static Package[] getPackages() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public static Package[] getPackages() throws IllegalAccessException {
         return getPackages(getURLSystemCl());
     }
 
-    public static Package[] getPackages(URLClassLoader loader) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public static Package[] getPackages(URLClassLoader loader) {
         if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader)
-           return ((JarClassLoader) loader).getPackages();
-        java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("getPackages");
-        method.setAccessible(true);
-        return (Package[]) method.invoke(loader, new Object[0]);
+            return ((JarClassLoader) loader).getPackages();
+        try {
+            java.lang.reflect.Method method = ClassLoader.class.getDeclaredMethod("getPackages");
+            method.setAccessible(true);
+            return (Package[]) method.invoke(loader, new Object[0]);
+        } catch (Throwable ignored) {
+        }
+        return Package.getPackages();
     }
 
     public static void addURL(URL url) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {

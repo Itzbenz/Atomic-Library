@@ -25,6 +25,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://dl.bintray.com/konsoletyper/teavm" }
         google()
+        maven{ url 'https://www.jitpack.io' }
     }
 
 }
@@ -68,6 +69,12 @@ subprojects {
         targetCompatibility = 1.8
         options.encoding = "UTF-8"
 
+    }
+    jar{
+        archiveFileName = "${project.archivesBaseName}.jar"
+        from{
+            configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+        }
     }
 }
 

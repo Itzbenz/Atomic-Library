@@ -1,0 +1,7 @@
+ext {
+    MindustryHash = "3b5d6860d6"
+}
+dependencies {
+    implementation aproj(":Atomic")
+    compileOnly "com.github.Anuken:Mindustry:$MindustryHash"
+}

@@ -1,0 +1,3 @@
+module Atom{
+    exports Atom;
+}

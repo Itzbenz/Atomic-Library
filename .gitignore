@@ -121,3 +121,6 @@ android/libs/
 /Log/src-gen/
 /Test/src-gen/
 /Atomic/src-gen/
+/Aindustry/build/libs/Aindustry.jar
+/Aindustry/build/tmp/jar/MANIFEST.MF
+/Aindustry/build/tmp/compileJava/source-classes-mapping.txt

@@ -56,7 +56,6 @@ subprojects {
         compileJava.dependsOn(pre)
 
     }
-
     tasks.withType(JavaCompile) {
         new File(projectDir, "resources/").mkdirs()
         new File(projectDir, "src/").mkdirs()
@@ -66,8 +65,9 @@ subprojects {
         options.annotationProcessorGeneratedSourcesDirectory = file("src-gen/")
 
         sourceCompatibility = 1.8
-        targetCompatibility = 14
+        targetCompatibility = 1.8
         options.encoding = "UTF-8"
 
     }
 }
+

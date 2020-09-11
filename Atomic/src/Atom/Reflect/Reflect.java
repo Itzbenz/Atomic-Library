@@ -17,14 +17,21 @@ public class Reflect {
         return reflections.getSubTypesOf(e);
     }
 
-    public static Method findDeclaredMethod(String name, Class<?> clazz, Class<?>... parameterTypes){
+    public static ArrayList<Method> findDeclaredMethods(Class<?> clazz, Filter<Method> filter){
+        ArrayList<Method> result = new ArrayList<>();
         try{
-            Method method = clazz.getDeclaredMethod(name, parameterTypes);
-            method.setAccessible(true);
-            return method;
-        } catch (Throwable ignored) {
-            return null;
+          Method[] methods =  clazz.getDeclaredMethods();
+          for(Method m : methods){
+             if(filter.accept(m))
+                 result.add(m);
+          }
+          for(Method m : result){
+              m.setAccessible(true);
+          }
+        }catch (Throwable ignored){
+
         }
+        return result;
     }
 
     public static Set<Class<?>> getAllExtendedOrImplementedTypesRecursively(Class<?> clazz) {

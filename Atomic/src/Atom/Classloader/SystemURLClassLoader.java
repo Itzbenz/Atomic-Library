@@ -58,9 +58,9 @@ public class SystemURLClassLoader {
     public static void loadJar(File jar) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, IOException {
         loadJar(getURLSystemCl(), jar);
     }
-
+    //index all class inside jar for classloader to load
     public static void loadJar(URLClassLoader loader, File file) throws UnsupportedClassVersionError, IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
-        if (!SystemURLClassLoader.isAlreadyLoaded(file)) addURL(file);
+        if (!SystemURLClassLoader.isAlreadyLoaded(loader, file.toURI().toURL())) addURL(loader, file);
         List<String> classNames = new ArrayList<>();
         ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
@@ -95,9 +95,6 @@ public class SystemURLClassLoader {
     }
 
     public static URLClassLoader getURLSystemCl() throws IllegalAccessException {
-        if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader) {
-            return (JarClassLoader) ClassLoader.getSystemClassLoader();
-        }
         if (Utility.getJavaMajorVersion() > 8)
             throw new IllegalAccessException("Can't get system URLClassloader in java 9+");
         return (URLClassLoader) ClassLoader.getSystemClassLoader();

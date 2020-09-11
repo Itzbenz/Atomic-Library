@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLClassLoader;
 
-public class Mindusrty extends Mod {
+public class Aindustry extends Mod {
     @Override
     public void init() {
         try {

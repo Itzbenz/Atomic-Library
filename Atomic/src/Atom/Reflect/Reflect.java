@@ -7,6 +7,7 @@ import Atom.Struct.Filter;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class Reflect {
@@ -14,6 +15,16 @@ public class Reflect {
     public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
         Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
         return reflections.getSubTypesOf(e);
+    }
+
+    public static Method findDeclaredMethod(String name, Class<?> clazz, Class<?>... parameterTypes){
+        try{
+            Method method = clazz.getDeclaredMethod(name, parameterTypes);
+            method.setAccessible(true);
+            return method;
+        } catch (Throwable ignored) {
+            return null;
+        }
     }
 
     public static Set<Class<?>> getAllExtendedOrImplementedTypesRecursively(Class<?> clazz) {

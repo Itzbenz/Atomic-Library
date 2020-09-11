@@ -4,7 +4,7 @@ import Atom.Utility.Utility;
 import arc.util.Log;
 import mindustry.mod.Mod;
 
-public class Mindusrty  extends Mod {
+public class Mindusrty extends Mod {
     @Override
     public void init() {
         Random.getBool();

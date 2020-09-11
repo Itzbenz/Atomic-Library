@@ -7,6 +7,7 @@ import Atom.Struct.Filter;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -15,6 +16,32 @@ public class Reflect {
     public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
         Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
         return reflections.getSubTypesOf(e);
+    }
+
+    public static <E> E getField(Class<?> clazz, String name, Object object){
+        ArrayList<Field> result = findDeclaredField(clazz, f -> f.getName().equals(name));
+        E e = null;
+        for (Field f : result){
+            try {
+                e = (E) f.get(object);
+            } catch (Throwable ignored) { }
+        }
+        return e;
+    }
+
+    public static ArrayList<Field> findDeclaredField(Class<?> clazz, Filter<Field> filter){
+        ArrayList<Field> result = new ArrayList<>();
+        try{
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field f : fields){
+                if(filter.accept(f))
+                    result.add(f);
+            }
+            for(Field f : result){
+                f.setAccessible(true);
+            }
+        }catch (Throwable ignored){ }
+        return result;
     }
 
     public static ArrayList<Method> findDeclaredMethods(Class<?> clazz, Filter<Method> filter){

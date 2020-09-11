@@ -14,6 +14,7 @@ public class Random {
         }
         return sb.toString();
     }
+
     public static String getRandomHexColor(){
         int nextInt = Random.getInt(5000000, 16777215);
         return String.format("#%06x", nextInt);

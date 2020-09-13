@@ -58,7 +58,7 @@ public class SystemURLClassLoader {
     public static void loadJar(File jar) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, IOException {
         loadJar(getURLSystemCl(), jar);
     }
-    //index all class inside jar for classloader to load
+    //index load class inside jar for classloader to search
     public static void loadJar(URLClassLoader loader, File file) throws UnsupportedClassVersionError, IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         if (!SystemURLClassLoader.isAlreadyLoaded(loader, file.toURI().toURL())) addURL(loader, file);
         List<String> classNames = new ArrayList<>();

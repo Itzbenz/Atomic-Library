@@ -1,6 +1,8 @@
 package Atom;
 
 import Atom.Classloader.SystemURLClassLoader;
+import Atom.Reflect.Reflect;
+import Atom.Struct.Filter;
 import arc.util.Log;
 import mindustry.mod.Mod;
 
@@ -12,9 +14,15 @@ public class Aindustry extends Mod {
     @Override
     public void init() {
         try {
-            SystemURLClassLoader.loadJar((URLClassLoader) this.getClass().getClassLoader(), getConfig().parent().file());
+            Reflect.findPackages(new Filter<Package>() {
+                @Override
+                public boolean accept(Package aPackage) {
+                    return false;
+                }
+            });
+            SystemURLClassLoader.loadJar((URLClassLoader) this.getClass().getClassLoader(), Reflect.getCurrentJar(this.getClass()));
             Log.infoTag("Atom", "Loaded");
-        } catch (IOException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             Log.err(e);
         }

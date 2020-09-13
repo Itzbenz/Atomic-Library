@@ -7,8 +7,10 @@ import Atom.Struct.Filter;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Reflect {
@@ -16,6 +18,15 @@ public class Reflect {
     public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
         Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
         return reflections.getSubTypesOf(e);
+    }
+
+    public static File getCurrentJar(Class<?> clazz){
+        try {
+            return new File(clazz.getClass().getProtectionDomain().getCodeSource().getLocation()
+                    .toURI());
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
     public static <E> E getField(Class<?> clazz, String name, Object object){

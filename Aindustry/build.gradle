@@ -5,3 +5,9 @@ dependencies {
     compile aproj(":Atomic")
     compileOnly "com.github.Anuken:Mindustry:$MindustryHash"
 }
+jar{
+    archiveFileName = "${project.archivesBaseName}.jar"
+    subprojects.each { project ->
+        from project.configurations.archives.allArtifacts.files.collect { zipTree(it) }
+    }
+}

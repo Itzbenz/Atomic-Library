@@ -70,11 +70,6 @@ subprojects {
         options.encoding = "UTF-8"
 
     }
-    jar{
-        archiveFileName = "${project.archivesBaseName}.jar"
-        from{
-            configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
-        }
-    }
+
 }
 

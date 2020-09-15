@@ -1,12 +1,22 @@
 package Atom.Utility;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Utility {
+
+    public static String shrinkString(String s) {
+        return new LinkedHashSet<String>(Arrays.asList(s.split("-"))).toString().replaceAll("(^\\[|\\]$)", "").replace(", ", "-");
+    }
+
+    public static String shrinkChar(String s) {
+        char[] chars = s.toCharArray();
+        Set<Character> cr = new LinkedHashSet<>();
+        for (char c : chars) cr.add(c);
+        StringBuilder sb = new StringBuilder();
+        for (Character chr : cr) sb.append(chr);
+        return sb.toString();
+    }
 
     public static boolean containIntOnly(String s) {
         return (s.matches("[0-9]+"));

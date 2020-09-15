@@ -10,7 +10,6 @@ import org.reflections.scanners.SubTypesScanner;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URISyntaxException;
 import java.util.*;
 
 public class Reflect {
@@ -32,45 +31,102 @@ public class Reflect {
     public static <E> E getField(Class<?> clazz, String name, Object object){
         ArrayList<Field> result = findDeclaredField(clazz, f -> f.getName().equals(name));
         E e = null;
-        for (Field f : result){
+        for (Field f : result) {
             try {
                 e = (E) f.get(object);
-            } catch (Throwable ignored) { }
+            } catch (Throwable ignored) {
+            }
         }
         return e;
     }
 
-    public static ArrayList<Field> findDeclaredField(Class<?> clazz, Filter<Field> filter){
+    public static Method getMethod(Class<?> clazz, String name, Object object) {
+        ArrayList<Method> f = findMethod(clazz, s -> s.getName().equals(name), object);
+        if (f == null || f.isEmpty())
+            return null;
+        else
+            return f.get(0);
+    }
+
+    public static ArrayList<Method> findMethod(Class<?> clazz, Filter<Method> filter, Object object) {
+        ArrayList<Method> result = new ArrayList<>();
+        try {
+            Method[] methods = object.getClass().getDeclaredMethods();
+            for (Method m : methods) {
+                if (filter.accept(m))
+                    result.add(m);
+            }
+            for (Method m : methods) {
+                try {
+                    m.setAccessible(true);
+                } catch (Throwable ignored) {
+                }
+            }
+            return result;
+        } catch (Throwable ignored) {
+        }
+        try {
+            Method[] methods = clazz.getDeclaredMethods();
+            for (Method m : methods) {
+                if (filter.accept(m))
+                    result.add(m);
+            }
+            for (Method m : methods) {
+                try {
+                    m.setAccessible(true);
+                } catch (Throwable ignored) {
+                }
+            }
+
+        } catch (Throwable ignored) {
+        }
+        if (result.isEmpty())
+            return null;
+        else
+            return result;
+    }
+
+    public static ArrayList<Field> findDeclaredField(Class<?> clazz, Filter<Field> filter) {
+        return findDeclaredField(clazz, filter, null);
+    }
+
+    public static ArrayList<Field> findDeclaredField(Class<?> clazz, Filter<Field> filter, Object object) {
         ArrayList<Field> result = new ArrayList<>();
-        try{
-            Field[] fields = clazz.getDeclaredFields();
-            for (Field f : fields){
-                if(filter.accept(f))
+        try {
+            Field[] fields = object.getClass().getDeclaredFields();
+            for (Field f : fields) {
+                if (filter.accept(f))
                     result.add(f);
             }
-            for(Field f : result){
-                f.setAccessible(true);
+            for (Field f : result) {
+                try {
+                    f.setAccessible(true);
+                } catch (Throwable ignored) {
+                }
             }
-        }catch (Throwable ignored){ }
-        return result;
-    }
-
-    public static ArrayList<Method> findDeclaredMethods(Class<?> clazz, Filter<Method> filter){
-        ArrayList<Method> result = new ArrayList<>();
-        try{
-          Method[] methods =  clazz.getDeclaredMethods();
-          for(Method m : methods){
-             if(filter.accept(m))
-                 result.add(m);
-          }
-          for(Method m : result){
-              m.setAccessible(true);
-          }
-        }catch (Throwable ignored){
-
+            return result;
+        } catch (Throwable ignored) {
         }
-        return result;
+        try {
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field f : fields) {
+                if (filter.accept(f))
+                    result.add(f);
+            }
+            for (Field f : result) {
+                try {
+                    f.setAccessible(true);
+                } catch (Throwable ignored) {
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        if (result.isEmpty())
+            return null;
+        else
+            return result;
     }
+
 
     public static Set<Class<?>> getAllExtendedOrImplementedTypesRecursively(Class<?> clazz) {
         List<Class<?>> res = new ArrayList<>();

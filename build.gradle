@@ -15,7 +15,7 @@ allprojects {
 
         smh = {
             delete "src-gen/"
-
+            delete "build/"
         }
     }
 

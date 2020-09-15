@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Countdown {
     private static Queue<Long> lastCount;
-    private static TimeUnit timeUnit;
     private static long resultCount;
 
     static {
@@ -19,20 +18,27 @@ public class Countdown {
     }
 
     public static void start(TimeUnit t) {
-        timeUnit = t;
+
         lastCount.addLast(System.currentTimeMillis());
     }
 
     public static long stop() {
         if (lastCount.isEmpty())
             return 0L;
-        long temp = System.currentTimeMillis();
-        temp = timeUnit.convert(temp, TimeUnit.MICROSECONDS);
-        return resultCount = temp - lastCount.removeLast();
+        long milliseconds = System.currentTimeMillis() - lastCount.removeLast();
+        return resultCount = milliseconds;
     }
 
     public static String result() {
-        return get() + " Millisecond";
+        return get() + " Milliseconds";
+    }
+
+    public static String result(long a) {
+        return result(a, TimeUnit.MILLISECONDS);
+    }
+
+    public static String result(long a, TimeUnit b) {
+        return b.convert(System.currentTimeMillis() - a, TimeUnit.MILLISECONDS) + " " + b.toString();
     }
 
     public static long get() {
@@ -41,7 +47,6 @@ public class Countdown {
 
     public static void reset() {
         lastCount = new Queue<>();
-        timeUnit = TimeUnit.SECONDS;
         resultCount = 0L;
     }
 }

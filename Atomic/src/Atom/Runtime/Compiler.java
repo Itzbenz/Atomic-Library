@@ -46,6 +46,7 @@ public class Compiler {
         RuntimeSource rs = new RuntimeSource("Atom.Test", "Test", line);
         RuntimeClass rc = rs.compile(err);
         rc.load(rs.packages.replace(";", "") + "." + rs.name);
+        rc.invokeMethod("test");
     }
 
     public File getCompiledClass(String name, String packages) {

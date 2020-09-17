@@ -11,7 +11,6 @@ public class Client {
     public final PrintWriter output;
     private final Scanner input;
     private final ArrayList<Consumer<String>> inputListener = new ArrayList<>();
-    private volatile boolean alive = true;
     private final Thread inputHandler = new Thread(this::inputHandler);
 
     public Client(Socket s) throws IOException {
@@ -31,14 +30,14 @@ public class Client {
     }
 
     public void stop() {
-        alive = false;
+
         inputHandler.interrupt();
         inputHandler.stop();
     }
 
     private void inputHandler() {
         String temp;
-        while (alive) {
+        while (!Thread.currentThread().isInterrupted()) {
             while (input.hasNextLine()) {
                 temp = input.nextLine();
                 for (Consumer<String> s : inputListener)

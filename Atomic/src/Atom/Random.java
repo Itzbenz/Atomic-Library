@@ -1,5 +1,7 @@
 package Atom;
 
+import java.util.List;
+
 public class Random {
 
     public static String getString() {
@@ -35,6 +37,11 @@ public class Random {
         java.util.Random random = new java.util.Random();
 
         return random.nextInt((max - min) + 1) + min;
+    }
+
+    public static <T> T getRandom(List<T> arrays) {
+        int rnd = new java.util.Random().nextInt(arrays.size());
+        return arrays.get(rnd);
     }
 
     public static <T> T getRandom(T[] arrays) {

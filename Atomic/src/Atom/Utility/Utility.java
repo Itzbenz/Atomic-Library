@@ -9,6 +9,22 @@ public class Utility {
         return new LinkedHashSet<String>(Arrays.asList(s.split("-"))).toString().replaceAll("(^\\[|\\]$)", "").replace(", ", "-");
     }
 
+    public static String removal(String s, char openChar, char closeChar) {
+        StringBuilder sb = new StringBuilder();
+        boolean delete = false;
+        for (char i : s.toCharArray()) {
+            if (i == openChar) {
+                delete = true;
+            } else if (i == closeChar) {
+                delete = false;
+            } else {
+                if (delete) continue;
+                sb.append(i);
+            }
+        }
+        return sb.toString();
+    }
+
     public static String shrinkChar(String s) {
         char[] chars = s.toCharArray();
         Set<Character> cr = new LinkedHashSet<>();

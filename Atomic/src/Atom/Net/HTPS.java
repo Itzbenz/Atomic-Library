@@ -1,13 +1,75 @@
 package Atom.Net;
 
+import Atom.Utility.Utility;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 
 public class HTPS {
+    //Sync request
+    private final URL url;
+    private final HashMap<String, String> header = new HashMap<>();
+
+    public HTPS(URL url) {
+        this.url = url;
+    }
+
+    public HTPS(String url) throws MalformedURLException {
+        this.url = new URL(url);
+    }
+
+    public static void sendDiscordWebhook(DiscordWebhookJson content) throws IOException {
+        HTPS.post(content.getUrl(), Utility.toJson(content));
+    }
+
+    public void setHeader(String k, String v) {
+        header.put(k, v);
+    }
+
+    private void setHeader() {
+        if (!header.containsKey("accept"))
+            header.put("accept", "*/*");
+        if (!header.containsKey("connection"))
+            header.put("connection", "Keep-Alive");
+        if (!header.containsKey("user-agent"))
+            header.put("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+    }
+
+    public String get() throws IOException {
+        URLConnection yc = url.openConnection();
+        BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+        StringBuilder inputLine = new StringBuilder();
+        while (in.ready()) inputLine.append(in.readLine());
+        in.close();
+        return inputLine.toString();
+    }
+
+    public String post(String postData) throws IOException {
+        StringBuilder result = new StringBuilder();
+        URLConnection conn = url.openConnection();
+        // enable output and input
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        PrintWriter out = new PrintWriter(conn.getOutputStream());
+        // send POST DATA
+        out.print(postData);
+        out.flush();
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        while ((line = in.readLine()) != null) {
+            result.append("/n").append(line);
+        }
+        out.close();
+        in.close();
+        return result.toString();
+    }
+
     public static String post(String url, String postData) throws IOException {
         PrintWriter out;
         BufferedReader in;
@@ -47,7 +109,7 @@ public class HTPS {
         return inputLine.toString();
     }
 
-    //Sync request
+
     public static String getPublicIP() {
         String ip = "";
         //Q: why http ?

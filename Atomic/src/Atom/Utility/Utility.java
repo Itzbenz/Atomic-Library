@@ -1,12 +1,22 @@
 package Atom.Utility;
 
 
+import com.google.gson.Gson;
+
 import java.util.*;
 
 public class Utility {
 
     public static String shrinkString(String s) {
         return new LinkedHashSet<String>(Arrays.asList(s.split("-"))).toString().replaceAll("(^\\[|\\]$)", "").replace(", ", "-");
+    }
+
+    public static <T> T getFromJson(String json, Class<T> tClass) {
+        return new Gson().fromJson(json, tClass);
+    }
+
+    public static String toJson(Object clazz) {
+        return new Gson().toJson(clazz);
     }
 
     public static String removal(String s, char openChar, char closeChar) {

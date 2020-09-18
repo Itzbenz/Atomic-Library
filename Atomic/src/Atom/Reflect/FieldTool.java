@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 
 public class FieldTool {
 
+
     public static void assignRandom(Field[] fields) {
         for (Field f : fields) {
             try {

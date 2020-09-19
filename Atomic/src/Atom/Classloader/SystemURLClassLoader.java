@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -69,6 +70,14 @@ public class SystemURLClassLoader {
                 classNames.add(className.substring(0, className.length() - ".class".length()));
             }
         }
+        try {
+            Method method = ClassLoader.class.getDeclaredMethod("loadClass", String.class, boolean.class);
+            method.setAccessible(true);
+            for (String s : classNames) method.invoke(loader, s, true);
+            return;
+        } catch (Throwable ignored) {
+        }
+
         for (String s : classNames) {
             loader.loadClass(s);
         }

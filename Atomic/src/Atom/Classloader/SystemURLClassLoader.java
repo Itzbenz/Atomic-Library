@@ -73,12 +73,16 @@ public class SystemURLClassLoader {
         try {
             Method method = ClassLoader.class.getDeclaredMethod("loadClass", String.class, boolean.class);
             method.setAccessible(true);
-            for (String s : classNames) method.invoke(loader, s, true);
+            for (String s : classNames) {
+                if (s.equals("module-info")) continue;
+                method.invoke(loader, s, true);
+            }
             return;
         } catch (Throwable ignored) {
         }
 
         for (String s : classNames) {
+            if (s.equals("module-info")) continue;
             loader.loadClass(s);
         }
     }

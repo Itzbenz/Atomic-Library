@@ -17,10 +17,11 @@ public class Random {
         return sb.toString();
     }
 
-    public static String getRandomHexColor(){
+    public static String getRandomHexColor() {
         int nextInt = Random.getInt(5000000, 16777215);
         return String.format("#%06x", nextInt);
     }
+
     public static boolean getBool() {
         return getInt(0, 1) != 0;
     }

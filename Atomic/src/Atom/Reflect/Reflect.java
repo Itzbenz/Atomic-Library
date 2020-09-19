@@ -19,7 +19,7 @@ public class Reflect {
         return reflections.getSubTypesOf(e);
     }
 
-    public static File getCurrentJar(Class<?> clazz){
+    public static File getCurrentJar(Class<?> clazz) {
         try {
             return new File(clazz.getClass().getProtectionDomain().getCodeSource().getLocation()
                     .toURI());
@@ -28,7 +28,7 @@ public class Reflect {
         }
     }
 
-    public static <E> E getField(Class<?> clazz, String name, Object object){
+    public static <E> E getField(Class<?> clazz, String name, Object object) {
         ArrayList<Field> result = findDeclaredField(clazz, f -> f.getName().equals(name));
         E e = null;
         for (Field f : result) {

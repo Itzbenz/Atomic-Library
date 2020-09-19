@@ -1,7 +1,5 @@
 package Atom.Classloader;
 
-import Atom.Utility.Utility;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -96,8 +94,8 @@ public class SystemURLClassLoader {
     }
 
     public static URLClassLoader getURLSystemCl() throws IllegalAccessException {
-        if (Utility.getJavaMajorVersion() > 8)
-            throw new IllegalAccessException("Can't get system URLClassloader in java 9+");
+        if (!(ClassLoader.getSystemClassLoader() instanceof URLClassLoader))
+            throw new IllegalAccessException("system classloader is not URLClassloader");
         return (URLClassLoader) ClassLoader.getSystemClassLoader();
     }
 }

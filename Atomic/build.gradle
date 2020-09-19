@@ -8,3 +8,9 @@ dependencies{
 
 
 }
+jar{
+    archiveFileName = "${project.archivesBaseName}.jar"
+    subprojects.each { project ->
+        from project.configurations.archives.allArtifacts.files.collect { zipTree(it) }
+    }
+}

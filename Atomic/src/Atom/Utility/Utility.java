@@ -7,8 +7,14 @@ import java.util.*;
 
 public class Utility {
 
+    public static String[] getArray(ArrayList<String> arrayList) {
+        String[] arr = new String[arrayList.size()];
+        arr = arrayList.toArray(arr);
+        return arr;
+    }
+
     public static String shrinkString(String s) {
-        return new LinkedHashSet<String>(Arrays.asList(s.split("-"))).toString().replaceAll("(^\\[|\\]$)", "").replace(", ", "-");
+        return new LinkedHashSet<>(Arrays.asList(s.split("-"))).toString().replaceAll("(^\\[|\\]$)", "").replace(", ", "-");
     }
 
     public static <T> T getFromJson(String json, Class<T> tClass) {

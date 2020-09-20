@@ -8,6 +8,19 @@ import java.util.*;
 public class Utility {
 
 
+    //T t3 = new T[t1.length + t2.length];
+    public static <T> T[] joinArray(T[] t1, T[] t2, T[] t3) {
+        int m = 0;
+        for (int i = 0; i < t1.length; i++) {
+            m = i;
+            t3[m] = t1[m];
+        }
+        for (int i = m; i < t2.length; i++) {
+            t3[m] = t2[i];
+        }
+        return t3;
+    }
+
     public static String[] getArray(ArrayList<String> arrayList) {
         String[] arr = new String[arrayList.size()];
         arr = arrayList.toArray(arr);

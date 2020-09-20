@@ -2,13 +2,12 @@ package Atom.Net;
 
 import Atom.Utility.Utility;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 
 public class HTPS {
@@ -26,6 +25,14 @@ public class HTPS {
 
     public static void sendDiscordWebhook(DiscordWebhookJson content) throws IOException {
         HTPS.post(content.getUrl(), Utility.toJson(content));
+    }
+
+    public static File downloadSync(String url, File target) throws IOException {
+        URL urls = new URL(url);
+        ReadableByteChannel rbc = Channels.newChannel(urls.openStream());
+        FileOutputStream fos = new FileOutputStream(target);
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        return target;
     }
 
     public static String post(String url, String postData) throws IOException {

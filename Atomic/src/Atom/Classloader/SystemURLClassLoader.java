@@ -96,7 +96,7 @@ public class SystemURLClassLoader {
     }
 
     public static void addURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        if (isAlreadyLoaded(loader, url)) throw new RuntimeException("URL already loaded: " + url);
+        if (isAlreadyLoaded(loader, url)) return;
         if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader) {
             ((JarClassLoader) loader).addURL(url);
             return;

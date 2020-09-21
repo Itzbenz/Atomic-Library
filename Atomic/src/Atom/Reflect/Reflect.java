@@ -23,7 +23,15 @@ public class Reflect {
         //fool proof
         return new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
     }
-
+    
+    public static File getCurrentJar(Object clazz) {
+        //more fool proof
+        return new File(clazz.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+    }
+    public static File getCurrentJar() {
+        //even more fool proof
+        return new File(Reflect.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+    }
     public static <E> E getField(Class<?> clazz, String name, Object object) {
         ArrayList<Field> result = findDeclaredField(clazz, f -> f.getName().equals(name));
         E e = null;

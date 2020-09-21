@@ -20,12 +20,8 @@ public class Reflect {
     }
 
     public static File getCurrentJar(Class<?> clazz) {
-        try {
-            return new File(clazz.getClass().getProtectionDomain().getCodeSource().getLocation()
-                    .toURI());
-        } catch (Throwable e) {
-            return null;
-        }
+        //fool proof
+        return new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
     }
 
     public static <E> E getField(Class<?> clazz, String name, Object object) {

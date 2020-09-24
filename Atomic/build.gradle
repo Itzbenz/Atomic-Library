@@ -2,6 +2,7 @@
 dependencies{
     testImplementation 'junit:junit:4.12'
     compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
+    //TODO remove this nasty dependency
     compile group: 'com.google.googlejavaformat', name: 'google-java-format', version: '1.7'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
 

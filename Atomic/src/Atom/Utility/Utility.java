@@ -147,6 +147,10 @@ public class Utility {
 
     }
 
+    public static String joiner(ArrayList<String> datas, String prefix) {
+        return joiner(getArray(datas), prefix);
+    }
+
     public static String joiner(String[] datas, String prefix) {
         StringBuilder data = new StringBuilder();
         for (int i = 0; i < datas.length; i++) {

@@ -1,5 +1,6 @@
 package Atom.Runtime;
 
+import Atom.Manifest;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import javassist.compiler.CompileError;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RuntimeSource {
-    public static File workingDir = new File("/AtomicCompilerCache/");
+    public static File workingDir = new File(Manifest.workingDir, "/AtomicCompilerCache/");
     private final ArrayList<String> imports = new ArrayList<>();
     public String packages, name, code;
     public File sourceFile, compiledClassFile;

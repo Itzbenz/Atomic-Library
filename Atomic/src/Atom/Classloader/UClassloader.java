@@ -14,7 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 //that a lot of exception
-public class SystemURLClassLoader {
+public class UClassloader {
 
     //totally legit interface for modified and non modified URLClassloader
     public static Package[] getPackages() throws IllegalAccessException {
@@ -60,7 +60,7 @@ public class SystemURLClassLoader {
 
     //index load class inside jar for classloader to search
     public static void loadJar(URLClassLoader loader, File file) throws UnsupportedClassVersionError, IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
-        if (!SystemURLClassLoader.isAlreadyLoaded(loader, file.toURI().toURL())) addURL(loader, file);
+        if (!UClassloader.isAlreadyLoaded(loader, file.toURI().toURL())) addURL(loader, file);
         List<String> classNames = new ArrayList<>();
         ZipInputStream zip = new ZipInputStream(new FileInputStream(file.getAbsolutePath()));
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {

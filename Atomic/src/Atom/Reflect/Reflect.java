@@ -1,7 +1,7 @@
 package Atom.Reflect;
 
 import Atom.Classloader.JarClassLoader;
-import Atom.Classloader.SystemURLClassLoader;
+import Atom.Classloader.UClassloader;
 import Atom.Random;
 import Atom.Struct.Filter;
 import org.reflections.Reflections;
@@ -171,12 +171,12 @@ public class Reflect {
     public static ArrayList<Package> findPackages(Filter<Package> filter) {
         ArrayList<Package> a = new ArrayList<>();
         try {
-            if (!(SystemURLClassLoader.getURLSystemCl() instanceof JarClassLoader)) {
+            if (!(UClassloader.getURLSystemCl() instanceof JarClassLoader)) {
                 for (Package p : Package.getPackages())
                     if (filter.accept(p)) a.add(p);
 
             } else {
-                for (Package P : ((JarClassLoader) SystemURLClassLoader.getURLSystemCl()).getPackages())
+                for (Package P : ((JarClassLoader) UClassloader.getURLSystemCl()).getPackages())
                     if (filter.accept(P)) a.add(P);
             }
 

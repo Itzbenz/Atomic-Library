@@ -1,5 +1,6 @@
 package Atom.Net;
 
+import Atom.Utility.Pool;
 import Atom.Utility.Utility;
 
 import java.io.*;
@@ -9,6 +10,7 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
+import java.util.concurrent.Future;
 
 public class HTPS {
     //Sync request
@@ -25,6 +27,16 @@ public class HTPS {
 
     public static void sendDiscordWebhook(DiscordWebhookJson content) throws IOException {
         HTPS.post(content.getUrl(), Utility.toJson(content));
+    }
+
+    public static Future<File> download(String url, File target) {
+        return Pool.submit(() -> {
+            try {
+                return downloadSync(url, target);
+            } catch (IOException e) {
+                return target;
+            }
+        });
     }
 
     public static File downloadSync(String url, File target) throws IOException {

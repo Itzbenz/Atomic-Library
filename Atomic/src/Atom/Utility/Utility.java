@@ -7,7 +7,6 @@ import java.util.*;
 
 public class Utility {
 
-
     //T t3 = new T[t1.length + t2.length];
     public static <T> T[] joinArray(T[] t1, T[] t2, T[] t3) {
         int m = 0;

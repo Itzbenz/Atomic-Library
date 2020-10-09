@@ -17,9 +17,9 @@ import java.util.concurrent.Future;
 
 
 public class Manifest {
-    private static String signature;
     public static final ArrayList<Library> library = new ArrayList<>();
     public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
+    private static String signature;
 
     static {
         try {

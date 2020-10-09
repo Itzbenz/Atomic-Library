@@ -30,7 +30,6 @@ public class Client {
     }
 
     public void stop() {
-
         inputHandler.interrupt();
         inputHandler.stop();
     }
@@ -43,7 +42,6 @@ public class Client {
                 for (Consumer<String> s : inputListener)
                     s.accept(temp);
             }
-
         }
     }
 

@@ -42,6 +42,7 @@ public class HTPS {
     public static File downloadSync(String url, File target) throws IOException {
         URL urls = new URL(url);
         ReadableByteChannel rbc = Channels.newChannel(urls.openStream());
+        if (target.exists()) target.delete();
         FileOutputStream fos = new FileOutputStream(target);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         return target;

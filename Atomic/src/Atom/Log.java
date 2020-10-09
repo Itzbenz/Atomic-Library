@@ -5,11 +5,15 @@ public abstract class Log {
 
 
     protected void output(Object raw, int level) {
-        System.out.println(sLevel[level] + " " + raw);
+        output(sLevel[level] + " " + raw);
     }
 
     protected void output(String tag, Object raw, int level) {
-        System.out.println(sLevel[level] + " " + tag + ": " + raw);
+        output(sLevel[level] + " " + tag + ": " + raw);
+    }
+
+    protected void output(Object raw) {
+        System.out.println(raw);
     }
 
     public void debug(Object s) {

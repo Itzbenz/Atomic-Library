@@ -32,14 +32,14 @@ public class Utility {
     public static String getDate() {
         Formatter formatter = new Formatter();
         Calendar c = Calendar.getInstance();
-        return formatter.format(Locale.UK, "%tl:%tM %tp %tB %te, %tY%n", c, c, c, c, c, c).toString();
+        return formatter.format(Locale.UK, "%tl:%tM:%tS %tp %tB %te, %tY", c, c, c, c, c, c, c).toString();
     }
 
     public static String getDate(long milis) {
         Date d = new Date(milis);
         Formatter formatter = new Formatter();
         Calendar c = toCalendar(d);
-        return formatter.format(Locale.UK, "%tl:%tM %tp %tB %te, %tY%n", c, c, c, c, c, c).toString();
+        return formatter.format(Locale.UK, "%tl:%tM:%tS %tp %tB %te, %tY", c, c, c, c, c, c, c).toString();
     }
 
     public static Calendar toCalendar(Date date) {

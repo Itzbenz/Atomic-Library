@@ -2,8 +2,8 @@ package Atom.Reflect;
 
 import Atom.Classloader.JarClassLoader;
 import Atom.Classloader.UClassloader;
-import Atom.Random;
 import Atom.Struct.Filter;
+import Atom.Utility.Random;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 

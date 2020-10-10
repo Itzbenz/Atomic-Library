@@ -1,11 +1,9 @@
-package Atom;
+package Atom.Utility;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@Deprecated
-//relocate to Atom.Utility
 public class Meth {
 
     public static long max(Long[] arr) {

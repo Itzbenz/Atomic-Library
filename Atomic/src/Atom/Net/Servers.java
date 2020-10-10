@@ -1,7 +1,7 @@
 package Atom.Net;
 
 
-import Atom.Random;
+import Atom.Utility.Random;
 
 import java.io.*;
 import java.net.ServerSocket;

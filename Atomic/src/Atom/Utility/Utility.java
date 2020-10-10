@@ -3,9 +3,50 @@ package Atom.Utility;
 
 import com.google.gson.Gson;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.*;
 
 public class Utility {
+
+    public static boolean isRepeatingPattern(String s) {
+        return isRepeatingPattern(s, 5);
+    }
+
+    public static boolean isRepeatingPattern(String s, int maxRepeatingChar) {
+        int parsed = s.replaceAll("(.+?)\\1+", "$1").length();
+        parsed = parsed + maxRepeatingChar;
+        int unparsed = s.length();
+        return unparsed > parsed;
+    }
+
+    public static String getDate(OffsetDateTime geez) {
+        StringBuilder sb = new StringBuilder();
+        LocalDateTime time = geez.toLocalDateTime();
+        sb.append(time.getYear()).append("-").append(time.getMonth()).append("-").append(time.getDayOfMonth());
+        sb.append(" ").append(time.getHour()).append(":").append(time.getMinute()).append(":").append(time.getSecond());
+        return sb.toString();
+    }
+
+
+    public static String getDate() {
+        Formatter formatter = new Formatter();
+        Calendar c = Calendar.getInstance();
+        return formatter.format(Locale.UK, "%tl:%tM %tp %tB %te, %tY%n", c, c, c, c, c, c).toString();
+    }
+
+    public static String getDate(long milis) {
+        Date d = new Date(milis);
+        Formatter formatter = new Formatter();
+        Calendar c = toCalendar(d);
+        return formatter.format(Locale.UK, "%tl:%tM %tp %tB %te, %tY%n", c, c, c, c, c, c).toString();
+    }
+
+    public static Calendar toCalendar(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
 
     //T t3 = new T[t1.length + t2.length];
     public static <T> T[] joinArray(T[] t1, T[] t2, T[] t3) {

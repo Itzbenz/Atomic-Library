@@ -1,4 +1,4 @@
-package Atom;
+package Atom.Utility;
 
 public abstract class Log {
     protected String[] sLevel = new String[]{"[Debug]", "[Info]", "[Warn]", "[Error]"};

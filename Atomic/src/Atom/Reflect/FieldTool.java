@@ -1,6 +1,6 @@
 package Atom.Reflect;
 
-import Atom.Random;
+import Atom.Utility.Random;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

@@ -1,10 +1,9 @@
-package Atom;
+package Atom.Utility;
 
 import java.util.List;
 
-@Deprecated
-//relocate to Atom.Utility
-public class Random {
+//Random get more random when used really often
+public class Random extends java.util.Random {
 
     public static String getString() {
         return getString(8);
@@ -17,6 +16,11 @@ public class Random {
             sb.append((char) getInt(33, 125));
         }
         return sb.toString();
+    }
+
+    public static int getRandomColor() {
+        Random random = new Random();
+        return random.nextInt(0xffffff + 1);
     }
 
     public static String getRandomHexColor() {

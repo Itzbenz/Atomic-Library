@@ -33,26 +33,35 @@ public class FieldTool {
         return e;
     }
 
-    public static void assignRandom(Field[] fields) {
+    public static void assignRandom(Field[] fields, Object o) {
         for (Field f : fields) {
             try {
-                assignRandom(f);
+                assignRandom(f, o);
             } catch (IllegalAccessException e) {
                 //yeet
             }
         }
     }
 
-    public static void assignRandom(Field field) throws IllegalAccessException {
+    public static void assignRandom(Field field, Object o) throws IllegalAccessException {
         switch (field.getType().getTypeName()) {
             case ("java.lang.String"):
-                field.set(null, Random.getString());
+                field.set(o, Random.getString());
+                break;
             case ("int"):
-                field.set(null, Random.getInt());
+                field.setInt(o, Random.getInt());
+                break;
             case ("boolean"):
-                field.set(null, Random.getBool());
+                field.setBoolean(o, Random.getBool());
+                break;
             case ("long"):
-                field.set(null, Random.getInt());
+                field.setLong(o, Random.getInt());
+                break;
+            case ("char"):
+                field.setChar(o, Random.getString().charAt(0));
+                break;
+            case ("byte"):
+                field.setByte(o, (byte) Random.getInt());
             default:
         }
     }

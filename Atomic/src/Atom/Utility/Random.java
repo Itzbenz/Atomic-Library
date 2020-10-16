@@ -10,6 +10,7 @@ public class Random extends java.util.Random {
     }
 
     public static String getString(int length) {
+        if (length < 0) return "";
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < length; i++) {

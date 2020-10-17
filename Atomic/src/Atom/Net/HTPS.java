@@ -1,5 +1,6 @@
 package Atom.Net;
 
+import Atom.Net.Template.DiscordWebhookJson;
 import Atom.Utility.Pool;
 import Atom.Utility.Utility;
 

@@ -19,7 +19,7 @@ public class RuntimeClass {
         clas = clazz;
         if (!clazz.getName().endsWith(".jar"))
             throw new IOException("i doubt this is class file: " + clazz.getAbsolutePath());
-        classLoader = new URLClassLoader(new URL[]{clazz.toURI().toURL()});
+        classLoader = new URLClassLoader(new URL[]{clazz.toURI().toURL()}, this.getClass().getClassLoader());
     }
 
     public void load(String clazzName) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {

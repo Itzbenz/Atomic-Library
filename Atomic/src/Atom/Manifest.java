@@ -27,7 +27,7 @@ public class Manifest {
         } catch (Throwable aa) {
             signature = aa.toString();
         }
-        library.add(new Library(1.8F, "google-java-format", "https://github.com/google/google-java-format/releases/download/google-java-format-1.7/google-java-format-1.7-all-deps.jar", currentFolder));
+        library.add(new Library("3.16.2", "com.github.javaparser-javaparser-core", "https://repo1.maven.org/maven2/com/github/javaparser/javaparser-core/3.16.2/javaparser-core-3.16.2.jar", currentFolder));
 
 
     }
@@ -50,11 +50,11 @@ public class Manifest {
 
     public static class Library {
         public final String name, link;
-        public final float version;
+        public final String version;
         public final File jar;
         private Future<File> download = null;
 
-        public Library(Float version, String name, String link, File folder) {
+        public Library(String version, String name, String link, File folder) {
             this.version = version;
             this.name = name;
             this.link = link;

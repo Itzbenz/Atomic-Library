@@ -6,33 +6,47 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+//one time use lol
 public class RuntimeClass {
-    private File clas;
-    private Object claszObject;
+    public final String classpath;
+    private final URLClassLoader classLoader;
     private Class<?> loadC;
-    private URLClassLoader classLoader;
+    public File file;
+    private Object classObject;
 
-    public RuntimeClass(File clazz) throws IOException {
-        clas = clazz;
-        if (!clazz.getName().endsWith(".jar"))
-            throw new IOException("i doubt this is class file: " + clazz.getAbsolutePath());
-        classLoader = new URLClassLoader(new URL[]{clazz.toURI().toURL()}, this.getClass().getClassLoader());
+    public RuntimeClass(File clazz, String classpath) throws IOException {
+        this(clazz, classpath, null);
+    }
+
+    public RuntimeClass(File clazz, String classpath, ClassLoader classLoader) throws MalformedURLException {
+        file = clazz;
+        this.classpath = classpath;
+        if (classLoader == null)
+            classLoader = this.getClass().getClassLoader();
+        this.classLoader = new URLClassLoader(new URL[]{clazz.toURI().toURL()}, classLoader);
+    }
+
+
+    public void load() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        load(classpath);
     }
 
     public void load(String clazzName) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        if (loadC != null) throw new IllegalAccessException(clazzName + " already loaded");
         loadC = classLoader.loadClass(clazzName);
-        claszObject = loadC.getDeclaredConstructor().newInstance();
+        classObject = loadC.getDeclaredConstructor().newInstance();
     }
 
     public void invokeMethod(String name) throws InvocationTargetException, IllegalAccessException {
-        getMethod(name).invoke(claszObject);
+        getMethod(name).invoke(classObject);
     }
 
     public Method getMethod(String name) {
-        return Reflect.getMethod(loadC, name, claszObject);
+        return Reflect.getMethod(loadC, name, classObject);
     }
 
 }

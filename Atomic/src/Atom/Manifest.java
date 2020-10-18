@@ -1,7 +1,6 @@
 package Atom;
 
 
-import Atom.Classloader.UClassloader;
 import Atom.Net.HTPS;
 import Atom.Reflect.Reflect;
 import Atom.Utility.Digest;
@@ -10,8 +9,10 @@ import Atom.Utility.Encoder;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -85,10 +86,10 @@ public class Manifest {
         }
 
         //URLClassloader hack
-        public void tryLoad() throws InvocationTargetException, IOException, NoSuchMethodException, IllegalAccessException {
+        public void tryLoad() throws IOException, IllegalAccessException, InvocationTargetException {
             if (downloaded()) {
                 if (Manifest.class.getClassLoader() instanceof URLClassLoader)
-                    UClassloader.addURL((URLClassLoader) Manifest.class.getClassLoader(), jar);
+                    Reflect.invoke(Objects.requireNonNull(Reflect.getMethod(URLClassLoader.class, "addUrl", URL.class)), Manifest.class.getClassLoader(), jar.toURI().toURL());
             } else {
                 throw new IOException("File doesn't exists");
             }

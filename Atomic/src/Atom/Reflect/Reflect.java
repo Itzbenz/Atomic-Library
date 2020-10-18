@@ -7,6 +7,7 @@ import org.reflections.scanners.SubTypesScanner;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -42,6 +43,10 @@ public class Reflect {
             }
         }
         return e;
+    }
+
+    public static Method getMethod(Class<?> clazz, String name, Class<?>... parameter) throws NoSuchMethodException {
+        return clazz.getMethod(name, parameter);
     }
 
     public static Method getMethod(Class<?> clazz, String name, Object object) {
@@ -131,6 +136,10 @@ public class Reflect {
             return result;
     }
 
+    public static Object invoke(Method m, Object o, Object... arg) throws InvocationTargetException, IllegalAccessException {
+        m.setAccessible(true);
+        return m.invoke(o, arg);
+    }
 
     public static Set<Class<?>> getAllExtendedOrImplementedTypesRecursively(Class<?> clazz) {
         List<Class<?>> res = new ArrayList<>();

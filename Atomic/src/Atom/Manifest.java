@@ -28,8 +28,14 @@ public class Manifest {
             signature = aa.toString();
         }
         library.add(new Library("3.16.2", "com.github.javaparser-javaparser-core", "https://repo1.maven.org/maven2/com/github/javaparser/javaparser-core/3.16.2/javaparser-core-3.16.2.jar", currentFolder));
+    }
 
-
+    public static File[] getLibs() {
+        ArrayList<File> f = new ArrayList<>();
+        library.forEach(library1 -> {
+            f.add(library1.jar);
+        });
+        return f.toArray(new File[0]);
     }
 
     //should work on any jdk
@@ -49,8 +55,8 @@ public class Manifest {
 
     public static void loadAll() throws IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ExecutionException, InterruptedException {
         for (Library l : library) {
-            if (!l.downloaded()) l.download().get();
-            l.tryLoad();
+            if (l.downloaded())
+                l.tryLoad();
         }
     }
 

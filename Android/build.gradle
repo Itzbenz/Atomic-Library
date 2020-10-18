@@ -10,6 +10,7 @@ ext{
 }
 
 jar{
+    dependsOn ":Atomic:jar"
     archiveFileName = "${project.archivesBaseName}.jar"
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }

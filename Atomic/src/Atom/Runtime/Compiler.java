@@ -35,7 +35,7 @@ public class Compiler {
         c.findFirst(ClassOrInterfaceDeclaration.class).get().findAll(BlockStmt.class).get(1).addStatement(line);
         RuntimeClass rc = compile(out, Manifest.workingDir, c);
         rc.load();
-        rc.invokeMethod("test");
+        rc.invokeMethod("init");
     }
 
     public static CompilationUnit getTestTemplate() {

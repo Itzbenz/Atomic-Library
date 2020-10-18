@@ -1,7 +1,5 @@
 package Atom.Reflect;
 
-import Atom.Classloader.JarClassLoader;
-import Atom.Classloader.UClassloader;
 import Atom.Struct.Filter;
 import Atom.Utility.Random;
 import org.reflections.Reflections;
@@ -165,26 +163,36 @@ public class Reflect {
         return new HashSet<>(res);
     }
 
-    //work for color need improvement
-    public static <E> E getRandomField(Class<E> e) {
-        return (E) Random.getRandom(e.getDeclaredFields());
+
+    //static
+    public static <E> E getRandomField(Class<E> type) {
+        return getRandomField(type, null);
+    }
+
+    //dynamic
+    public static <E> E getRandomField(Class<E> type, Object o) {
+        ArrayList<E> arrayList = new ArrayList<>();
+        for (Field f : o.getClass().getDeclaredFields()) {
+            try {
+                if (type.isInstance(f.get(o)))
+                    arrayList.add((E) f.get(o));
+            } catch (Throwable ignored) {
+            }
+        }
+        return Random.getRandom(arrayList);
     }
 
     public static ArrayList<Package> findPackages(Filter<Package> filter) {
         ArrayList<Package> a = new ArrayList<>();
-        try {
-            if (!(UClassloader.getURLSystemCl() instanceof JarClassLoader)) {
-                for (Package p : Package.getPackages())
-                    if (filter.accept(p)) a.add(p);
+        for (Package p : Package.getPackages())
+            if (filter.accept(p)) a.add(p);
+        return a;
+    }
 
-            } else {
-                for (Package P : ((JarClassLoader) UClassloader.getURLSystemCl()).getPackages())
-                    if (filter.accept(P)) a.add(P);
-            }
-
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    public static ArrayList<Package> findPackages(Filter<Package> filter, ClassLoader classLoader) {
+        ArrayList<Package> a = new ArrayList<>();
+        for (Package p : (Package[]) getField(ClassLoader.class, "getPackages", classLoader))
+            if (filter.accept(p)) a.add(p);
         return a;
     }
 

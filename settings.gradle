@@ -1,2 +1,4 @@
+include ':Android'
 include 'Atomic'
+include 'Desktop'
 

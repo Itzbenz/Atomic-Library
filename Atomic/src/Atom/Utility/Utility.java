@@ -48,6 +48,10 @@ public class Utility {
         return cal;
     }
 
+    public static <T> T[] toArray(List<T> arr) {
+        return (T[]) arr.toArray();
+    }
+
     //T t3 = new T[t1.length + t2.length];
     public static <T> T[] joinArray(T[] t1, T[] t2, T[] t3) {
         int m = 0;

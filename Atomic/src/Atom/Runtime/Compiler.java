@@ -51,9 +51,9 @@ public class Compiler {
         compiled.delete();
         Files.write(source.toPath(), compilationUnit.toString().getBytes("UTF-8"));
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        compiler.run(null, out, out, source.getPath());
+        compiler.run(null, out, out, source.getAbsolutePath());
         if (!compiled.exists()) throw new FileNotFoundException(compiled.getAbsolutePath() + " not found");
-        return new RuntimeClass(compiled, classpath);
+        return new RuntimeClass(workingDir, classpath);
     }
 
     public static String getClasspath(CompilationUnit compilationUnit) {

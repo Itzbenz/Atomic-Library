@@ -15,19 +15,19 @@ public class RuntimeClass {
     public final String classpath;
     private final URLClassLoader classLoader;
     private Class<?> loadC;
-    public File file;
+    public File dirs;
     private Object classObject;
 
-    public RuntimeClass(File clazz, String classpath) throws IOException {
-        this(clazz, classpath, null);
+    public RuntimeClass(File dirs, String classpath) throws IOException {
+        this(dirs, classpath, null);
     }
 
-    public RuntimeClass(File clazz, String classpath, ClassLoader classLoader) throws MalformedURLException {
-        file = clazz;
+    public RuntimeClass(File dirs, String classpath, ClassLoader classLoader) throws MalformedURLException {
+        this.dirs = dirs;
         this.classpath = classpath;
         if (classLoader == null)
             classLoader = this.getClass().getClassLoader();
-        this.classLoader = new URLClassLoader(new URL[]{clazz.toURI().toURL()}, classLoader);
+        this.classLoader = new URLClassLoader(new URL[]{dirs.toURI().toURL()}, classLoader);
     }
 
 

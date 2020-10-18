@@ -62,6 +62,7 @@ public class Manifest {
         public final String name, link;
         public final String version;
         public final File jar;
+        public boolean downloaded;
         private Future<File> download = null;
 
         public Library(String version, String name, String link, File folder) {
@@ -69,6 +70,7 @@ public class Manifest {
             this.name = name;
             this.link = link;
             jar = new File(folder, name + version + ".jar");
+            downloaded = downloaded();
         }
 
         public Future<File> download() {
@@ -84,6 +86,18 @@ public class Manifest {
             } else {
                 throw new IOException("File doesn't exists");
             }
+        }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder("Library{").append('\n');
+            sb.append("name='").append(name).append('\n');
+            sb.append(", link='").append(link).append('\n');
+            sb.append(", version='").append(version).append('\n');
+            sb.append(", jar=").append(jar).append('\n');
+            sb.append(", downloaded=").append(downloaded).append('\n');
+            sb.append('}');
+            return sb.toString();
         }
 
         public boolean downloaded() {

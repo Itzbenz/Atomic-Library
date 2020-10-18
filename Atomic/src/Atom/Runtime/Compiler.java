@@ -57,7 +57,7 @@ public class Compiler {
         return new RuntimeClass(compiled, classpath);
     }
 
-    public static String getClasspath(CompilationUnit c) {
-        return ((c.getPackageDeclaration().isPresent() ? c.getPackageDeclaration().toString() + "." : "") + c.findFirst(ClassOrInterfaceDeclaration.class).get().getNameAsString()).trim();
+    public static String getClasspath(CompilationUnit compilationUnit) {
+        return ((compilationUnit.getPackageDeclaration().isPresent() ? compilationUnit.getPackageDeclaration().get().getName() + "." : "") + compilationUnit.findFirst(ClassOrInterfaceDeclaration.class).get().getNameAsString()).trim();
     }
 }

@@ -4,6 +4,7 @@ import Atom.Manifest;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.stmt.BlockStmt;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -31,6 +32,7 @@ public class Compiler {
     //literally every exception
     public static void runLine(String line, OutputStream out) throws Exception {
         CompilationUnit c = getTestTemplate();
+        c.findFirst(ClassOrInterfaceDeclaration.class).get().findAll(BlockStmt.class).get(1).addStatement(line);
         RuntimeClass rc = compile(out, Manifest.workingDir, c);
         rc.load();
         rc.invokeMethod("test");

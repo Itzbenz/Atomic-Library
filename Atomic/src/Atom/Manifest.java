@@ -32,6 +32,16 @@ public class Manifest {
 
     }
 
+    //should work on any jdk
+    public static boolean javacExists() {
+        try {
+            Class.forName("com.sun.tools.javac.Main");
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
     public static void downloadAll() throws ExecutionException, InterruptedException, IOException {
         for (Library l : library)
             if (!l.download().get().exists()) throw new IOException("Failed to download: " + l.jar.getName());

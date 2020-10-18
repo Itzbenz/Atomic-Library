@@ -4,7 +4,6 @@ import Atom.Manifest;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import javassist.compiler.CompileError;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -12,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 
 public class Compiler {
@@ -30,7 +28,8 @@ public class Compiler {
             "    }\n" +
             "}\n";
 
-    public static void runLine(String line, OutputStream out) throws IOException, InstantiationException, NoSuchMethodException, ClassNotFoundException, CompileError, InvocationTargetException, IllegalAccessException {
+    //literally every exception
+    public static void runLine(String line, OutputStream out) throws Exception {
         CompilationUnit c = getTestTemplate();
         RuntimeClass rc = compile(out, Manifest.workingDir, c);
         rc.load();

@@ -44,16 +44,15 @@ public class Compiler {
 
     public static RuntimeClass compile(OutputStream out, File workingDir, CompilationUnit compilationUnit) throws IOException {
         String classpath = getClasspath(compilationUnit);
-        File source = new File(workingDir, classpath.replace(".", "/" + ".java"));
-        File compiled = new File(workingDir, classpath.replace(".", "/" + ".class"));
+        File source = new File(workingDir, classpath.replace(".", "/") + ".java");
+        File compiled = new File(workingDir, classpath.replace(".", "/") + ".class");
         source.getParentFile().mkdirs();
         source.delete();
         compiled.delete();
         Files.write(source.toPath(), compilationUnit.toString().getBytes("UTF-8"));
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, out, out, source.getPath());
-        if (!compiled.exists())
-            throw new FileNotFoundException(compiled.getAbsolutePath() + " not found, see System.out for more information");
+        if (!compiled.exists()) throw new FileNotFoundException(compiled.getAbsolutePath() + " not found");
         return new RuntimeClass(compiled, classpath);
     }
 

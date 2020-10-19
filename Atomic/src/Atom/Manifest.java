@@ -75,14 +75,13 @@ public class Manifest {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder("Library{").append('\n');
-            sb.append("name='").append(name).append('\n');
-            sb.append(", link='").append(link).append('\n');
-            sb.append(", version='").append(version).append('\n');
-            sb.append(", jar=").append(jar).append('\n');
-            sb.append(", downloaded=").append(downloaded).append('\n');
-            sb.append('}');
-            return sb.toString();
+            return "Library{" + '\n' +
+                    "name='" + name + '\n' +
+                    ", link='" + link + '\n' +
+                    ", version='" + version + '\n' +
+                    ", jar=" + jar + '\n' +
+                    ", downloaded=" + downloaded + '\n' +
+                    '}';
         }
 
         public boolean downloaded() {

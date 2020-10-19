@@ -22,7 +22,7 @@ public class Stream {
             private StringBuilder instrumental = new StringBuilder();
 
             @Override
-            public void write(int x) throws IOException {
+            public void write(int x) {
                 if ((char) x == '\n') {
                     handler.accept(instrumental.toString());
                     instrumental = new StringBuilder();

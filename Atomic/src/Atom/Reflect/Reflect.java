@@ -152,8 +152,8 @@ public class Reflect {
             if (interfaces.length > 0) {
                 res.addAll(Arrays.asList(interfaces));
 
-                for (Class<?> interfaze : interfaces) {
-                    res.addAll(getAllExtendedOrImplementedTypesRecursively(interfaze));
+                for (Class<?> interfaced : interfaces) {
+                    res.addAll(getAllExtendedOrImplementedTypesRecursively(interfaced));
                 }
             }
 
@@ -181,7 +181,7 @@ public class Reflect {
     //dynamic
     public static <E> E getRandomField(Class<E> type, Object o) {
         ArrayList<E> arrayList = new ArrayList<>();
-        for (Field f : o.getClass().getDeclaredFields()) {
+        for (Field f : type.getDeclaredFields()) {
             try {
                 if (type.isInstance(f.get(o)))
                     arrayList.add((E) f.get(o));

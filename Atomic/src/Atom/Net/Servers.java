@@ -101,12 +101,12 @@ public class Servers {
 
     private void handleClient(Socket socket) {
         InputStream inp;
-        BufferedReader brinp;
+        BufferedReader bufferedReader;
         try {
             inp = socket.getInputStream();
             for (Consumer<Socket> s : onConnectListener)
                 s.accept(socket);
-            brinp = new BufferedReader(new InputStreamReader(inp));
+            bufferedReader = new BufferedReader(new InputStreamReader(inp));
             outputClientList.add(new PrintWriter(socket.getOutputStream(), true));
         } catch (IOException e) {
             return;
@@ -114,7 +114,7 @@ public class Servers {
         String line;
         while (run) {
             try {
-                line = brinp.readLine();
+                line = bufferedReader.readLine();
                 if ((line == null) || line.equalsIgnoreCase("QUIT")) {
                     socket.close();
                     return;

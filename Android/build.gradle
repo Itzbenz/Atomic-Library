@@ -1,7 +1,4 @@
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation aproj(":Atomic")
-}
+
 ext{
     //automatically detect latest shit
     sdkRoot = System.getenv("ANDROID_HOME")
@@ -19,7 +16,11 @@ ext{
         println "```\n"+bout.toString()+"\n```"
     }
 }
-
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation aproj(":Atomic")
+    compileOnly files("${sdkJar}")
+}
 jar{
     dependsOn ":Atomic:jar"
     archiveFileName = "${project.archivesBaseName}.jar"

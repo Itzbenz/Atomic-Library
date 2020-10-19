@@ -16,7 +16,7 @@ import java.nio.file.Files;
 
 public class Compiler {
 
-    public static String template = "package Dummy.Test;\n" +
+    public static final String template = "package Dummy.Test;\n" +
             "\n" +
             "public class Test{\n" +
             "    \n" +

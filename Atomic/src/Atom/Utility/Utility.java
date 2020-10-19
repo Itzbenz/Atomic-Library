@@ -72,7 +72,7 @@ public class Utility {
     }
 
     public static String shrinkString(String s) {
-        return new LinkedHashSet<>(Arrays.asList(s.split("-"))).toString().replaceAll("(^\\[|\\]$)", "").replace(", ", "-");
+        return new LinkedHashSet<>(Arrays.asList(s.split("-"))).toString().replaceAll("(^\\[|]$)", "").replace(", ", "-");
     }
 
     public static <T> T getFromJson(String json, Class<T> tClass) {

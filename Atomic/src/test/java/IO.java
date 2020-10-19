@@ -55,7 +55,7 @@ public class IO {
 
 
     public void arrayDeserialize() throws IOException, ClassNotFoundException {
-        ArrayList<DummySerial> dumb = SerializeData.dataArrayIn(arrData);
+        ArrayList<DummySerial> dumb = SerializeData.dataArrayIn(arrData).get();
         System.out.println(dumb.get(0).toString());
         System.out.println("Dummy Sample Deserialize");
         for (int i = 0; i < 100; i++) {

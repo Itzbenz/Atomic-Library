@@ -107,14 +107,36 @@ public class Manifest {
         }
     }
 
-    public static class JitpackLibrary extends Library {
-        public JitpackLibrary(String github, String version) {
 
+    public static class JitpackLibrary extends Library {
+        StringBuilder jitpack = new StringBuilder("https://jitpack.io/");
+
+        //com.github.o7-Fire.Atomic-Library
+        //bdf20a1954
+        public JitpackLibrary(String github, String version) {
+            name = github.substring(github.lastIndexOf('.')) + "-" + version;
+            this.version = version;
+            this.jar = new File(currentFolder, name + ".jar");
+            jitpack.append(github.replaceAll("\\.", "/")).append(name).append("jar");
+            downloadURL = jitpack.toString();
         }
+        //com.github.o7-Fire.Atomic-Library
+        //Desktop
+        //bdf20a1954
+        /*
+        public JitpackLibrary(String github, String child, String version) {
+            name = github.substring(github.lastIndexOf('.')) + "-" + child.replaceAll(":", "-") + "-" + version;
+            this.version = version;
+            this.jar = new File(currentFolder, name + ".jar");
+            child = child.replaceAll(":", "-");
+            jitpack.append(github.replaceAll("\\.", "/")).append().append("jar");
+            downloadURL = jitpack.toString();
+        }
+        */
     }
 
     public static class MavenLibrary extends Library {
-        private static final StringBuilder maven = new StringBuilder("https://repo1.maven.org/maven2/");
+        StringBuilder maven = new StringBuilder("https://repo1.maven.org/maven2/");
 
         public MavenLibrary(String group, String name, String version) {
             StringBuilder nameVersion = new StringBuilder(name);

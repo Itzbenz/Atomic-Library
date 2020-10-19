@@ -6,6 +6,7 @@ repositories {
 dependencies {
     implementation aproj(":Atomic")
     compileOnly 'com.github.javaparser:javaparser-core:3.16.2'
+    compileOnly group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.1.0'
 }
 jar{
     dependsOn ":Atomic:jar"

@@ -9,6 +9,7 @@ buildscript {
 }
 
 
+
 allprojects {
 
     ext {
@@ -34,6 +35,7 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
+
     group 'org.o7'
     version '1.4'
 
@@ -71,5 +73,11 @@ subprojects {
 
     }
 
+}
+
+task install{
+    dependsOn ':Atomic:jar'
+    dependsOn ":Android:jarAndroid"
+    dependsOn ':Desktop:jar'
 }
 

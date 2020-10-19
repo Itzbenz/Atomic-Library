@@ -1,17 +1,22 @@
-apply plugin: 'java-library'
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation aproj(":Atomic")
 }
 ext{
-    sdkVersion = '30'
+    //automatically detect latest shit
     sdkRoot = System.getenv("ANDROID_HOME")
+    sdkPlatform = "${sdkRoot}/platforms"
+    sdkPlatform = new File(sdkPlatform).listFiles()[new File(sdkPlatform).listFiles().length-1].getAbsolutePath()
     sdkD8 = sdkRoot+'/build-tools/'
-    sdkD8 = "." + new File(sdkD8).listFiles()[new File(sdkD8).listFiles().length-1].getAbsolutePath() + "/d8"
+    sdkD8 = new File(sdkD8).listFiles()[new File(sdkD8).listFiles().length-1].getAbsolutePath() + "/d8"
+    sdkJar = "$sdkPlatform/android.jar"
     doExec = { cmd ->
-        def proc = cmd.execute(null, new File("$buildDir/libs"))
-        proc.waitForProcessOutput(System.out, System.err)
+        println "Executing: \""+cmd+"\""
+        println ""
+        def proc = cmd.execute()
+        def bout = new StringBuffer()
+        proc.waitForProcessOutput(bout, bout)
+        println "```\n"+bout.toString()+"\n```"
     }
 }
 
@@ -28,17 +33,17 @@ task jarAndroid{
 
     doLast{
         //collect dependencies needed for desugaring
-        def files = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File("$sdkRoot/platforms/android-$sdkVersion/android.jar")])
+        def files = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File("$sdkJar")])
         def dependencies = files.collect{ "--classpath $it.path" }.join(" ")
         println "runtimeClasspath:"
         for(String e : configurations.runtimeClasspath.asList())
             println e
-        for(String e : new File(sdkRoot+'/build-tools/').list())
-            println e
 
         println sdkD8
         //dex and desugar files - this requires d8 in your PATH
-        doExec("${sdkD8} $dependencies --min-api 14 ${project.archivesBaseName}.jar")
+        def targetJar = new File("$buildDir/libs/${project.archivesBaseName}.jar").getAbsolutePath()
+        targetJar = "'" + targetJar + "'"
+        doExec("${sdkD8} $dependencies --min-api 14 $targetJar")
     }
 }
 sourceCompatibility = "1.7"

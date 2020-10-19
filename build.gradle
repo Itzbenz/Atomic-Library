@@ -73,9 +73,3 @@ subprojects {
     }
 
 }
-
-task install{
-    dependsOn ':Atomic:jar'
-    dependsOn ':Desktop:jar'
-}
-

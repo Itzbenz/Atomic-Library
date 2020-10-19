@@ -76,7 +76,6 @@ subprojects {
 
 task install{
     dependsOn ':Atomic:jar'
-    dependsOn ":Android:jarAndroid"
     dependsOn ':Desktop:jar'
 }
 

@@ -3,9 +3,11 @@ ext{
     //automatically detect latest shit
     sdkRoot = System.getenv("ANDROID_HOME")
     sdkPlatform = "${sdkRoot}/platforms"
-    sdkPlatform = new File(sdkPlatform).listFiles()[new File(sdkPlatform).listFiles().length-1].getAbsolutePath()
     sdkD8 = sdkRoot+'/build-tools/'
-    sdkD8 = new File(sdkD8).listFiles()[new File(sdkD8).listFiles().length-1].getAbsolutePath() + "/d8"
+    try{
+        sdkPlatform = new File(sdkPlatform).listFiles()[new File(sdkPlatform).listFiles().length-1].getAbsolutePath()
+        sdkD8 = new File(sdkD8).listFiles()[new File(sdkD8).listFiles().length-1].getAbsolutePath() + "/d8"
+    }catch(ignored){}
     sdkJar = "$sdkPlatform/android.jar"
     doExec = { cmd ->
         println "Executing: \""+cmd+"\""

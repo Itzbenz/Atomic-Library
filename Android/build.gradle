@@ -20,7 +20,7 @@ ext{
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation aproj(":Atomic")
+    compileOnly aproj(":Atomic")
     compileOnly files("${sdkJar}")
 }
 jar{

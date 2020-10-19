@@ -53,40 +53,84 @@ public class Manifest {
         return signature;
     }
 
-    public static class Library {
-        public final String name, link;
-        public final String version;
-        public final File jar;
-        public boolean downloaded;
+    public static abstract class Library {
+        protected String name, downloadURL;
+        protected String version;
+        protected File jar;
         private Future<File> download = null;
 
-        public Library(String version, String name, String link, File folder) {
+        public Library() {
+
+        }
+
+        public Library(String version, String name, String downloadURL, File folder) {
             this.version = version;
             this.name = name;
-            this.link = link;
+            this.downloadURL = downloadURL;
             jar = new File(folder, name + version + ".jar");
-            downloaded = downloaded();
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDownloadURL() {
+            return downloadURL;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public File getJar() {
+            return jar;
         }
 
         public Future<File> download() {
             if (download != null) return download;
-            return download = HTPS.download(link, jar);
+            return download = HTPS.download(downloadURL, jar);
         }
 
         @Override
         public String toString() {
             return "Library{" + '\n' +
                     "name='" + name + '\n' +
-                    ", link='" + link + '\n' +
+                    ", link='" + downloadURL + '\n' +
                     ", version='" + version + '\n' +
                     ", jar=" + jar + '\n' +
-                    ", downloaded=" + downloaded + '\n' +
+                    ", downloaded=" + downloaded() + '\n' +
                     '}';
         }
 
         public boolean downloaded() {
             return jar.exists();
         }
+    }
+
+    public static class JitpackLibrary extends Library {
+        public JitpackLibrary(String github, String version) {
+
+        }
+    }
+
+    public static class MavenLibrary extends Library {
+        private static final StringBuilder maven = new StringBuilder("https://repo1.maven.org/maven2/");
+
+        public MavenLibrary(String group, String name, String version) {
+            StringBuilder nameVersion = new StringBuilder(name);
+            nameVersion.append("-").append(version);
+            maven.append(group.replaceAll("\\.", "/")).append(name).append("/").append(version);
+            maven.append(nameVersion).append(".jar");
+            downloadURL = maven.toString();
+            this.version = version;
+            this.name = nameVersion.toString();
+            this.jar = new File(currentFolder, nameVersion.append(".jar").toString());
+        }
+
+    }
+
+    public static class OtherLibrary extends Library {
+
     }
 
 }

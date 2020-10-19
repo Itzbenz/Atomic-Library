@@ -5,6 +5,7 @@ repositories {
 
 dependencies {
     implementation aproj(":Atomic")
+    compileOnly 'com.github.javaparser:javaparser-core:3.16.2'
 }
 jar{
     dependsOn ":Atomic:jar"
@@ -12,4 +13,5 @@ jar{
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
 }

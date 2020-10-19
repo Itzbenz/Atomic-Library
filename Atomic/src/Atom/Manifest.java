@@ -141,7 +141,8 @@ public class Manifest {
         public MavenLibrary(String group, String name, String version) {
             StringBuilder nameVersion = new StringBuilder(name);
             nameVersion.append("-").append(version);
-            maven.append(group.replaceAll("\\.", "/")).append(name).append("/").append(version);
+            maven.append(group.replaceAll("\\.", "/")).append("/").append(name);
+            maven.append("/").append(version).append("/");
             maven.append(nameVersion).append(".jar");
             downloadURL = maven.toString();
             this.version = version;

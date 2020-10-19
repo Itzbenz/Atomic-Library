@@ -7,7 +7,8 @@ dependencies {
 ext{
     sdkVersion = '30'
     sdkRoot = System.getenv("ANDROID_HOME")
-    sdkD8 = "."+sdkRoot+'/build-tools/30.0.0-rc2/d8'
+    sdkD8 = sdkRoot+'/build-tools/'
+    sdkD8 = "." + new File(sdkD8).listFiles()[0].getAbsolutePath() + "/d8"
     doExec = { cmd ->
         def proc = cmd.execute(null, new File("$buildDir/libs"))
         proc.waitForProcessOutput(System.out, System.err)

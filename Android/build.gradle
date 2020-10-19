@@ -33,6 +33,8 @@ task jarAndroid{
         println "runtimeClasspath:"
         for(String e : configurations.runtimeClasspath.asList())
             println e
+        for(String e : new File(sdkRoot+'/build-tools/').list())
+            println e
 
         println sdkD8
         //dex and desugar files - this requires d8 in your PATH

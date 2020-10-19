@@ -8,7 +8,7 @@ ext{
     sdkVersion = '30'
     sdkRoot = System.getenv("ANDROID_HOME")
     sdkD8 = sdkRoot+'/build-tools/'
-    sdkD8 = "." + new File(sdkD8).listFiles()[0].getAbsolutePath() + "/d8"
+    sdkD8 = "." + new File(sdkD8).listFiles()[new File(sdkD8).listFiles().length-1].getAbsolutePath() + "/d8"
     doExec = { cmd ->
         def proc = cmd.execute(null, new File("$buildDir/libs"))
         proc.waitForProcessOutput(System.out, System.err)

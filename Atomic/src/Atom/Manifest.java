@@ -8,11 +8,7 @@ import Atom.Utility.Encoder;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -21,14 +17,13 @@ public class Manifest {
     public static final ArrayList<Library> library = new ArrayList<>();
     public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
     private static String signature;
-
+    protected static String platform = "Core";
     static {
         try {
             signature = Encoder.getString(Digest.sha1(Reflect.getCurrentJar(Manifest.class)));
         } catch (Throwable aa) {
             signature = aa.toString();
         }
-        library.add(new Library("3.16.2", "com.github.javaparser-javaparser-core", "https://repo1.maven.org/maven2/com/github/javaparser/javaparser-core/3.16.2/javaparser-core-3.16.2.jar", currentFolder));
     }
 
     public static File[] getLibs() {
@@ -54,13 +49,6 @@ public class Manifest {
             if (!l.download().get().exists()) throw new IOException("Failed to download: " + l.jar.getName());
     }
 
-    public static void loadAll() throws IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ExecutionException, InterruptedException {
-        for (Library l : library) {
-            if (l.downloaded())
-                l.tryLoad();
-        }
-    }
-
     public static String getSignature() {
         return signature;
     }
@@ -83,16 +71,6 @@ public class Manifest {
         public Future<File> download() {
             if (download != null) return download;
             return download = HTPS.download(link, jar);
-        }
-
-        //URLClassloader hack
-        public void tryLoad() throws IOException, IllegalAccessException, InvocationTargetException {
-            if (downloaded()) {
-                if (Manifest.class.getClassLoader() instanceof URLClassLoader)
-                    Reflect.invoke(Objects.requireNonNull(Reflect.getMethod(URLClassLoader.class, "addUrl", URL.class)), Manifest.class.getClassLoader(), jar.toURI().toURL());
-            } else {
-                throw new IOException("File doesn't exists");
-            }
         }
 
         @Override

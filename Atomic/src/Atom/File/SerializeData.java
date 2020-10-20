@@ -16,6 +16,7 @@ public class SerializeData {
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(ish);
         oos.close();
+        FileUtility.createFile(file);
         Files.copy(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
@@ -25,6 +26,7 @@ public class SerializeData {
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(ish);
         oos.close();
+        FileUtility.createFile(file);
         Files.copy(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 

@@ -47,7 +47,7 @@ public class SerializeData {
         return iHandler;
     }
 
-    public static class DataArray<E> {
+    public static class DataArray<E> implements Serializable {
         public List<E> arrayList;
 
         public DataArray(E[] arr) {

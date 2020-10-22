@@ -24,14 +24,27 @@ public class Manifest {
         } catch (Throwable aa) {
             signature = aa.toString();
         }
+        tryLoadExtension();
     }
 
     public static File[] getLibs() {
+
         ArrayList<File> f = new ArrayList<>();
         library.forEach(library1 -> {
             f.add(library1.jar);
         });
         return f.toArray(new File[0]);
+    }
+
+    public static void tryLoadExtension() {
+        try {
+            Class.forName("Atom.DesktopManifest");
+        } catch (Throwable ignored) {
+        }
+        try {
+            Class.forName("Atom.AndroidManifest");
+        } catch (Throwable ignored) {
+        }
     }
 
     //should work on any jdk

@@ -3,6 +3,7 @@ package Atom.Struct;
 import java.util.Arrays;
 import java.util.HashMap;
 
+@Deprecated
 public class Arguments {
     private HashMap<String, String> hashMap = new HashMap<>();
 

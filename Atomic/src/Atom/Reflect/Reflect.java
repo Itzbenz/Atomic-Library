@@ -141,7 +141,7 @@ public class Reflect {
         return m.invoke(o, arg);
     }
 
-    public static Set<Class<?>> getAllExtendedOrImplementedTypesRecursively(Class<?> clazz) {
+    public static <T> ArrayList<Class<T>> getAllExtendedOrImplementedTypesRecursively(Class<?> clazz) {
         List<Class<?>> res = new ArrayList<>();
 
         do {
@@ -168,8 +168,15 @@ public class Reflect {
             // Now inspect the superclass
             clazz = superClass;
         } while (!"java.lang.Object".equals(clazz.getCanonicalName()));
+        ArrayList<Class<T>> classes = new ArrayList<>();
+        for(Class<?> c : res){
+            try{
+                classes.add((Class<T>) c);
+            }catch (Throwable ignored){
 
-        return new HashSet<>(res);
+            }
+        }
+        return classes;
     }
 
 

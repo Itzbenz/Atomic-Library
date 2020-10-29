@@ -5,6 +5,8 @@ import Atom.Manifest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 public class FileUtility {
@@ -30,6 +32,27 @@ public class FileUtility {
 
         ProcessBuilder builder = new ProcessBuilder(command);
         return builder.start();
+    }
+
+
+    public static boolean write(File file, byte[] bytes) {
+        try {
+            makeFile(file);
+            Files.write(file.toPath(), bytes, StandardOpenOption.WRITE);
+            return true;
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    public static boolean append(File file, byte[] bytes) {
+        try {
+            makeFile(file);
+            Files.write(file.toPath(), bytes, StandardOpenOption.APPEND);
+            return true;
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     public static boolean makeFile(File file) {

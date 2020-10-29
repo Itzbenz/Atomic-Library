@@ -36,6 +36,10 @@ public class Manifest {
         return f.toArray(new File[0]);
     }
 
+    public static boolean isWindows() {
+        return System.getProperty("os.name").toUpperCase().contains("WIN");
+    }
+
     public static void tryLoadExtension() {
         try {
             Class.forName("Atom.DesktopManifest");

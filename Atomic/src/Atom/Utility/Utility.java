@@ -3,10 +3,14 @@ package Atom.Utility;
 
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Utility {
 
@@ -213,5 +217,13 @@ public class Utility {
                 data.append(prefix);
         }
         return data.toString();
+    }
+
+    public static void convertThreadToInputListener(String enterCommandName, Consumer<String> listener) throws IOException {
+        while (!Thread.interrupted()) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print(enterCommandName);
+            listener.accept(br.readLine());
+        }
     }
 }

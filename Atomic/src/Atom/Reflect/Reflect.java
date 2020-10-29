@@ -9,7 +9,10 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class Reflect {
 
@@ -141,6 +144,8 @@ public class Reflect {
         return m.invoke(o, arg);
     }
 
+    @Deprecated
+    //help its broke
     public static <T> ArrayList<Class<T>> getAllExtendedOrImplementedTypesRecursively(Class<?> clazz) {
         List<Class<?>> res = new ArrayList<>();
 

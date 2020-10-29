@@ -16,6 +16,8 @@ public class FileUtility {
             javaBin += ".exe";
         if (!new File(javaBin).exists())
             throw new FileNotFoundException(new File(javaBin).getAbsolutePath());
+        if (jar.exists())
+            throw new FileNotFoundException(new File(javaBin).getAbsolutePath());
         //it is a jar ?
         if (!jar.getName().endsWith(".jar"))
             throw new RuntimeException(jar.getAbsolutePath() + " is not a jar");

@@ -3,6 +3,7 @@ package Atom.Utility;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -18,6 +19,15 @@ public class Utility {
         parsed = parsed + maxRepeatingChar;
         int unparsed = s.length();
         return unparsed > parsed;
+    }
+
+    public static String getExtension(File f) {
+        String extension = "";
+        int i = f.getName().lastIndexOf('.');
+        if (i > 0) {
+            extension = f.getName().substring(i + 1);
+        }
+        return extension;
     }
 
     public static String getDate(OffsetDateTime geez) {

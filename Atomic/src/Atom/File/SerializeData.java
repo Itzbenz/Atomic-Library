@@ -21,13 +21,7 @@ public class SerializeData {
     }
 
     public static void dataOut(DataArray<Object> ish, File file) throws IOException {
-        File temp = FileUtility.temp();
-        FileOutputStream fos = new FileOutputStream(temp);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(ish);
-        oos.close();
-        FileUtility.makeFile(file);
-        Files.copy(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        dataOut(ish, file);
     }
 
 

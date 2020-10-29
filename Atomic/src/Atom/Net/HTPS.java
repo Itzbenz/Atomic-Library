@@ -5,6 +5,7 @@ import Atom.Utility.Pool;
 import Atom.Utility.Utility;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -56,12 +57,13 @@ public class HTPS {
 
         URL realUrl = new URL(url);
         // build connection
-        URLConnection conn = realUrl.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) realUrl.openConnection();
         // set request properties
         conn.setRequestProperty("accept", "*/*");
         conn.setRequestProperty("connection", "Keep-Alive");
         conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
         // enable output and input
+        conn.setRequestMethod("POST");
         conn.setDoOutput(true);
         conn.setDoInput(true);
         out = new PrintWriter(conn.getOutputStream());
@@ -80,6 +82,10 @@ public class HTPS {
 
     public static String get(String url) throws IOException {
         URL urls = new URL(url);
+        return URLRead(urls);
+    }
+
+    private static String URLRead(URL urls) throws IOException {
         URLConnection yc = urls.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
         StringBuilder inputLine = new StringBuilder();
@@ -127,12 +133,7 @@ public class HTPS {
     }
 
     public String get() throws IOException {
-        URLConnection yc = url.openConnection();
-        BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-        StringBuilder inputLine = new StringBuilder();
-        while (in.ready()) inputLine.append(in.readLine());
-        in.close();
-        return inputLine.toString();
+        return URLRead(url);
     }
 
     public String post(String postData) throws IOException {

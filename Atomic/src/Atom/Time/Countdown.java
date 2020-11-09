@@ -33,6 +33,10 @@ public class Countdown {
         return get() + " Milliseconds";
     }
 
+    public static String result(TimeUnit a) {
+        return result(get(), a);
+    }
+
     public static String result(long a) {
         return result(a, TimeUnit.MILLISECONDS);
     }

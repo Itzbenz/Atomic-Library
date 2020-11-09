@@ -17,7 +17,7 @@ public class Manifest {
     public static final ArrayList<Library> library = new ArrayList<>();
     public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
     private static String signature;
-    protected static String platform = "Core";
+    protected static String platform = "Ozone.Core";
     static {
         try {
             signature = Encoder.getString(Digest.sha1(Reflect.getCurrentJar(Manifest.class)));

@@ -42,7 +42,7 @@ public class Reflect {
         for (Field f : result) {
             try {
                 e = (E) f.get(object);
-            } catch (Throwable ignored) {
+            }catch (Throwable ignored) {
             }
         }
         return e;
@@ -71,11 +71,11 @@ public class Reflect {
             for (Method m : methods) {
                 try {
                     m.setAccessible(true);
-                } catch (Throwable ignored) {
+                }catch (Throwable ignored) {
                 }
             }
             return result;
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         try {
             Method[] methods = clazz.getDeclaredMethods();
@@ -86,11 +86,11 @@ public class Reflect {
             for (Method m : methods) {
                 try {
                     m.setAccessible(true);
-                } catch (Throwable ignored) {
+                }catch (Throwable ignored) {
                 }
             }
 
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         if (result.isEmpty())
             return null;
@@ -113,11 +113,11 @@ public class Reflect {
             for (Field f : result) {
                 try {
                     f.setAccessible(true);
-                } catch (Throwable ignored) {
+                }catch (Throwable ignored) {
                 }
             }
             return result;
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         try {
             Field[] fields = clazz.getDeclaredFields();
@@ -128,10 +128,10 @@ public class Reflect {
             for (Field f : result) {
                 try {
                     f.setAccessible(true);
-                } catch (Throwable ignored) {
+                }catch (Throwable ignored) {
                 }
             }
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         if (result.isEmpty())
             return null;
@@ -172,12 +172,12 @@ public class Reflect {
 
             // Now inspect the superclass
             clazz = superClass;
-        } while (!"java.lang.Object".equals(clazz.getCanonicalName()));
+        }while (!"java.lang.Object".equals(clazz.getCanonicalName()));
         ArrayList<Class<T>> classes = new ArrayList<>();
-        for(Class<?> c : res){
-            try{
+        for (Class<?> c : res) {
+            try {
                 classes.add((Class<T>) c);
-            }catch (Throwable ignored){
+            }catch (Throwable ignored) {
 
             }
         }
@@ -197,7 +197,7 @@ public class Reflect {
             try {
                 if (type.isInstance(f.get(o)))
                     arrayList.add((E) f.get(o));
-            } catch (Throwable ignored) {
+            }catch (Throwable ignored) {
             }
         }
         return Random.getRandom(arrayList);

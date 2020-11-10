@@ -16,12 +16,13 @@ import java.util.concurrent.Future;
 public class Manifest {
     public static final ArrayList<Library> library = new ArrayList<>();
     public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
-    private static String signature;
     protected static String platform = "Ozone.Core";
+    private static String signature;
+
     static {
         try {
             signature = Encoder.getString(Digest.sha1(Reflect.getCurrentJar(Manifest.class)));
-        } catch (Throwable aa) {
+        }catch (Throwable aa) {
             signature = aa.toString();
         }
         tryLoadExtension();
@@ -43,11 +44,11 @@ public class Manifest {
     public static void tryLoadExtension() {
         try {
             Class.forName("Atom.DesktopManifest");
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         try {
             Class.forName("Atom.AndroidManifest");
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
     }
 
@@ -56,7 +57,7 @@ public class Manifest {
         try {
             Class.forName("com.sun.tools.javac.Main");
             return true;
-        } catch (Throwable t) {
+        }catch (Throwable t) {
             return false;
         }
     }

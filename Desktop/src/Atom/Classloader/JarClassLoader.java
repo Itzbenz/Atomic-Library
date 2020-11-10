@@ -75,10 +75,10 @@ public final class JarClassLoader extends URLClassLoader {
                 try {
                     if (getParent() != null) {
                         c = parentLoadClass(name, false);
-                    } else {
+                    }else {
                         c = bootstrapFindClass(name);
                     }
-                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                }catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                     // ClassNotFoundException thrown if class not found
                     // from the non-null parent class loader
                 }

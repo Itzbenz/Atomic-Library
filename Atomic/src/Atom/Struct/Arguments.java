@@ -21,7 +21,7 @@ public class Arguments {
         for (String d : arg) {
             if (d.startsWith(prefix)) {
                 k = d.replaceFirst(prefix, "");
-            } else {
+            }else {
                 args.put(k, d);
             }
             i = !i;

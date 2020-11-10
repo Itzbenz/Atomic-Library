@@ -59,7 +59,7 @@ public class SerializeData {
             for (E e : arrayList) {
                 try {
                     ar.add((T) e);
-                } catch (Throwable ignored) {
+                }catch (Throwable ignored) {
                 }
             }
             return ar;

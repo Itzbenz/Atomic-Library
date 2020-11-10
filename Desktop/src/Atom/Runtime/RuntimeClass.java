@@ -14,8 +14,8 @@ import java.net.URLClassLoader;
 public class RuntimeClass {
     public final String classpath;
     private final URLClassLoader classLoader;
-    private Class<?> loadC;
     public File dirs;
+    private Class<?> loadC;
     private Object classObject;
 
     public RuntimeClass(File dirs, String classpath) throws IOException {

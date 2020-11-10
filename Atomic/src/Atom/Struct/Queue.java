@@ -129,7 +129,7 @@ public class Queue<T> implements Iterable<T> {
         if (head < tail) {
             // Continuous
             System.arraycopy(values, head, newArray, 0, tail - head);
-        } else if (size > 0) {
+        }else if (size > 0) {
             // Wrapped
             final int rest = values.length - head;
             System.arraycopy(values, head, newArray, 0, rest);
@@ -205,17 +205,17 @@ public class Queue<T> implements Iterable<T> {
             if (head < tail) {
                 for (int i = head; i < tail; i++)
                     if (values[i] == value) return i - head;
-            } else {
+            }else {
                 for (int i = head, n = values.length; i < n; i++)
                     if (values[i] == value) return i - head;
                 for (int i = 0; i < tail; i++)
                     if (values[i] == value) return i + values.length - head;
             }
-        } else {
+        }else {
             if (head < tail) {
                 for (int i = head; i < tail; i++)
                     if (value.equals(values[i])) return i - head;
-            } else {
+            }else {
                 for (int i = head, n = values.length; i < n; i++)
                     if (value.equals(values[i])) return i - head;
                 for (int i = 0; i < tail; i++)
@@ -260,12 +260,12 @@ public class Queue<T> implements Iterable<T> {
             System.arraycopy(values, index + 1, values, index, tail - index);
             values[tail] = null;
             this.tail--;
-        } else if (index >= values.length) { // index is between 0 and tail.
+        }else if (index >= values.length) { // index is between 0 and tail.
             index -= values.length;
             value = values[index];
             System.arraycopy(values, index + 1, values, index, tail - index);
             this.tail--;
-        } else { // index is between head and values.length.
+        }else { // index is between head and values.length.
             value = values[index];
             System.arraycopy(values, head, values, head + 1, index - head);
             values[head] = null;
@@ -354,7 +354,7 @@ public class Queue<T> implements Iterable<T> {
             for (int i = head; i < tail; i++) {
                 values[i] = null;
             }
-        } else {
+        }else {
             // Wrapped
             for (int i = head; i < values.length; i++) {
                 values[i] = null;

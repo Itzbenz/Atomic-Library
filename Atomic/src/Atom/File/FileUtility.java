@@ -40,7 +40,7 @@ public class FileUtility {
             makeFile(file);
             Files.write(file.toPath(), bytes, StandardOpenOption.WRITE);
             return true;
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
             return false;
         }
     }
@@ -50,7 +50,7 @@ public class FileUtility {
             makeFile(file);
             Files.write(file.toPath(), bytes, StandardOpenOption.APPEND);
             return true;
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
             return false;
         }
     }
@@ -59,7 +59,7 @@ public class FileUtility {
         file.getParentFile().mkdirs();
         try {
             return file.createNewFile();
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         return false;
     }

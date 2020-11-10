@@ -10,7 +10,7 @@ public class Stream {
         return new Thread(() -> {
             try {
                 readInputSync(i, handler, delimiter);
-            } catch (IOException e) {
+            }catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -26,7 +26,7 @@ public class Stream {
                 if ((char) x == '\n') {
                     handler.accept(instrumental.toString());
                     instrumental = new StringBuilder();
-                } else this.instrumental.append((char) x);
+                }else this.instrumental.append((char) x);
                 this.string.append((char) x);
             }
 

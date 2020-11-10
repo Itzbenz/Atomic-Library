@@ -87,7 +87,7 @@ public class Servers {
             while (run) {
                 handleClients(serverSocket.accept());
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -108,7 +108,7 @@ public class Servers {
                 s.accept(socket);
             bufferedReader = new BufferedReader(new InputStreamReader(inp));
             outputClientList.add(new PrintWriter(socket.getOutputStream(), true));
-        } catch (IOException e) {
+        }catch (IOException e) {
             return;
         }
         String line;
@@ -118,11 +118,11 @@ public class Servers {
                 if ((line == null) || line.equalsIgnoreCase("QUIT")) {
                     socket.close();
                     return;
-                } else {
+                }else {
                     for (Consumer<String> s : inputListener)
                         s.accept(line);
                 }
-            } catch (IOException e) {
+            }catch (IOException e) {
                 System.out.println(e.getMessage());
                 return;
             }

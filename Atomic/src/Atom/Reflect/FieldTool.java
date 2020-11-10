@@ -27,7 +27,7 @@ public class FieldTool {
         for (Field f : result) {
             try {
                 e = f;
-            } catch (Throwable ignored) {
+            }catch (Throwable ignored) {
             }
         }
         return e;
@@ -37,7 +37,7 @@ public class FieldTool {
         for (Field f : fields) {
             try {
                 assignRandom(f, o);
-            } catch (IllegalAccessException e) {
+            }catch (IllegalAccessException e) {
                 //yeet
             }
         }

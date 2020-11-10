@@ -103,9 +103,9 @@ public class Utility {
         for (char i : s.toCharArray()) {
             if (i == openChar) {
                 delete = true;
-            } else if (i == closeChar) {
+            }else if (i == closeChar) {
                 delete = false;
-            } else {
+            }else {
                 if (delete) continue;
                 sb.append(i);
             }
@@ -179,7 +179,7 @@ public class Utility {
         for (String d : arg) {
             if (d.startsWith(prefix)) {
                 k = d.replaceFirst(prefix, "");
-            } else {
+            }else {
                 args.put(k, d);
             }
             i = !i;
@@ -195,7 +195,7 @@ public class Utility {
             version = System.getProperty("java.runtime.version");
         if (version.startsWith("1.")) {
             version = version.substring(2, 3);
-        } else {
+        }else {
             int dot = version.indexOf(".");
             if (dot != -1) {
                 version = version.substring(0, dot);

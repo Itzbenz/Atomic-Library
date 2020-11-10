@@ -35,7 +35,7 @@ public class HTPS {
         return Pool.submit(() -> {
             try {
                 return downloadSync(url, target);
-            } catch (IOException e) {
+            }catch (IOException e) {
                 return target;
             }
         });
@@ -105,7 +105,7 @@ public class HTPS {
             BufferedReader in = new BufferedReader(new InputStreamReader(amazon.openStream()));
             ip = in.readLine();
             return ip;
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
 
         try {
@@ -114,7 +114,7 @@ public class HTPS {
             while (in.ready())
                 ip = in.readLine();
             return ip;
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         return ip;
     }

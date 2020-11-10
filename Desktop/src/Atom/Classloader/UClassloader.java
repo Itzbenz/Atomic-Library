@@ -28,7 +28,7 @@ public class UClassloader {
             java.lang.reflect.Method method = ClassLoader.class.getDeclaredMethod("getPackages");
             method.setAccessible(true);
             return (Package[]) method.invoke(loader, new Object[0]);
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
         return Package.getPackages();
     }
@@ -78,7 +78,7 @@ public class UClassloader {
                 method.invoke(loader, s, true);
             }
             return;
-        } catch (Throwable ignored) {
+        }catch (Throwable ignored) {
         }
 
         for (String s : classNames) {

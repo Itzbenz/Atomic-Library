@@ -23,7 +23,7 @@ public class Digest {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             return digest.digest(bytes);
-        } catch (NoSuchAlgorithmException e) {
+        }catch (NoSuchAlgorithmException e) {
             //how there is no this algorithm
             return new byte[0];
         }
@@ -41,7 +41,7 @@ public class Digest {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             return digest.digest(bytes);
-        } catch (NoSuchAlgorithmException e) {
+        }catch (NoSuchAlgorithmException e) {
             //how there is no this algorithm
             return new byte[0];
         }

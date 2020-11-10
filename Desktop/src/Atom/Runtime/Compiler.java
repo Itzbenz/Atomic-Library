@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Compiler {
@@ -49,7 +50,7 @@ public class Compiler {
         source.getParentFile().mkdirs();
         source.delete();
         compiled.delete();
-        Files.write(source.toPath(), compilationUnit.toString().getBytes("UTF-8"));
+        Files.write(source.toPath(), compilationUnit.toString().getBytes(StandardCharsets.UTF_8));
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, out, out, source.getAbsolutePath());
         if (!compiled.exists()) throw new FileNotFoundException(compiled.getAbsolutePath() + " not found");

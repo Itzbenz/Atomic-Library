@@ -1,5 +1,6 @@
 package Atom.Net;
 
+import Atom.File.FileUtility;
 import Atom.Net.Template.DiscordWebhookJson;
 import Atom.Utility.Pool;
 import Atom.Utility.Utility;
@@ -11,6 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.concurrent.Future;
 
@@ -43,10 +45,12 @@ public class HTPS {
 
     public static File downloadSync(String url, File target) throws IOException {
         URL urls = new URL(url);
+        File temp = FileUtility.temp();
         ReadableByteChannel rbc = Channels.newChannel(urls.openStream());
         if (target.exists()) target.delete();
-        FileOutputStream fos = new FileOutputStream(target);
+        FileOutputStream fos = new FileOutputStream(temp);
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        Files.copy(temp.toPath(), target.toPath());
         return target;
     }
 

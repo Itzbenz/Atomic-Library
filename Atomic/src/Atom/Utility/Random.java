@@ -29,6 +29,10 @@ public class Random extends java.util.Random {
         return String.format("#%06x", nextInt);
     }
 
+    public static String getHex(int h) {
+        return String.format("#%06x", h);
+    }
+
     public static boolean getBool() {
         return getInt(0, 1) != 0;
     }

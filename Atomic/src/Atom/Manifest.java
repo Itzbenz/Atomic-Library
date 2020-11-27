@@ -52,11 +52,9 @@ public class Manifest {
         }
     }
 
-    //should work on any jdk
     public static boolean javacExists() {
         try {
-            Class.forName("com.sun.tools.javac.Main");
-            return true;
+            return javax.tools.ToolProvider.getSystemJavaCompiler() != null;
         }catch (Throwable t) {
             return false;
         }

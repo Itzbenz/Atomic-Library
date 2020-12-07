@@ -95,8 +95,7 @@ public class Encoder {
         return sb.toString();
     }
 
-    public static HashMap<String, String> parseProperty(InputStream is) throws IOException {
-        String se = new String(readAllBytes(is));
+    public static HashMap<String, String> parseProperty(String se) {
         HashMap<String, String> te = new HashMap<>();
         for (String s : se.split("\n")) {
             if (s.endsWith("\r"))
@@ -105,5 +104,10 @@ public class Encoder {
                 te.put(s.split("=")[0], s.split("=")[1]);
         }
         return te;
+    }
+
+    public static HashMap<String, String> parseProperty(InputStream is) throws IOException {
+        String se = new String(readAllBytes(is));
+        return parseProperty(se);
     }
 }

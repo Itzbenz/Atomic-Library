@@ -1,8 +1,38 @@
+import java.nio.file.Files
+import java.nio.file.StandardOpenOption
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 dependencies{
     compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+}
+tasks.withType(Jar){
+    archiveFileName = "${project.archivesBaseName}.jar"
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    StringBuilder sb = new StringBuilder()
+    File txt = new File(sourceSets.main.resources.srcDirs[0], "dependencies-atomic")
+    txt.delete()
+    configurations.compileOnly.allDependencies.each { dep ->
+        sb.append('groupId=').append(dep.group).append('\n')
+        sb.append('artifactId=').append(dep.name).append('\n')
+        sb.append('version=').append(dep.version).append('\n')
+        sb.append('type=').append(dep.reason).append('\n\n')
+    }
+    ArrayList<String> done = new ArrayList<>();
+    project.repositories.each {
+        String url = it.url
+        if (url == null) return
+        if (!url.toString().startsWith("http")) return
+        url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url
+        if (done.contains(url.toString())) return
+        done.add(url.toString())
+        sb.append("url=").append(url).append("\n")
+    }
+    Files.write(txt.toPath(), sb.toString().getBytes(), StandardOpenOption.WRITE, StandardOpenOption.CREATE)
 
 }

@@ -54,7 +54,7 @@ public class Manifest {
 
     public static boolean javacExists() {
         try {
-            return javax.tools.ToolProvider.getSystemJavaCompiler() != null;
+            return javax.tools.ToolProvider.getSystemJavaCompiler() != null;//???
         }catch (Throwable t) {
             return false;
         }

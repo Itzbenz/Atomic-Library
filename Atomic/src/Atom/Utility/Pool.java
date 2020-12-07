@@ -2,9 +2,9 @@ package Atom.Utility;
 
 import java.util.concurrent.*;
 
+//wtf ?
 public class Pool {
     private static final ExecutorService service = Executors.newCachedThreadPool();
-
 
     public static Future<?> submit(RunnableFuture<?> future) {
         return service.submit(future);
@@ -14,4 +14,7 @@ public class Pool {
         return service.submit(future);
     }
 
+    public static Future<?> submit(Runnable r) {
+        return service.submit(r);
+    }
 }

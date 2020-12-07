@@ -1,6 +1,5 @@
 package Atom.Utility;
 
-//import Atom.Annotation.Utils.Annotation;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,7 @@ public class Digest {
             return digest.digest(bytes);
         }catch (NoSuchAlgorithmException e) {
             //how there is no this algorithm
-            return new byte[0];
+            throw new RuntimeException(e);
         }
     }
 

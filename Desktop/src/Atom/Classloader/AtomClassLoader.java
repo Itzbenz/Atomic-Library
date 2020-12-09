@@ -18,9 +18,9 @@ package Atom.Classloader;
 
 
 import Atom.Net.HTPS;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -28,7 +28,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class AtomClassLoader extends URLClassLoader {
-    protected static File cache = new File("lib/");
+    public static File cache = new File("lib/");
 
     static {
         cache.mkdirs();
@@ -49,31 +49,42 @@ public class AtomClassLoader extends URLClassLoader {
         defineClass(name, h, 0, h.length);
     }
 
-    @Override
-    public void addURL(URL url) {
-        if (url.getProtocol().startsWith("http")) {
-            File temp = new File(cache, url.getFile().substring(1).replace("/", "."));
-            if (!temp.exists()) {
-                try { HTPS.downloadSync(url.toExternalForm(), temp); }catch (Throwable ignored) { }
-            }
-            if (temp.exists()) {
-                try { url = temp.toURI().toURL(); }catch (MalformedURLException ignored) { }
-            }
-        }
 
+    @Override
+    public synchronized void addURL(URL url) {
+        if (url.getProtocol().startsWith("http")) {
+            File temp = new File(cache, url.getFile());//.substring(1).replace("/", ".")
+            temp.getParentFile().mkdirs();
+            if (!temp.exists()) {
+                try {
+                    HTPS.downloadSync(url.toExternalForm(), temp);
+                }catch (IOException e) { }
+            }
+            if (temp.exists()) try {
+                url = temp.toURI().toURL();
+            }catch (Throwable ignored) { }//sometime its just dont work file to url
+        }
         super.addURL(url);
     }
 
-    public void addURL(File file) throws MalformedURLException, FileNotFoundException {
-        if (file.exists()) addURL(file.toURI().toURL());
-        else throw new FileNotFoundException(file.getAbsolutePath());
+    public synchronized void addURL(File file) throws MalformedURLException {
+        if (file.exists())
+            addURL(file.toURI().toURL());
+        //else Log.errTag("Ozone-LibraryLoader", file.getAbsolutePath() + " doesn't exist");
+    }
+
+    @Nullable
+    @Override
+    public URL getResource(String name) {
+        URL u = super.getResource(name);
+        if (u == null) u = ClassLoader.getSystemResource(name);
+        return u;
     }
 
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
-        //Note: don't mess with java.
-        if (name.startsWith("java.")) return ClassLoader.getSystemClassLoader().loadClass(name);
-        return super.loadClass(name);
+        try { return super.loadClass(name); }catch (Throwable ignored) {}
+        return ClassLoader.getSystemClassLoader().loadClass(name);
     }
 }

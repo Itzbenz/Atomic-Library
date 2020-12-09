@@ -18,11 +18,21 @@ public class Utility {
         return isRepeatingPattern(s, 5);
     }
 
+    public static String jitpack = "https://jitpack.io/";
+
     public static boolean isRepeatingPattern(String s, int maxRepeatingChar) {
         int parsed = s.replaceAll("(.+?)\\1+", "$1").length();
         parsed = parsed + maxRepeatingChar;
         int unparsed = s.length();
         return unparsed > parsed;
+    }
+
+    public static String getDownload(String url, String groupId, String artifactId, String version) {
+        if (!url.endsWith("/"))
+            url = url + "/";
+        return String.format("%s/%s/%s/%s/%s-%s.jar", url,
+                groupId.replace('.', '/'), artifactId, version,
+                artifactId, version);
     }
 
     public static String getExtension(File f) {

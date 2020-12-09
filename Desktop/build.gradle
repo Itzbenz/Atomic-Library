@@ -15,6 +15,9 @@ dependencies {
     compileOnly (group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.1.0'){
         because("runtime")
     }
+    compileOnly( group: 'org.jetbrains', name: 'annotations', version: '20.1.0'){
+        because("compile")
+    }
 }
 jar{
     dependsOn ":Atomic:jar"

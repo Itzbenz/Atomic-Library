@@ -28,8 +28,8 @@ public class Utility {
     }
 
     public static String getDownload(String url, String groupId, String artifactId, String version) {
-        if (!url.endsWith("/"))
-            url = url + "/";
+        if (url.endsWith("/"))
+            url = url.substring(0, url.length() - 1);
         return String.format("%s/%s/%s/%s/%s-%s.jar", url,
                 groupId.replace('.', '/'), artifactId, version,
                 artifactId, version);

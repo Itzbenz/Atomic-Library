@@ -35,25 +35,15 @@ public class FileUtility {
     }
 
 
-    public static boolean write(File file, byte[] bytes) {
-        try {
-            makeFile(file);
-            Files.write(file.toPath(), bytes, StandardOpenOption.WRITE);
-            return true;
-        }catch (Throwable ignored) {
-            return false;
-        }
+    public static void append(File file, byte[] bytes) throws IOException {
+        Files.write(file.toPath(), bytes, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
     }
 
-    public static boolean append(File file, byte[] bytes) {
-        try {
-            makeFile(file);
-            Files.write(file.toPath(), bytes, StandardOpenOption.APPEND);
-            return true;
-        }catch (Throwable ignored) {
-            return false;
-        }
+    public static void write(File file, byte[] bytes) throws IOException {
+        makeFile(file);
+        Files.write(file.toPath(), bytes, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
     }
+
 
     public static boolean makeFile(File file) {
         file.getParentFile().mkdirs();

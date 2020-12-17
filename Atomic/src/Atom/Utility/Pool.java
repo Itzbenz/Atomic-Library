@@ -17,4 +17,10 @@ public class Pool {
     public static Future<?> submit(Runnable r) {
         return service.submit(r);
     }
+
+    public static Thread daemon(Runnable r) {
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        return t;
+    }
 }

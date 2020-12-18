@@ -21,6 +21,7 @@ public class Reflect {
         return reflections.getSubTypesOf(e);
     }
 
+
     public static File getCurrentJar(Class<?> clazz) {
         //fool proof
         return new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());

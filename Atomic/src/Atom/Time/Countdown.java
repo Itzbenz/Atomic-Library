@@ -10,7 +10,7 @@ public class Countdown {
     private static long resultCount;
 
     static {
-        reset();//?????????????
+        reset();
     }
 
     public static void start() {

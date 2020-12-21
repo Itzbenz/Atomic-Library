@@ -21,16 +21,23 @@ public class FieldTool {
 
         field.set(null, newValue);
     }
-
+    
+    public static String getFieldDetails(Object o, boolean all){
+        return getFieldDetails(o, o.getClass(), all);
+    }
     public static String getFieldDetails(Object o){
-        return getFieldDetails(o, o.getClass());
+        return getFieldDetails(o, o.getClass(), true);
     }
     
-    public static String getFieldDetails(Object o, Class<?> clazz){
+    public static String getFieldDetails(Object o,  Class<?> clazz){
+        return getFieldDetails(o, clazz, true);
+    }
+    public static String getFieldDetails(Object o, Class<?> clazz, boolean all){
         StringBuilder sb = new StringBuilder();
         HashMap<String, Field> fe = new HashMap<>();
         for(Field f : clazz.getDeclaredFields())
             fe.put(f.getName(), f);
+        if(all)
         for(Field f : clazz.getFields())
             fe.put(f.getName(), f);
         for(Map.Entry<String, Field> fg : fe.entrySet()){

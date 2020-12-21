@@ -23,16 +23,16 @@ public class FieldTool {
     }
     
     public static String getFieldDetails(Object o, boolean all){
-        return getFieldDetails(o, o.getClass(), all);
+        return getFieldDetails(o, o.getClass(), all, 150);
     }
     public static String getFieldDetails(Object o){
-        return getFieldDetails(o, o.getClass(), true);
+        return getFieldDetails(o, o.getClass());
     }
     
     public static String getFieldDetails(Object o,  Class<?> clazz){
-        return getFieldDetails(o, clazz, true);
+        return getFieldDetails(o, clazz, true, 150);
     }
-    public static String getFieldDetails(Object o, Class<?> clazz, boolean all){
+    public static String getFieldDetails(Object o, Class<?> clazz, boolean all, int maxDat){
         StringBuilder sb = new StringBuilder();
         HashMap<String, Field> fe = new HashMap<>();
         for(Field f : clazz.getDeclaredFields())
@@ -48,7 +48,7 @@ public class FieldTool {
             try{
                 String dat = f.get(o).toString();
                 if(dat.length() > 300)//wtf ?
-                    dat = dat.substring(0, 300) + "....";
+                    dat = dat.substring(0, maxDat) + "....";
                 sb.append(f.getName()).append("=").append(dat).append("\n");
             }catch (Throwable ignored){}
         }

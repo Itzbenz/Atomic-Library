@@ -5,6 +5,8 @@ import Atom.Utility.Random;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static Atom.Reflect.Reflect.findDeclaredField;
 
@@ -26,8 +28,16 @@ public class FieldTool {
     
     public static String getFieldDetails(Object o, Class<?> clazz){
         StringBuilder sb = new StringBuilder();
-        for(Field f : clazz.getDeclaredFields()){
-            f.trySetAccessible();
+        HashMap<String, Field> fe = new HashMap<>();
+        for(Field f : clazz.getDeclaredFields())
+            fe.put(f.getName(), f);
+        for(Field f : clazz.getFields())
+            fe.put(f.getName(), f);
+        for(Map.Entry<String, Field> fg : fe.entrySet()){
+            Field f = fg.getValue();
+            try {
+                f.setAccessible(true);
+            }catch (Throwable ignored){}
             try{
                 String dat = f.get(o).toString();
                 if(dat.length() > 300)//wtf ?

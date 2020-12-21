@@ -20,6 +20,24 @@ public class FieldTool {
         field.set(null, newValue);
     }
 
+    public static String getFieldDetails(Object o){
+        return getFieldDetails(o, o.getClass());
+    }
+    
+    public static String getFieldDetails(Object o, Class<?> clazz){
+        StringBuilder sb = new StringBuilder();
+        for(Field f : clazz.getDeclaredFields()){
+            f.trySetAccessible();
+            try{
+                String dat = f.get(o).toString();
+                if(dat.length() > 300)//wtf ?
+                    dat = dat.substring(0, 300) + "....";
+                sb.append(f.getName()).append("=").append(dat).append("\n");
+            }catch (Throwable ignored){}
+        }
+        return sb.toString();
+    }
+    
     public static Field getField(Class<?> clazz, String name, Object object) {
         ArrayList<Field> result = findDeclaredField(clazz, f -> f.getName().equals(name), object);
         Field e = null;

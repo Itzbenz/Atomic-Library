@@ -9,8 +9,32 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
+import static Atom.Reflect.OS.*;
+
 public class FileUtility {
 	
+	public static File getAppdata() {
+		if (isWindows) {
+			return new File(System.getenv("AppData"));
+		}else if (!isIos && !isAndroid) {
+			if (isLinux) {
+				if (System.getenv("XDG_DATA_HOME") != null) {
+					String dir = System.getenv("XDG_DATA_HOME");
+					if (!dir.endsWith("/")) {
+						dir = dir + "/";
+					}
+					
+					return new File(dir);
+				}else {
+					return new File(getProperty("user.home") + "/.local/share/");
+				}
+			}else {
+				return isMac ? new File(getProperty("user.home") + "/Library/Application Support/") : null;
+			}
+		}else {
+			return null;
+		}
+	}
 	
 	public static Process runJar(File jar) throws IOException {
 		String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";

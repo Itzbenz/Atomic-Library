@@ -6,6 +6,9 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,6 +24,57 @@ public class Reflect {
 		return reflections.getSubTypesOf(e);
 	}
 	
+	public static void restart(File jar, ArrayList<String> classpath) throws FileNotFoundException {
+		if (!jar.exists()) throw new FileNotFoundException(jar.getAbsolutePath());
+		StringBuilder cli = getRestartArg();
+		cli.append("-cp ");
+		for (String s : classpath)
+			cli.append(s).append(System.getProperty("path.separator"));
+		cli.append(" jar ");
+		cli.append(jar.getAbsolutePath());
+		new Thread(() -> {
+			try {
+				Runtime.getRuntime().exec(cli.toString()).waitFor();
+			}catch (InterruptedException | IOException e) {
+				e.printStackTrace();
+			}
+		}).start();
+		System.exit(0);
+	}
+	
+	private static StringBuilder getRestartArg() {
+		StringBuilder cli = new StringBuilder();
+		cli.append(System.getProperty("java.home")).append(File.separator).append("bin").append(File.separator).append("java").append(OS.isWindows ? ".exe " : " ");
+		for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+			cli.append(jvmArg).append(" ");
+		}
+		return cli;
+	}
+	
+	public static void restart(String mainClass, ArrayList<String> classpath) {
+		StringBuilder cli = getRestartArg();
+		cli.append("-cp ");
+		for (String s : classpath)
+			cli.append(s).append(System.getProperty("path.separator"));
+		cli.append(" ");
+		cli.append(mainClass);
+		new Thread(() -> {
+			try {
+				Runtime.getRuntime().exec(cli.toString()).waitFor();
+			}catch (InterruptedException | IOException e) {
+				e.printStackTrace();
+			}
+		}).start();
+		System.exit(0);
+	}
+	
+	public static String getMainClassName() {
+		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+		if (trace.length > 0) {
+			return trace[trace.length - 1].getClassName();
+		}
+		return null;
+	}
 	
 	public static File getCurrentJar(Class<?> clazz) {
 		//fool proof

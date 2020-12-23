@@ -51,7 +51,7 @@ public class Reflect {
 		return cli;
 	}
 	
-	public static void restart(String mainClass, ArrayList<String> classpath) {
+	public static void restart(String mainClass, List<String> classpath) {
 		StringBuilder cli = getRestartArg();
 		cli.append("-cp ");
 		for (String s : classpath)

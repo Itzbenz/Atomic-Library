@@ -30,12 +30,16 @@ public class Reflect {
 		cli.append("-cp ");
 		for (String s : classpath)
 			cli.append(s).append(System.getProperty("path.separator"));
+		if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length())))) {
+			cli = new StringBuilder(cli.substring(0, cli.length() - 1));
+		}
 		cli.append(" jar ");
 		cli.append(jar.getAbsolutePath());
+		String s = cli.toString();
 		new Thread(() -> {
 			try {
-				Runtime.getRuntime().exec(cli.toString()).waitFor();
-			}catch (InterruptedException | IOException e) {
+				Runtime.getRuntime().exec(s);
+			}catch (IOException e) {
 				e.printStackTrace();
 			}
 		}).start();
@@ -56,12 +60,16 @@ public class Reflect {
 		cli.append("-cp ");
 		for (String s : classpath)
 			cli.append(s).append(System.getProperty("path.separator"));
+		if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length())))) {
+			cli = new StringBuilder(cli.substring(0, cli.length() - 1));
+		}
 		cli.append(" ");
 		cli.append(mainClass);
+		String s = cli.toString();
 		new Thread(() -> {
 			try {
-				Runtime.getRuntime().exec(cli.toString()).waitFor();
-			}catch (InterruptedException | IOException e) {
+				Runtime.getRuntime().exec(s);
+			}catch (IOException e) {
 				e.printStackTrace();
 			}
 		}).start();
@@ -70,10 +78,12 @@ public class Reflect {
 	
 	public static String getMainClassName() {
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+		String s = null;
 		if (trace.length > 0) {
-			return trace[trace.length - 1].getClassName();
+			s = trace[trace.length - 1].getClassName();
+			if (s.equals(Thread.class.getName())) s = null;
 		}
-		return null;
+		return s;
 	}
 	
 	public static File getCurrentJar(Class<?> clazz) {

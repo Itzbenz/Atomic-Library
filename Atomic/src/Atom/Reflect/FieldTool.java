@@ -47,8 +47,7 @@ public class FieldTool {
             }catch (Throwable ignored){}
             try{
                 String dat = f.get(o).toString();
-                if(dat.length() > 300)//wtf ?
-                    dat = dat.substring(0, maxDat) + "....";
+                if (dat.length() > maxDat) dat = dat.substring(0, maxDat) + "....";
                 sb.append(f.getName()).append("=").append(dat).append("\n");
             }catch (Throwable ignored){}
         }

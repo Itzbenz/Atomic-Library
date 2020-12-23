@@ -24,7 +24,7 @@ public class Reflect {
 		return reflections.getSubTypesOf(e);
 	}
 	
-	public static void restart(File jar, ArrayList<String> classpath) throws FileNotFoundException {
+	public static void restart(File jar, List<String> classpath) throws FileNotFoundException {
 		if (!jar.exists()) throw new FileNotFoundException(jar.getAbsolutePath());
 		StringBuilder cli = getRestartArg();
 		cli.append("-cp ");

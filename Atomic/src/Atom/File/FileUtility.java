@@ -10,53 +10,49 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 public class FileUtility {
-
-
-    public static Process runJar(File jar) throws IOException {
-        String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-        if (Manifest.isWindows())
-            javaBin += ".exe";
-        if (!new File(javaBin).exists())
-            throw new FileNotFoundException(new File(javaBin).getAbsolutePath());
-        if (jar.exists())
-            throw new FileNotFoundException(new File(javaBin).getAbsolutePath());
-        //it is a jar ?
-        if (!jar.getName().endsWith(".jar"))
-            throw new RuntimeException(jar.getAbsolutePath() + " is not a jar");
-
-        //java -jar path/to/Mindustry.jar
-        ArrayList<String> command = new ArrayList<>();
-        command.add(javaBin);
-        command.add("-jar");
-        command.add(jar.getPath());
-
-        ProcessBuilder builder = new ProcessBuilder(command);
-        return builder.start();
-    }
-
-
-    public static void append(File file, byte[] bytes) throws IOException {
-        Files.write(file.toPath(), bytes, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-    }
-
-    public static void write(File file, byte[] bytes) throws IOException {
-        makeFile(file);
-        Files.write(file.toPath(), bytes, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
-    }
-
-
-    public static boolean makeFile(File file) {
-        file.getParentFile().mkdirs();
-        try {
-            return file.createNewFile();
-        }catch (Throwable ignored) {
-        }
-        return false;
-    }
-
-    public static File temp() {
-        File temp = new File(Manifest.currentFolder, System.currentTimeMillis() + ".temp");
-        temp.deleteOnExit();
-        return temp;
-    }
+	
+	
+	public static Process runJar(File jar) throws IOException {
+		String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+		if (Manifest.isWindows()) javaBin += ".exe";
+		if (!new File(javaBin).exists()) throw new FileNotFoundException(new File(javaBin).getAbsolutePath());
+		if (jar.exists()) throw new FileNotFoundException(new File(javaBin).getAbsolutePath());
+		//it is a jar ?
+		if (!jar.getName().endsWith(".jar")) throw new RuntimeException(jar.getAbsolutePath() + " is not a jar");
+		
+		//java -jar path/to/Mindustry.jar
+		ArrayList<String> command = new ArrayList<>();
+		command.add(javaBin);
+		command.add("-jar");
+		command.add(jar.getPath());
+		
+		ProcessBuilder builder = new ProcessBuilder(command);
+		return builder.start();
+	}
+	
+	
+	public static void append(File file, byte[] bytes) throws IOException {
+		Files.write(file.toPath(), bytes, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+	}
+	
+	public static void write(File file, byte[] bytes) throws IOException {
+		makeFile(file);
+		Files.write(file.toPath(), bytes, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+	}
+	
+	
+	public static boolean makeFile(File file) {
+		file.getParentFile().mkdirs();
+		try {
+			return file.createNewFile();
+		}catch (Throwable ignored) {
+		}
+		return false;
+	}
+	
+	public static File temp() {
+		File temp = new File(Manifest.currentFolder, System.currentTimeMillis() + ".temp");
+		temp.deleteOnExit();
+		return temp;
+	}
 }

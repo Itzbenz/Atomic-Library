@@ -24,17 +24,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Cache {
-    public static File cache = new File("cache/");
-
-    static {
-        cache.mkdirs();
-    }
-
-    public static URL http(URL url) throws IOException {
-        if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
-        File target = new File(cache, url.getFile().replaceAll("/", "."));
-        if (target.exists()) return target.toURI().toURL();
-        HTPS.downloadSync(url.toExternalForm(), target);
-        return target.toURI().toURL();
-    }
+	public static File cache = new File("cache/");
+	
+	static {
+		cache.mkdirs();
+	}
+	
+	public static URL http(URL url) throws IOException {
+		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
+		File target = new File(cache, url.getFile().replaceAll("/", "."));
+		if (target.exists()) return target.toURI().toURL();
+		HTPS.downloadSync(url.toExternalForm(), target);
+		return target.toURI().toURL();
+	}
 }

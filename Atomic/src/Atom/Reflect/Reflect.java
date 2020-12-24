@@ -30,7 +30,7 @@ public class Reflect {
 		cli.append("-cp ");
 		for (String s : classpath)
 			cli.append(s).append(System.getProperty("path.separator"));
-		if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length())))) {
+		if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length() - 1)))) {
 			cli = new StringBuilder(cli.substring(0, cli.length() - 1));
 		}
 		cli.append(" jar ");
@@ -60,7 +60,7 @@ public class Reflect {
 		cli.append("-cp ");
 		for (String s : classpath)
 			cli.append(s).append(System.getProperty("path.separator"));
-		if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length())))) {
+		if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length() - 1)))) {
 			cli = new StringBuilder(cli.substring(0, cli.length() - 1));
 		}
 		cli.append(" ");

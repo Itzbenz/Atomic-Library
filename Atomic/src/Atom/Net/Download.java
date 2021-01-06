@@ -16,8 +16,6 @@
 
 package Atom.Net;
 
-import io.sentry.Sentry;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -178,7 +176,6 @@ public class Download implements Runnable {
 			download();
 			close();
 		}catch (IOException e) {
-			Sentry.captureException(e);
 			close();
 			throw new RuntimeException(e);
 		}

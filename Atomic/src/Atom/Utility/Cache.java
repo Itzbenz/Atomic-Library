@@ -32,6 +32,7 @@ public class Cache {
 	}
 	
 	public static URL http(URL url) throws IOException {
+		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
 		File target = new File(cache, url.getFile().replaceAll("/", "."));
 		if (target.exists()) return target.toURI().toURL();

@@ -16,9 +16,10 @@
 
 package Atom.Utility;
 
-import Atom.Net.HTPS;
+import Atom.Net.Request;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,7 +35,8 @@ public class Cache {
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
 		File target = new File(cache, url.getFile().replaceAll("/", "."));
 		if (target.exists()) return target.toURI().toURL();
-		HTPS.downloadSync(url.toExternalForm(), target);
-		return target.toURI().toURL();
+		Request.downloadSync(url.toExternalForm(), target);
+		if (target.exists()) return target.toURI().toURL();
+		else throw new FileNotFoundException(target.getAbsolutePath());
 	}
 }

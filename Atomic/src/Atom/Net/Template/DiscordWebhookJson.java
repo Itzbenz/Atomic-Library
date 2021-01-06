@@ -1,5 +1,5 @@
 package Atom.Net.Template;
-
+@Deprecated
 public class DiscordWebhookJson {
 	private final String url;
 	public String username;

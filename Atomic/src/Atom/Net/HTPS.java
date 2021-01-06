@@ -15,7 +15,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.concurrent.Future;
-
+@Deprecated
 public class HTPS {
 	//Sync request
 	private final URL url;
@@ -29,10 +29,12 @@ public class HTPS {
 		this.url = new URL(url);
 	}
 	
+	@Deprecated
 	public static void sendDiscordWebhook(DiscordWebhookJson content) throws IOException {
 		HTPS.post(content.getUrl(), Utility.toJson(content));
 	}
 	
+	@Deprecated
 	public static Future<File> download(String url, File target) {
 		return Pool.submit(() -> {
 			try {
@@ -43,6 +45,7 @@ public class HTPS {
 		});
 	}
 	
+	@Deprecated
 	public static File downloadSync(String url, File target) throws IOException {
 		URL urls = new URL(url);
 		File temp = FileUtility.temp();
@@ -54,6 +57,7 @@ public class HTPS {
 		return target;
 	}
 	
+	@Deprecated
 	public static String post(String url, String postData) throws IOException {
 		PrintWriter out;
 		BufferedReader in;
@@ -84,11 +88,13 @@ public class HTPS {
 		return result.toString();
 	}
 	
+	@Deprecated
 	public static String get(String url) throws IOException {
 		URL urls = new URL(url);
 		return URLRead(urls);
 	}
 	
+	@Deprecated
 	private static String URLRead(URL urls) throws IOException {
 		URLConnection yc = urls.openConnection();
 		BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
@@ -98,6 +104,7 @@ public class HTPS {
 		return inputLine.toString();
 	}
 	
+	@Deprecated
 	public static String getPublicIP() {
 		String ip = "";
 		//Q: why http ?

@@ -33,12 +33,28 @@ public class Random extends java.util.Random {
 		return String.format("#%06x", h);
 	}
 	
+	public static boolean getBool(float chance) {
+		return getFloat() < chance;
+	}
+	
+	public static float getFloat() {
+		return new Random().nextFloat();
+	}
+	
+	public static double getDouble() {
+		return new Random().nextDouble();
+	}
+	
+	public static long getLong() {
+		return new Random().nextLong();
+	}
+	
 	public static boolean getBool() {
-		return getInt(0, 1) != 0;
+		return new Random().nextBoolean();
 	}
 	
 	public static int getInt() {
-		return getInt(0, 10000);
+		return new Random().nextInt();
 	}
 	
 	public static int getInt(int max) {
@@ -47,7 +63,6 @@ public class Random extends java.util.Random {
 	
 	public static int getInt(int min, int max) {
 		java.util.Random random = new java.util.Random();
-		
 		return random.nextInt((max - min) + 1) + min;
 	}
 	
@@ -59,5 +74,29 @@ public class Random extends java.util.Random {
 	public static <T> T getRandom(T[] arrays) {
 		int rnd = new java.util.Random().nextInt(arrays.length);
 		return arrays[rnd];
+	}
+	
+	public static long getLong(long min, long max) {
+		return min + ((long) (new Random().nextDouble() * (max - min)));
+	}
+	
+	public static long getLong(long max) {
+		return getLong(0, max);
+	}
+	
+	public static double getDouble(double min, double max) {
+		return min + (new Random().nextDouble() * (max - min));
+	}
+	
+	public static double getDouble(double max) {
+		return getDouble(0, max);
+	}
+	
+	public static float getFloat(float min, float max) {
+		return min + (new Random().nextFloat() * (max - min));
+	}
+	
+	public static float getFloat(float max) {
+		return getFloat(0, max);
 	}
 }

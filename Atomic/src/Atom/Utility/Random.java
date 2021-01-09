@@ -4,6 +4,7 @@ import java.util.List;
 
 //Random get more random when used really often
 public class Random extends java.util.Random {
+	private static final Random random = new Random();
 	
 	public static String getString() {
 		return getString(8);
@@ -20,7 +21,6 @@ public class Random extends java.util.Random {
 	}
 	
 	public static int getRandomColor() {
-		Random random = new Random();
 		return random.nextInt(0xffffff + 1);
 	}
 	
@@ -38,23 +38,23 @@ public class Random extends java.util.Random {
 	}
 	
 	public static float getFloat() {
-		return new Random().nextFloat();
+		return random.nextFloat();
 	}
 	
 	public static double getDouble() {
-		return new Random().nextDouble();
+		return random.nextDouble();
 	}
 	
 	public static long getLong() {
-		return new Random().nextLong();
+		return random.nextLong();
 	}
 	
 	public static boolean getBool() {
-		return new Random().nextBoolean();
+		return random.nextBoolean();
 	}
 	
 	public static int getInt() {
-		return new Random().nextInt();
+		return random.nextInt();
 	}
 	
 	public static int getInt(int max) {
@@ -62,22 +62,21 @@ public class Random extends java.util.Random {
 	}
 	
 	public static int getInt(int min, int max) {
-		java.util.Random random = new java.util.Random();
 		return random.nextInt((max - min) + 1) + min;
 	}
 	
 	public static <T> T getRandom(List<T> arrays) {
-		int rnd = new java.util.Random().nextInt(arrays.size());
+		int rnd = getInt(arrays.size());
 		return arrays.get(rnd);
 	}
 	
 	public static <T> T getRandom(T[] arrays) {
-		int rnd = new java.util.Random().nextInt(arrays.length);
+		int rnd = getInt(arrays.length);
 		return arrays[rnd];
 	}
 	
 	public static long getLong(long min, long max) {
-		return min + ((long) (new Random().nextDouble() * (max - min)));
+		return min + ((long) (random.nextDouble() * (max - min)));
 	}
 	
 	public static long getLong(long max) {
@@ -85,7 +84,7 @@ public class Random extends java.util.Random {
 	}
 	
 	public static double getDouble(double min, double max) {
-		return min + (new Random().nextDouble() * (max - min));
+		return min + (random.nextDouble() * (max - min));
 	}
 	
 	public static double getDouble(double max) {
@@ -93,7 +92,7 @@ public class Random extends java.util.Random {
 	}
 	
 	public static float getFloat(float min, float max) {
-		return min + (new Random().nextFloat() * (max - min));
+		return min + (random.nextFloat() * (max - min));
 	}
 	
 	public static float getFloat(float max) {

@@ -18,8 +18,9 @@ public class IO {
         io.arraySerialize();
         io.arrayDeserialize();
     }
-
-    public void dummyVerify() {
+	
+	
+	public void dummyVerify() {
         data.delete();
         arrData.delete();
         System.out.println(data.getAbsolutePath());

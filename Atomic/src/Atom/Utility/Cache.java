@@ -31,6 +31,10 @@ public class Cache {
 		cache.mkdirs();
 	}
 	
+	public static URL http(String s) throws IOException {
+		return http(new URL(s));
+	}
+	
 	public static URL http(URL url) throws IOException {
 		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");

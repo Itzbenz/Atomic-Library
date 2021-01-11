@@ -18,6 +18,29 @@ import java.util.List;
 import java.util.Set;
 
 public class Reflect {
+	public static String getCallerClass() {
+		return Thread.currentThread().getStackTrace()[2].getClassName();
+	}
+	
+	public static Object parseStringToPrimitive(String data, Class<?> type) {
+		if (data.isEmpty()) return null;
+		if (type.isInstance(data)) return data;
+		
+		if (type.getTypeName().equals(boolean.class.getTypeName())) {
+			if (data.equalsIgnoreCase("true")) return true;
+			else if (data.equalsIgnoreCase("false")) return false;
+			else return null;
+		}
+		
+		if (type.getTypeName().equals(int.class.getTypeName())) return Integer.parseInt(data);
+		if (type.getTypeName().equals(long.class.getTypeName())) return Long.parseLong(data);
+		if (type.getTypeName().equals(double.class.getTypeName())) return Double.parseDouble(data);
+		if (type.getTypeName().equals(float.class.getTypeName())) return Float.parseFloat(data);
+		if (type.getTypeName().equals(short.class.getTypeName())) return Short.parseShort(data);
+		if (type.getTypeName().equals(byte.class.getTypeName())) return Byte.parseByte(data);
+		
+		return null;
+	}
 	
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
 		Reflections reflections = new Reflections(packageName, SubTypesScanner.class);

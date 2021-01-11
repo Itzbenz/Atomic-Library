@@ -166,7 +166,7 @@ public class Download implements Runnable {
 	}
 	
 	public Future<?> runAsync() {
-		return es.submit(this);
+		return Pool.submit(this);
 	}
 	
 	@Override

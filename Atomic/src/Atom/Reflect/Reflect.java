@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class Reflect {
 	public static String getCallerClass() {
-		return Thread.currentThread().getStackTrace()[2].getClassName();
+		return Thread.currentThread().getStackTrace()[3].getClassName();
 	}
 	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {

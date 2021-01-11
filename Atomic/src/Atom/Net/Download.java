@@ -16,20 +16,19 @@
 
 package Atom.Net;
 
+import Atom.Utility.Pool;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 //probably will be relocated to Atom library
 public class Download implements Runnable {
-	protected static ExecutorService es = Executors.newCachedThreadPool();
 	// Max size of download buffer.
 	protected static int MAX_BUFFER_SIZE = 8192;
 	protected URL url; // download URL
@@ -57,7 +56,7 @@ public class Download implements Runnable {
 	public void print(Consumer<String> is) {
 		if (pw != null) return;
 		pw = is;
-		es.submit((Runnable) this::print);
+		Pool.submit((Runnable) this::print);
 	}
 	
 	private void print(String s) {

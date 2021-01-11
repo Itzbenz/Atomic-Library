@@ -6,7 +6,11 @@ import java.util.concurrent.*;
 
 //wtf ?
 public class Pool {
-	private static final ExecutorService service = Executors.newCachedThreadPool();
+	private static final ExecutorService service = Executors.newCachedThreadPool(r -> {
+		Thread t = Executors.defaultThreadFactory().newThread(r);
+		t.setDaemon(true);
+		return t;
+	});
 	
 	public static Future<?> submit(RunnableFuture<?> future) {
 		return service.submit(future);

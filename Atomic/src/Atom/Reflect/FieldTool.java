@@ -51,6 +51,11 @@ public class FieldTool {
 				sb.append(f.getName()).append("=").append(dat).append("\n");
 			}catch (Throwable ignored) {}
 		}
+		try {
+			String dat = (String) clazz.getMethod("toString").invoke(o);
+			if (dat.length() > maxDat) dat = dat.substring(0, maxDat) + "....";
+			sb.append("toString").append("=").append(dat).append("\n");
+		}catch (Throwable ignored) {}
 		return sb.toString();
 	}
 	

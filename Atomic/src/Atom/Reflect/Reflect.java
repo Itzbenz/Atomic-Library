@@ -22,6 +22,10 @@ public class Reflect {
 		return Thread.currentThread().getStackTrace()[3].getClassName();
 	}
 	
+	public static StackTraceElement getCallerClassStackTrace() {
+		return Thread.currentThread().getStackTrace()[3];
+	}
+	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {
 		if (type.equals(String.class)) return data;
 		if (data.isEmpty()) return null;

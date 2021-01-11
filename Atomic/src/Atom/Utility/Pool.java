@@ -1,5 +1,7 @@
 package Atom.Utility;
 
+import Atom.Reflect.Reflect;
+
 import java.util.concurrent.*;
 
 //wtf ?
@@ -18,9 +20,16 @@ public class Pool {
 		return service.submit(r);
 	}
 	
+	public static Thread thread(Runnable r) {
+		Thread t = new Thread(r);
+		t.setName(Reflect.getCallerClassStackTrace().toString());
+		return t;
+	}
+	
 	public static Thread daemon(Runnable r) {
 		Thread t = new Thread(r);
 		t.setDaemon(true);
+		t.setName(Reflect.getCallerClassStackTrace().toString());
 		return t;
 	}
 }

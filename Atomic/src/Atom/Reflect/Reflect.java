@@ -23,8 +23,8 @@ public class Reflect {
 	}
 	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {
+		if (type.equals(String.class)) return data;
 		if (data.isEmpty()) return null;
-		if (type.isInstance(data)) return data;
 		
 		if (type.getTypeName().equals(boolean.class.getTypeName())) {
 			if (data.equalsIgnoreCase("true")) return true;

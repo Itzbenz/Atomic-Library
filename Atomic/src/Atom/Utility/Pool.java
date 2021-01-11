@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 public class Pool {
 	private static final ExecutorService service = Executors.newCachedThreadPool(r -> {
 		Thread t = Executors.defaultThreadFactory().newThread(r);
+		t.setName(t.getName() + "-Atomic-Pool");
 		t.setDaemon(true);
 		return t;
 	});

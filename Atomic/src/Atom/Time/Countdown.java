@@ -44,6 +44,14 @@ public class Countdown {
 		return b.convert(System.currentTimeMillis() - a, TimeUnit.MILLISECONDS) + " " + b.toString();
 	}
 	
+	public static long getActual(long a, long b) {
+		return b - a;
+	}
+	
+	public static long getActual(long src) {
+		return getActual(src, System.currentTimeMillis());
+	}
+	
 	public static long get() {
 		return resultCount;
 	}

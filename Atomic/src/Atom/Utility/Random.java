@@ -1,5 +1,7 @@
 package Atom.Utility;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 //Random get more random when used really often
@@ -63,6 +65,19 @@ public class Random extends java.util.Random {
 	
 	public static int getInt(int min, int max) {
 		return random.nextInt((max - min) + 1) + min;
+	}
+	
+	public static <T> T getRandom(Iterator<T> arr) {
+		ArrayList<T> rand = new ArrayList<>();
+		while (arr.hasNext()) rand.add(arr.next());
+		return getRandom(rand);
+	}
+	
+	public static <T> T getRandom(Iterable<T> arr) {
+		ArrayList<T> rand = new ArrayList<>();
+		for (T e : arr)
+			rand.add(e);
+		return getRandom(rand);
 	}
 	
 	public static <T> T getRandom(List<T> arrays) {

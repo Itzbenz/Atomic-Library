@@ -4,6 +4,7 @@ package Atom.Time;
 import Atom.Struct.Queue;
 
 import java.util.concurrent.TimeUnit;
+@Deprecated
 
 public class Countdown {
 	private static Queue<Long> lastCount;

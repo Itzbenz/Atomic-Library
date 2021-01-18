@@ -20,6 +20,10 @@ public class Utility {
 		return isRepeatingPattern(s, 5);
 	}
 	
+	public static String capitalizeEnforce(String s) {
+		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+	}
+	
 	public static boolean isRepeatingPattern(String s, int maxRepeatingChar) {
 		int parsed = s.replaceAll("(.+?)\\1+", "$1").length();
 		parsed = parsed + maxRepeatingChar;

@@ -31,11 +31,19 @@ public class Cache {
 		cache.mkdirs();
 	}
 	
+	public static URL tryCache(URL u) {
+		try {
+			return http(u);
+		}catch (Throwable ignored) {}
+		return u;
+	}
+	
 	public static URL http(String s) throws IOException {
 		return http(new URL(s));
 	}
 	
 	public static URL http(URL url) throws IOException {
+		if (url == null) return null;
 		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
 		File target = new File(cache, url.getFile().replaceAll("/", "."));

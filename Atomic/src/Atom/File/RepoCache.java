@@ -14,8 +14,24 @@
  * limitations under the License.
  */
 
-package Atom.Time;
+package Atom.File;
 
-public class Stopwatch {
+import Atom.Utility.Cache;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+public class RepoCache extends Repo {
+	
+	@Override
+	public URL getResource(String s) {
+		return Cache.tryCache(super.getResource(s));
+	}
+	
+	@Override
+	public InputStream getResourceAsStream(String s) throws IOException {
+		URL u = getResource(s);
+		return u.openStream();
+	}
 }

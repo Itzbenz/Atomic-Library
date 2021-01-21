@@ -2,7 +2,8 @@ package Atom.Reflect;
 
 import Atom.Struct.Filter;
 import Atom.Utility.Random;
-import io.github.classgraph.ClassGraph;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +22,6 @@ public class Reflect {
 		return Thread.currentThread().getStackTrace()[3].getClassName();
 	}
 	
-	public static ClassGraph cg = new ClassGraph().enableClassInfo().enableFieldInfo().enableAnnotationInfo().enableRemoteJarScanning();
 	
 	public static StackTraceElement getCallerClassStackTrace() {
 		return Thread.currentThread().getStackTrace()[3];

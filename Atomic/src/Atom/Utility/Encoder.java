@@ -1,5 +1,6 @@
 package Atom.Utility;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +21,19 @@ public class Encoder {
 	
 	public static String getString(byte[] bytes) {
 		return new String(bytes, StandardCharsets.UTF_8);
+	}
+	
+	public static ByteArrayOutputStream toByteArrayOutputStream(InputStream is) throws IOException {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		
+		int nRead;
+		byte[] data = new byte[16384];
+		
+		while ((nRead = is.read(data, 0, data.length)) != -1) {
+			buffer.write(data, 0, nRead);
+		}
+		
+		return buffer;
 	}
 	
 	//copied from java

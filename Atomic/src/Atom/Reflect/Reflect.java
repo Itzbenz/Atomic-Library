@@ -2,8 +2,7 @@ package Atom.Reflect;
 
 import Atom.Struct.Filter;
 import Atom.Utility.Random;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
+import io.github.classgraph.ClassGraph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +20,8 @@ public class Reflect {
 	public static String getCallerClass() {
 		return Thread.currentThread().getStackTrace()[3].getClassName();
 	}
+	
+	public static ClassGraph cg = new ClassGraph().enableClassInfo().enableFieldInfo().enableAnnotationInfo().enableRemoteJarScanning();
 	
 	public static StackTraceElement getCallerClassStackTrace() {
 		return Thread.currentThread().getStackTrace()[3];
@@ -47,8 +48,7 @@ public class Reflect {
 	}
 	
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
-		Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
-		return reflections.getSubTypesOf(e);
+		throw new RuntimeException("This feature is under maintenance");
 	}
 	
 	public static void restart(File jar, List<String> classpath) throws FileNotFoundException {

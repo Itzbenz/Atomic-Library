@@ -48,7 +48,8 @@ public class Reflect {
 	}
 	
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
-		throw new RuntimeException("This feature is under maintenance");
+		Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
+		return reflections.getSubTypesOf(e);
 	}
 	
 	public static void restart(File jar, List<String> classpath) throws FileNotFoundException {

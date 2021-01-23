@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import Atom.File.Repo;
+import Atom.File.RepoInternal;
 import Atom.Net.HTPS;
 import Atom.Utility.Digest;
 import Atom.Utility.Encoder;
@@ -19,7 +19,7 @@ public class Manifest {
 	public static final ArrayList<Library> library = new ArrayList<>();
 	protected static String platform = "Ozone.Core";
 	private static String signature;
-	public static Repo internalRepo = new Repo();
+	public static RepoInternal internalRepo = new RepoInternal();
 	public static File currentJar = getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
 
 	static {

@@ -8,19 +8,10 @@ buildscript {
     }
 }
 
-plugins {
-    id 'maven-publish'
-}
 
 allprojects {
 
-    ext {
 
-        smh = {
-            delete "src-gen/"
-            delete "build/"
-        }
-    }
 
     repositories {
         mavenCentral()
@@ -37,9 +28,18 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
-    group 'org.o7'
-    version '1.4'
+    apply plugin: "maven"
+    apply plugin: "maven-publish"
 
+    group 'com.o7-Fire'
+    version '2.0.1'
+
+    ext {
+        smh = {
+            delete "src-gen/"
+            delete "build/"
+        }
+    }
     ext.aproj = { String module ->
         if (findProject(module) != null) {
             return project(module)
@@ -57,7 +57,7 @@ subprojects {
         smh()
     }
     dependencies {
-        compileJava.dependsOn(pre)
+
 
     }
     tasks.withType(JavaCompile) {

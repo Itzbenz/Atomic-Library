@@ -39,6 +39,7 @@ tasks.withType(Jar){
         done.add(url.toString())
         sb.append("url=").append(url).append("\n")
     }
+    txt.parentFile.mkdirs();
     Files.write(txt.toPath(), sb.toString().getBytes(), StandardOpenOption.WRITE, StandardOpenOption.CREATE)
 
 }

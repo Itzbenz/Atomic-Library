@@ -1,9 +1,7 @@
 package Atom.Net;
 
 import Atom.File.FileUtility;
-import Atom.Net.Template.DiscordWebhookJson;
 import Atom.Utility.Pool;
-import Atom.Utility.Utility;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -29,10 +27,6 @@ public class HTPS {
 		this.url = new URL(url);
 	}
 	
-	@Deprecated
-	public static void sendDiscordWebhook(DiscordWebhookJson content) throws IOException {
-		HTPS.post(content.getUrl(), Utility.toJson(content));
-	}
 	
 	@Deprecated
 	public static Future<File> download(String url, File target) {

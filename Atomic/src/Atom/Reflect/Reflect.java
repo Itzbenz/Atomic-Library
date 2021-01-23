@@ -1,6 +1,7 @@
 package Atom.Reflect;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 import org.reflections.serializers.JsonSerializer;
 import org.reflections.util.ConfigurationBuilder;
 
@@ -29,7 +30,7 @@ public class Reflect {
 		setInternalJson("reflections/core-reflections.json");
 	}
 
-	public static ConfigurationBuilder getConfigBuilder(String... param) {
+	public static ConfigurationBuilder getConfigBuilder(final Object... param) {
 		ConfigurationBuilder def;
 		def = ConfigurationBuilder.build(param);
 		def.addClassLoader(Reflect.class.getClassLoader());
@@ -68,7 +69,7 @@ public class Reflect {
 	}
 
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) throws IOException {
-		ConfigurationBuilder config = packageName.length() == 0 ? getConfigBuilder() : getConfigBuilder(packageName);
+		ConfigurationBuilder config = packageName.length() == 0 ? getConfigBuilder(SubTypesScanner.class) : getConfigBuilder(packageName, SubTypesScanner.class);
 		Reflections reflections = new Reflections(config);
 		if (internalExists)
 			reflections.collect(Manifest.internalRepo.getResourceAsStream(internalJson));

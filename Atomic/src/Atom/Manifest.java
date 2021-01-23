@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import Atom.File.Repo;
 import Atom.Net.HTPS;
 import Atom.Reflect.Reflect;
 import Atom.Utility.Digest;
@@ -18,11 +19,16 @@ public class Manifest {
 	public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
 	protected static String platform = "Ozone.Core";
 	private static String signature;
+	public static Repo internalRepo = new Repo();
 
 	static {
 		try {
+			internalRepo.addRepo(Reflect.getCurrentJar().toURI().toURL());
+		} catch (Throwable ignored) {
+		}
+		try {
 			signature = Encoder.getString(Digest.sha1(Reflect.getCurrentJar(Manifest.class)));
-		}catch (Throwable aa) {
+		} catch (Throwable aa) {
 			signature = aa.toString();
 		}
 		tryLoadExtension();

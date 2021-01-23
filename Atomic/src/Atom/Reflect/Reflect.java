@@ -1,6 +1,5 @@
 package Atom.Reflect;
 
-import Atom.Manifest;
 import Atom.Struct.Filter;
 import Atom.Utility.Random;
 import com.google.gson.JsonElement;
@@ -8,7 +7,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
-import org.reflections.serializers.JsonSerializer;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.io.File;
@@ -25,19 +23,13 @@ import java.util.Set;
 
 public class Reflect {
 
-	public static boolean internalExists;
-	private static String internalJson;
 
-	static {
-		setInternalJson("reflections/core-reflections.json");
-	}
+
 
 	public static ConfigurationBuilder getConfigBuilder(final Object... param) {
 		ConfigurationBuilder def;
 		def = ConfigurationBuilder.build(param);
 		def.addClassLoader(Reflect.class.getClassLoader());
-		if (internalExists)
-			def.setSerializer(new JsonSerializer());
 		return def;
 	}
 
@@ -89,18 +81,18 @@ public class Reflect {
 		return ar;
 	}
 	
-	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) throws IOException {
+	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) {
+		return getExtendedClass(packageName, e, Reflect.class.getClassLoader());
+	}
+	
+	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e, ClassLoader cl) {
 		ConfigurationBuilder config = packageName.length() == 0 ? getConfigBuilder(SubTypesScanner.class) : getConfigBuilder(packageName, SubTypesScanner.class);
+		config.addClassLoader(cl);
 		Reflections reflections = new Reflections(config);
-		if (internalExists) reflections.collect(Manifest.internalRepo.getResourceAsStream(internalJson));
 		return reflections.getSubTypesOf(e);
 	}
 	
-	public static void setInternalJson(String s) {
-		internalExists = Manifest.internalRepo.resourceExists(s);
-		internalJson = s;
-	}
-
+	
 	public static void restart(File jar, List<String> classpath) throws FileNotFoundException {
 		if (!jar.exists()) throw new FileNotFoundException(jar.getAbsolutePath());
 		StringBuilder cli = getRestartArg();

@@ -1,7 +1,5 @@
 package Atom.Reflect;
 
-import Atom.Struct.Filter;
-import Atom.Utility.Random;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
@@ -17,6 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import Atom.Struct.Filter;
+import Atom.Utility.Random;
+
 public class Reflect {
 	public static String getCallerClass() {
 		return Thread.currentThread().getStackTrace()[3].getClassName();
@@ -29,21 +30,21 @@ public class Reflect {
 	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {
 		if (type.equals(String.class)) return data;
-		if (data.isEmpty()) return null;
-		
-		if (type.getTypeName().equals(boolean.class.getTypeName())) {
+		if (data.length() != 0) return null;
+
+		if (type.getName().equals(boolean.class.getName())) {
 			if (data.equalsIgnoreCase("true")) return true;
 			else if (data.equalsIgnoreCase("false")) return false;
 			else return null;
 		}
-		
-		if (type.getTypeName().equals(int.class.getTypeName())) return Integer.parseInt(data);
-		if (type.getTypeName().equals(long.class.getTypeName())) return Long.parseLong(data);
-		if (type.getTypeName().equals(double.class.getTypeName())) return Double.parseDouble(data);
-		if (type.getTypeName().equals(float.class.getTypeName())) return Float.parseFloat(data);
-		if (type.getTypeName().equals(short.class.getTypeName())) return Short.parseShort(data);
-		if (type.getTypeName().equals(byte.class.getTypeName())) return Byte.parseByte(data);
-		
+
+		if (type.getName().equals(int.class.getName())) return Integer.parseInt(data);
+		if (type.getName().equals(long.class.getName())) return Long.parseLong(data);
+		if (type.getName().equals(double.class.getName())) return Double.parseDouble(data);
+		if (type.getName().equals(float.class.getName())) return Float.parseFloat(data);
+		if (type.getName().equals(short.class.getName())) return Short.parseShort(data);
+		if (type.getName().equals(byte.class.getName())) return Byte.parseByte(data);
+
 		return null;
 	}
 	
@@ -77,8 +78,11 @@ public class Reflect {
 	private static StringBuilder getRestartArg() {
 		StringBuilder cli = new StringBuilder();
 		cli.append(System.getProperty("java.home")).append(File.separator).append("bin").append(File.separator).append("java").append(OS.isWindows ? ".exe " : " ");
-		for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-			cli.append(jvmArg).append(" ");
+		try {
+			for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+				cli.append(jvmArg).append(" ");
+			}
+		} catch (Throwable ignored) {
 		}
 		return cli;
 	}

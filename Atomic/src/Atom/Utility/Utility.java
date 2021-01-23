@@ -7,30 +7,44 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class Utility {
-	
+
 	public static String jitpack = "https://jitpack.io/";
-	
+
 	public static boolean isRepeatingPattern(String s) {
 		return isRepeatingPattern(s, 5);
 	}
-	
+
 	public static String capitalizeEnforce(String s) {
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
-	
+
+	public static <T> T getOrDefault(Map<?, T> map, Object key, T def) {
+		T t = map.get(key);
+		if (t == null) return def;
+		return t;
+	}
+
 	public static boolean isRepeatingPattern(String s, int maxRepeatingChar) {
 		int parsed = s.replaceAll("(.+?)\\1+", "$1").length();
 		parsed = parsed + maxRepeatingChar;
 		int unparsed = s.length();
 		return unparsed > parsed;
 	}
-	
+
 	public static String getDownload(String url, String groupId, String artifactId, String version) {
 		if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
 		return String.format("%s/%s/%s/%s/%s-%s.jar", url, groupId.replace('.', '/'), artifactId, version, artifactId, version);
@@ -44,16 +58,8 @@ public class Utility {
 		}
 		return extension;
 	}
-	
-	public static String getDate(OffsetDateTime geez) {
-		StringBuilder sb = new StringBuilder();
-		LocalDateTime time = geez.toLocalDateTime();
-		sb.append(time.getYear()).append("-").append(time.getMonth()).append("-").append(time.getDayOfMonth());
-		sb.append(" ").append(time.getHour()).append(":").append(time.getMinute()).append(":").append(time.getSecond());
-		return sb.toString();
-	}
-	
-	
+
+
 	public static String getDate() {
 		Formatter formatter = new Formatter();
 		Calendar c = Calendar.getInstance();

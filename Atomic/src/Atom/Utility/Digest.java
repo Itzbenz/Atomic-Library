@@ -3,19 +3,20 @@ package Atom.Utility;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import Atom.File.FileUtility;
+
 public class Digest {
-	
-	
+
+
 	public static byte[] sha256(String text) {
 		return sha256(text.getBytes());
 	}
-	
+
 	public static byte[] sha256(File file) throws IOException {
-		return sha256(Files.readAllBytes(file.toPath()));
+		return sha256(FileUtility.readAllBytes(file));
 	}
 	
 	public static byte[] sha256(byte[] bytes) {
@@ -33,7 +34,7 @@ public class Digest {
 	}
 	
 	public static byte[] sha1(File file) throws IOException {
-		return sha1(Files.readAllBytes(file.toPath()));
+		return sha1(FileUtility.readAllBytes(file));
 	}
 	
 	public static byte[] sha1(byte[] bytes) {
@@ -52,7 +53,7 @@ public class Digest {
 	}
 	
 	public static byte[] md5(File file) throws NoSuchAlgorithmException, IOException {
-		return md5(Files.readAllBytes(file.toPath()));
+		return md5(FileUtility.readAllBytes(file));
 	}
 	
 	public static byte[] md5(byte[] bytes) throws NoSuchAlgorithmException {

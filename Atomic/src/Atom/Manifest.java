@@ -1,16 +1,16 @@
 package Atom;
 
 
-import Atom.Net.HTPS;
-import Atom.Reflect.Reflect;
-import Atom.Utility.Digest;
-import Atom.Utility.Encoder;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
+import Atom.Net.HTPS;
+import Atom.Reflect.Reflect;
+import Atom.Utility.Digest;
+import Atom.Utility.Encoder;
 
 
 public class Manifest {
@@ -18,7 +18,7 @@ public class Manifest {
 	public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
 	protected static String platform = "Ozone.Core";
 	private static String signature;
-	
+
 	static {
 		try {
 			signature = Encoder.getString(Digest.sha1(Reflect.getCurrentJar(Manifest.class)));
@@ -29,11 +29,11 @@ public class Manifest {
 	}
 	
 	public static File[] getLibs() {
-		
+
 		ArrayList<File> f = new ArrayList<>();
-		library.forEach(library1 -> {
-			f.add(library1.jar);
-		});
+		for (Library l : library)
+			f.add(l.jar);
+
 		return f.toArray(new File[0]);
 	}
 	
@@ -54,7 +54,7 @@ public class Manifest {
 	
 	public static boolean javacExists() {
 		try {
-			return javax.tools.ToolProvider.getSystemJavaCompiler() != null;//???
+			return Manifest.class.getClassLoader().loadClass("javax.tools.ToolProvider").getMethod("getSystemJavaCompiler").invoke(null) != null;//???
 		}catch (Throwable t) {
 			return false;
 		}

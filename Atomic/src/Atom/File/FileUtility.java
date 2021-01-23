@@ -1,15 +1,23 @@
 package Atom.File;
 
-import Atom.Manifest;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
-import static Atom.Reflect.OS.*;
+import Atom.Manifest;
+import Atom.Utility.Encoder;
+
+import static Atom.Reflect.OS.getProperty;
+import static Atom.Reflect.OS.isAndroid;
+import static Atom.Reflect.OS.isIos;
+import static Atom.Reflect.OS.isLinux;
+import static Atom.Reflect.OS.isMac;
+import static Atom.Reflect.OS.isWindows;
 
 public class FileUtility {
 	
@@ -49,34 +57,78 @@ public class FileUtility {
 		command.add(javaBin);
 		command.add("-jar");
 		command.add(jar.getPath());
-		
+
 		ProcessBuilder builder = new ProcessBuilder(command);
 		return builder.start();
 	}
-	
-	
-	public static void append(File file, byte[] bytes) throws IOException {
-		Files.write(file.toPath(), bytes, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+
+
+	public static boolean append(File file, byte[] bytes) throws IOException {
+		return write(file, bytes, true);
 	}
-	
-	public static void write(File file, byte[] bytes) throws IOException {
-		makeFile(file);
-		Files.write(file.toPath(), bytes, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+
+	public static boolean write(File dst, byte[] bytes) {
+		return write(dst, bytes, false);
 	}
-	
-	
+
+	public static boolean write(File dst, byte[] bytes, boolean append) {
+		try (OutputStream out = new FileOutputStream(dst, append)) {
+			out.write(bytes);
+			out.flush();
+			out.close();
+			return true;
+		} catch (Throwable t) {
+			return false;
+		}
+
+	}
+
+
 	public static boolean makeFile(File file) {
 		file.getParentFile().mkdirs();
 		try {
 			return file.createNewFile();
-		}catch (Throwable ignored) {
+		} catch (Throwable ignored) {
 		}
 		return false;
 	}
-	
+
 	public static File temp() {
 		File temp = new File(Manifest.currentFolder, System.currentTimeMillis() + ".temp");
 		temp.deleteOnExit();
 		return temp;
+	}
+
+	public static byte[] readAllBytes(File src) throws IOException {
+		InputStream is = new FileInputStream(src);
+		return Encoder.readAllBytes(is);
+
+	}
+
+	public static boolean replace(File src, File dst) {
+		return copy(src, dst, true);
+	}
+
+	public static boolean copy(File src, File dst) {
+		return copy(src, dst, false);
+	}
+
+	public static boolean copy(File src, File dst, boolean replace) {
+		if (dst.exists() && replace) return false;
+		try (InputStream in = new FileInputStream(src)) {
+			try (OutputStream out = new FileOutputStream(dst)) {
+				// Transfer bytes from in to out
+				byte[] buf = new byte[1024];
+				int len;
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				out.flush();
+				out.close();
+			}
+			return true;
+		} catch (Throwable t) {
+			return false;
+		}
 	}
 }

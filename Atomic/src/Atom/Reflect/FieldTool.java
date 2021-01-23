@@ -1,12 +1,12 @@
 package Atom.Reflect;
 
-import Atom.Utility.Random;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import Atom.Utility.Random;
 
 import static Atom.Reflect.Reflect.findDeclaredField;
 
@@ -83,7 +83,7 @@ public class FieldTool {
 	}
 	
 	public static void assignRandom(Field field, Object o) throws IllegalAccessException {
-		switch (field.getType().getTypeName()) {
+		switch (field.getType().getName()) {
 			case ("java.lang.String"):
 				field.set(o, Random.getString());
 				break;

@@ -16,24 +16,27 @@
 
 package Atom.Net;
 
-import Atom.File.FileUtility;
-import Atom.Utility.Encoder;
-import Atom.Utility.Pool;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Files;
 import java.util.concurrent.Future;
 
+import Atom.File.FileUtility;
+import Atom.Utility.Encoder;
+import Atom.Utility.Pool;
+
 public class Request {
-	
+
 	public static byte[] get(String url) throws IOException {
 		return Encoder.readAllBytes(new URL(url).openStream());
 	}
-	
+
 	public static Future<File> download(String url, File target) {
 		return Pool.submit(() -> {
 			try {
@@ -51,10 +54,10 @@ public class Request {
 		if (target.exists()) target.delete();
 		FileOutputStream fos = new FileOutputStream(temp);
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-		Files.copy(temp.toPath(), target.toPath());
+		FileUtility.replace(temp, target);
 		return target;
 	}
-	
+
 	public static String getPublicIP() {
 		String ip = "";
 		//Q: why http ?

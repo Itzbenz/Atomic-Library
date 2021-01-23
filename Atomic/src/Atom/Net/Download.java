@@ -16,16 +16,19 @@
 
 package Atom.Net;
 
-import Atom.Utility.Pool;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
+
+import Atom.File.FileUtility;
+import Atom.Utility.Pool;
 
 //probably will be relocated to Atom library
 public class Download implements Runnable {
@@ -107,24 +110,24 @@ public class Download implements Runnable {
 		
 		// Specify what portion of file to download.
 		connection.setRequestProperty("Range", "bytes=" + downloaded + "-");
-		
+
 		// Connect to server.
 		connection.connect();
-		
+
 		// Make sure response code is in the 200 range.
 		if (connection.getResponseCode() / 100 != 2) {
 			throw new IOException("Response Code: " + connection.getResponseCode());
 		}
-		
+
 		// Check for valid content length.
-		long contentLength = connection.getContentLengthLong();
+		long contentLength = Long.parseLong(connection.getHeaderField("content-length"));
 		if (contentLength < 1) {
 			throw new IOException("Invalid content length");
 		}
-		
+
 		if (size == -1) {
 			size = contentLength;
-			
+
 		}
 		setMax(size);
 		stream = connection.getInputStream();
@@ -151,17 +154,18 @@ public class Download implements Runnable {
 			outputStream.close();
 		}catch (Exception ignored) {
 		}
-		
+
 		// Close connection to server.
 		try {
 			stream.close();
-		}catch (Exception ignored) {
+		} catch (Exception ignored) {
 		}
-		
-		
+
+
 		file.getParentFile().mkdirs();
-		if (temp.exists()) Files.copy(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		else throw new FileNotFoundException(temp.getAbsolutePath() + " not found. transfer failure ?");
+		if (temp.exists()) FileUtility.replace(temp, file);
+		else
+			throw new FileNotFoundException(temp.getAbsolutePath() + " not found. transfer failure ?");
 		if (pw != null) pw.accept("Finished");
 	}
 	

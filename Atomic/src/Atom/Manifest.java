@@ -12,6 +12,8 @@ import Atom.Net.HTPS;
 import Atom.Utility.Digest;
 import Atom.Utility.Encoder;
 
+import static Atom.Reflect.Reflect.getCurrentJar;
+
 
 public class Manifest {
 	public static final ArrayList<Library> library = new ArrayList<>();
@@ -33,9 +35,6 @@ public class Manifest {
 		tryLoadExtension();
 	}
 
-	public static File getCurrentJar() {
-		return new File(Manifest.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-	}
 
 	public static File[] getLibs() {
 

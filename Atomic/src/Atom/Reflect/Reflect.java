@@ -146,18 +146,21 @@ public class Reflect {
 	}
 	
 	public static File getCurrentJar(Class<?> clazz) {
-		//fool proof
-		return new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
+		try {
+			return new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
+		} catch (Throwable t) {
+			return null;//bruh
+		}
 	}
 	
 	public static File getCurrentJar(Object clazz) {
 		//more fool proof
-		return new File(clazz.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+		return getCurrentJar(clazz.getClass());
 	}
 	
 	public static File getCurrentJar() {
 		//even more fool proof
-		return new File(Reflect.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		return getCurrentJar(Reflect.class);
 	}
 	
 	public static <E> E getField(Class<?> clazz, String name, Object object) {

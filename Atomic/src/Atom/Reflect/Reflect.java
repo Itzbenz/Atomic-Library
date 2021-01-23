@@ -44,8 +44,8 @@ public class Reflect {
 	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {
 		if (type.equals(String.class)) return data;
-		if (data.length() != 0) return null;
-
+		if (data.length() == 0) return null;
+		
 		if (type.getName().equals(boolean.class.getName())) {
 			if (data.equalsIgnoreCase("true")) return true;
 			else if (data.equalsIgnoreCase("false")) return false;
@@ -86,8 +86,7 @@ public class Reflect {
 	}
 	
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e, ClassLoader cl) {
-		ConfigurationBuilder config = packageName.length() == 0 ? getConfigBuilder(SubTypesScanner.class) : getConfigBuilder(packageName, SubTypesScanner.class);
-		config.addClassLoader(cl);
+		ConfigurationBuilder config = packageName.length() == 0 ? getConfigBuilder(SubTypesScanner.class) : getConfigBuilder(packageName, SubTypesScanner.class, cl);
 		Reflections reflections = new Reflections(config);
 		return reflections.getSubTypesOf(e);
 	}

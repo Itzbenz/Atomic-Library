@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ConfigurationBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,12 +25,6 @@ public class Reflect {
 
 
 
-	public static ConfigurationBuilder getConfigBuilder(final Object... param) {
-		ConfigurationBuilder def;
-		def = ConfigurationBuilder.build(param);
-		def.addClassLoader(Reflect.class.getClassLoader());
-		return def;
-	}
 
 	public static String getCallerClass() {
 		return Thread.currentThread().getStackTrace()[3].getClassName();
@@ -86,8 +79,7 @@ public class Reflect {
 	}
 	
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e, ClassLoader cl) {
-		ConfigurationBuilder config = packageName.length() == 0 ? getConfigBuilder(SubTypesScanner.class) : getConfigBuilder(packageName, SubTypesScanner.class, cl);
-		Reflections reflections = new Reflections(config);
+		Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
 		return reflections.getSubTypesOf(e);
 	}
 	

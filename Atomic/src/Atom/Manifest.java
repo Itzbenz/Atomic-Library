@@ -1,17 +1,17 @@
 package Atom;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
 import Atom.File.Repo;
 import Atom.Net.HTPS;
 import Atom.Reflect.Reflect;
 import Atom.Utility.Digest;
 import Atom.Utility.Encoder;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 
 public class Manifest {
@@ -56,6 +56,10 @@ public class Manifest {
 			Class.forName("Atom.AndroidManifest");
 		}catch (Throwable ignored) {
 		}
+	}
+	
+	public static Object javac() {
+		return javax.tools.ToolProvider.getSystemJavaCompiler();
 	}
 	
 	public static boolean javacExists() {

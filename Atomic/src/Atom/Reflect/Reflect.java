@@ -1,5 +1,11 @@
 package Atom.Reflect;
 
+import Atom.Manifest;
+import Atom.Struct.Filter;
+import Atom.Utility.Random;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.serializers.JsonSerializer;
@@ -16,10 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
-import Atom.Manifest;
-import Atom.Struct.Filter;
-import Atom.Utility.Random;
 
 public class Reflect {
 
@@ -57,25 +59,43 @@ public class Reflect {
 			else if (data.equalsIgnoreCase("false")) return false;
 			else return null;
 		}
-
+		
 		if (type.getName().equals(int.class.getName())) return Integer.parseInt(data);
 		if (type.getName().equals(long.class.getName())) return Long.parseLong(data);
 		if (type.getName().equals(double.class.getName())) return Double.parseDouble(data);
 		if (type.getName().equals(float.class.getName())) return Float.parseFloat(data);
 		if (type.getName().equals(short.class.getName())) return Short.parseShort(data);
 		if (type.getName().equals(byte.class.getName())) return Byte.parseByte(data);
-
+		
 		return null;
 	}
-
+	
+	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e) {
+		return getExtendedClassFromJson(json, e, Reflect.class.getClassLoader());
+	}
+	
+	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl) {
+		JsonObject jo = JsonParser.parseString(json).getAsJsonObject().get("store").getAsJsonObject().get("storeMap").getAsJsonObject().get("SubTypesScanner").getAsJsonObject();
+		ArrayList<Class<? extends E>> ar = new ArrayList<>();
+		for (JsonElement j : jo.get(e.getName()).getAsJsonArray()) {
+			try {
+				String c = j.getAsString();
+				Class<? extends E> h = (Class<? extends E>) cl.loadClass(c);
+				ar.add(h);
+			}catch (Throwable ignored) {
+			
+			}
+		}
+		return ar;
+	}
+	
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e) throws IOException {
 		ConfigurationBuilder config = packageName.length() == 0 ? getConfigBuilder(SubTypesScanner.class) : getConfigBuilder(packageName, SubTypesScanner.class);
 		Reflections reflections = new Reflections(config);
-		if (internalExists)
-			reflections.collect(Manifest.internalRepo.getResourceAsStream(internalJson));
+		if (internalExists) reflections.collect(Manifest.internalRepo.getResourceAsStream(internalJson));
 		return reflections.getSubTypesOf(e);
 	}
-
+	
 	public static void setInternalJson(String s) {
 		internalExists = Manifest.internalRepo.resourceExists(s);
 		internalJson = s;

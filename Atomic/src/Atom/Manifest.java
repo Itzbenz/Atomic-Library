@@ -1,25 +1,25 @@
 package Atom;
 
 
-import Atom.File.Repo;
-import Atom.Net.HTPS;
-import Atom.Reflect.Reflect;
-import Atom.Utility.Digest;
-import Atom.Utility.Encoder;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import Atom.File.Repo;
+import Atom.Net.HTPS;
+import Atom.Reflect.Reflect;
+import Atom.Utility.Digest;
+import Atom.Utility.Encoder;
+
 
 public class Manifest {
 	public static final ArrayList<Library> library = new ArrayList<>();
-	public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
 	protected static String platform = "Ozone.Core";
 	private static String signature;
 	public static Repo internalRepo = new Repo();
+	public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
 
 	static {
 		try {

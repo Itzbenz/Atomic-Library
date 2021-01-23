@@ -1,8 +1,6 @@
 package Atom.Utility;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -34,6 +32,15 @@ public class Encoder {
 		}
 		
 		return buffer;
+	}
+	
+	public static String readString(InputStream stream) throws IOException {
+		BufferedReader r = new BufferedReader(new InputStreamReader(stream));
+		StringBuilder total = new StringBuilder();
+		for (String line; (line = r.readLine()) != null; ) {
+			total.append(line).append('\n');
+		}
+		return total.toString();
 	}
 	
 	//copied from java

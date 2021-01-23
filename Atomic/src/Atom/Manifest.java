@@ -9,7 +9,6 @@ import java.util.concurrent.Future;
 
 import Atom.File.Repo;
 import Atom.Net.HTPS;
-import Atom.Reflect.Reflect;
 import Atom.Utility.Digest;
 import Atom.Utility.Encoder;
 
@@ -19,21 +18,25 @@ public class Manifest {
 	protected static String platform = "Ozone.Core";
 	private static String signature;
 	public static Repo internalRepo = new Repo();
-	public static File currentJar = Reflect.getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
+	public static File currentJar = getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
 
 	static {
 		try {
-			internalRepo.addRepo(Reflect.getCurrentJar().toURI().toURL());
+			internalRepo.addRepo(getCurrentJar().toURI().toURL());
 		} catch (Throwable ignored) {
 		}
 		try {
-			signature = Encoder.getString(Digest.sha1(Reflect.getCurrentJar(Manifest.class)));
+			signature = Encoder.getString(Digest.sha1(getCurrentJar()));
 		} catch (Throwable aa) {
 			signature = aa.toString();
 		}
 		tryLoadExtension();
 	}
-	
+
+	public static File getCurrentJar() {
+		return new File(Manifest.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+	}
+
 	public static File[] getLibs() {
 
 		ArrayList<File> f = new ArrayList<>();
@@ -42,7 +45,7 @@ public class Manifest {
 
 		return f.toArray(new File[0]);
 	}
-	
+
 	public static boolean isWindows() {
 		return System.getProperty("os.name").toUpperCase().contains("WIN");
 	}

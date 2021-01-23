@@ -20,9 +20,14 @@ public class Manifest {
 	protected static String platform = "Ozone.Core";
 	private static String signature;
 	public static RepoInternal internalRepo = new RepoInternal();
-	public static File currentJar = getCurrentJar(), currentFolder = currentJar.getParentFile(), workingDir = new File("Atomic");
+	public static File currentJar = null, currentFolder = null, workingDir = new File("Atomic/");
 
 	static {
+		try {
+			currentJar = getCurrentJar();
+			currentFolder = currentJar.getParentFile();
+		} catch (Throwable ignored) {
+		}
 		try {
 			internalRepo.addRepo(getCurrentJar().toURI().toURL());
 		} catch (Throwable ignored) {

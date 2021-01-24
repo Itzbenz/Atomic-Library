@@ -16,7 +16,7 @@
 
 package Atom.Utility;
 
-import Atom.Net.Request;
+import Atom.Net.Download;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +38,7 @@ public class Cache {
 		return u;
 	}
 	
+	
 	public static URL http(String s) throws IOException {
 		return http(new URL(s));
 	}
@@ -48,7 +49,8 @@ public class Cache {
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
 		File target = new File(cache, url.getFile().replaceAll("/", "."));
 		if (target.exists()) return target.toURI().toURL();
-		Request.downloadSync(url.toExternalForm(), target);
+		Download d = new Download(url, target);
+		d.run();
 		if (target.exists()) return target.toURI().toURL();
 		else throw new FileNotFoundException(target.getAbsolutePath());
 	}

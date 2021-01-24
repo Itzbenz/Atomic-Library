@@ -26,7 +26,7 @@ public class Time {
 	final long src;
 	
 	public Time() {
-		this(TimeUnit.NANOSECONDS);
+		this(TimeUnit.MICROSECONDS);
 	}
 	
 	public Time(TimeUnit tu) {

@@ -64,6 +64,10 @@ public class Time {
 		return elapsed(time).toString();
 	}
 	
+	public String elapsedS() {
+		return elapsed().toString();
+	}
+	
 	public Time elapsedF(Time time) {
 		long tg = time.convert(tu).src;
 		long calc = src - tg;

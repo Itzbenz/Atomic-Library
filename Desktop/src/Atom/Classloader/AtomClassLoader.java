@@ -17,7 +17,7 @@
 package Atom.Classloader;
 
 
-import Atom.Net.HTPS;
+import Atom.Net.Request;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class AtomClassLoader extends URLClassLoader {
 			temp.getParentFile().mkdirs();
 			if (!temp.exists()) {
 				try {
-					HTPS.downloadSync(url.toExternalForm(), temp);
+					Request.downloadSync(url.toExternalForm(), temp);
 				}catch (IOException e) { }
 			}
 			if (temp.exists()) try {

@@ -31,7 +31,7 @@ import java.util.Objects;
  * @since 1.8
  */
 
-//is this hack work for android ?
+//hack work for 26 > LOL
 @FunctionalInterface
 public interface Consumer<T> {
 

@@ -2,7 +2,6 @@ package Atom.Struct;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 //some epic stuff from arc
 
 /**
@@ -435,7 +434,7 @@ public class Queue<T> implements Iterable<T> {
 			T myValue = myValues[myIndex];
 			Object itsValue = itsValues[itsIndex];
 			
-			if (!(Objects.equals(myValue, itsValue))) return false;
+			if (!(myValue.equals(itsValue))) return false;
 			myIndex++;
 			itsIndex++;
 			if (myIndex == myBackingLength) myIndex = 0;

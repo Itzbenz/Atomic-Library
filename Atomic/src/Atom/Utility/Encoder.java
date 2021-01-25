@@ -1,7 +1,7 @@
 package Atom.Utility;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class Encoder {
@@ -18,7 +18,7 @@ public class Encoder {
 	}
 	
 	public static String getString(byte[] bytes) {
-		return new String(bytes, StandardCharsets.UTF_8);
+		return new String(bytes, Charset.forName("UTF-8"));
 	}
 	
 	public static ByteArrayOutputStream toByteArrayOutputStream(InputStream is) throws IOException {

@@ -1,8 +1,6 @@
 package Atom.File;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +15,7 @@ public class SerializeData {
 		oos.writeObject(ish);
 		oos.close();
 		FileUtility.makeFile(file);
-		Files.copy(temp.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		FileUtility.copy(temp, file);
 	}
 	
 	public static void dataOut(DataArray<Object> ish, File file) throws IOException {

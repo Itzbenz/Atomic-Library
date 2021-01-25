@@ -1,16 +1,13 @@
 package Atom;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
 import Atom.File.RepoInternal;
-import Atom.Net.HTPS;
 import Atom.Utility.Digest;
 import Atom.Utility.Encoder;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Future;
 
 import static Atom.Reflect.Reflect.getCurrentJar;
 
@@ -77,10 +74,6 @@ public class Manifest {
 		}
 	}
 	
-	public static void downloadAll() throws ExecutionException, InterruptedException, IOException {
-		for (Library l : library)
-			if (!l.download().get().exists()) throw new IOException("Failed to download: " + l.jar.getName());
-	}
 	
 	public static String getSignature() {
 		return signature;
@@ -119,10 +112,6 @@ public class Manifest {
 			return jar;
 		}
 		
-		public Future<File> download() {
-			if (download != null) return download;
-			return download = HTPS.download(downloadURL, jar);
-		}
 		
 		@Override
 		public String toString() {

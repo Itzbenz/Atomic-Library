@@ -29,7 +29,7 @@ public class Timer {
 	}
 	
 	public boolean get() {
-		long elapsed = durationUnit.convert(Countdown.getActual(last), TimeUnit.MICROSECONDS);
+		long elapsed = durationUnit.convert(System.currentTimeMillis() - last, TimeUnit.MICROSECONDS);
 		boolean b = elapsed > duration;
 		if (b) last = System.currentTimeMillis();
 		return b;

@@ -56,7 +56,7 @@ public class Time {
 	
 	public Time elapsed(Time time) {
 		long tg = time.convert(tu).src;
-		long calc = src - tg;
+		long calc = tg - src;
 		return new Time(tu, calc);
 	}
 	

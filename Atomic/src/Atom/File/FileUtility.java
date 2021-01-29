@@ -1,23 +1,12 @@
 package Atom.File;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-
 import Atom.Manifest;
 import Atom.Utility.Encoder;
 
-import static Atom.Reflect.OS.getProperty;
-import static Atom.Reflect.OS.isAndroid;
-import static Atom.Reflect.OS.isIos;
-import static Atom.Reflect.OS.isLinux;
-import static Atom.Reflect.OS.isMac;
-import static Atom.Reflect.OS.isWindows;
+import java.io.*;
+import java.util.ArrayList;
+
+import static Atom.Reflect.OS.*;
 
 public class FileUtility {
 	
@@ -85,10 +74,12 @@ public class FileUtility {
 
 
 	public static boolean makeFile(File file) {
-		file.getParentFile().mkdirs();
+		try {
+			file.getParentFile().mkdirs();
+		}catch (Throwable javabeinggay) {}
 		try {
 			return file.createNewFile();
-		} catch (Throwable ignored) {
+		}catch (Throwable ignored) {
 		}
 		return false;
 	}

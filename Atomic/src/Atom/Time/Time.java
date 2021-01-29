@@ -26,11 +26,11 @@ public class Time {
 	final long src;
 	
 	public Time() {
-		this(TimeUnit.MICROSECONDS);
+		this(TimeUnit.NANOSECONDS, System.nanoTime());
 	}
 	
 	public Time(TimeUnit tu) {
-		this(tu, tu.convert(System.nanoTime(), TimeUnit.NANOSECONDS));
+		this(tu, tu.convert(System.currentTimeMillis(), TimeUnit.MICROSECONDS));
 	}
 	
 	public Time(TimeUnit tu, long src) {

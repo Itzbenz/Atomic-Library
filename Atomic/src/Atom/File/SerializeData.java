@@ -19,7 +19,7 @@ public class SerializeData {
 	}
 	
 	public static void dataOut(DataArray<Object> ish, File file) throws IOException {
-		dataOut(ish, file);
+		dataOut((Object) ish, file);
 	}
 	
 	

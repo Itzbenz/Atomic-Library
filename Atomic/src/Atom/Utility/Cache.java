@@ -16,6 +16,7 @@
 
 package Atom.Utility;
 
+import Atom.File.FileUtility;
 import Atom.Net.Download;
 
 import java.io.File;
@@ -54,11 +55,20 @@ public class Cache {
 		return http(new URL(s));
 	}
 	
+	public static File urlToFile(URL url) {
+		return new File(cache, url.getHost() + "/" + url.getFile().replaceAll("/", "."));
+	}
+	
+	public static boolean updateCache(URL url, byte[] bytes) {
+		File target = urlToFile(url);
+		return FileUtility.write(target, bytes);
+	}
+	
 	public static URL http(URL url) throws IOException {
 		if (url == null) return null;
 		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
-		File target = new File(cache, url.getHost() + "/" + url.getFile().replaceAll("/", "."));
+		File target = urlToFile(url);
 		if (target.exists()) return target.toURI().toURL();
 		Download d = new Download(url, target);
 		d.run();

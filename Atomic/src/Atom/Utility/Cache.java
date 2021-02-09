@@ -28,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Cache {
 	public static File cache = new File("cache/");
+	public static TimeUnit timeUnitExpire = TimeUnit.DAYS;
+	public static long maxAge = 2;
 	
 	static {
 		cache.mkdirs();
@@ -70,7 +72,7 @@ public class Cache {
 		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
 		File target = urlToFile(url);
-		if (target.exists() && TimeUnit.DAYS.convert(System.currentTimeMillis() - Cache.urlToFile(url).lastModified(), TimeUnit.MICROSECONDS) < 2)
+		if (target.exists() && timeUnitExpire.convert(System.currentTimeMillis() - Cache.urlToFile(url).lastModified(), TimeUnit.MICROSECONDS) < maxAge)
 			return target.toURI().toURL();
 		Throwable download = null;
 		try {

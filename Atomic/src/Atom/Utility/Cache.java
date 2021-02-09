@@ -31,6 +31,17 @@ public class Cache {
 		cache.mkdirs();
 	}
 	
+	public static URL tryCache(String url) {
+		try {
+			return tryCache(new URL(url));
+		}catch (Throwable ignored) {}
+		try {
+			return new URL(url);
+		}catch (Throwable t) {
+			throw new IllegalArgumentException(t);
+		}
+	}
+	
 	public static URL tryCache(URL u) {
 		try {
 			return http(u);

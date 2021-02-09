@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class Cache {
 	public static File cache = new File("cache/");
@@ -69,10 +70,17 @@ public class Cache {
 		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
 		File target = urlToFile(url);
+		if (target.exists() && TimeUnit.DAYS.convert(System.currentTimeMillis() - Cache.urlToFile(url).lastModified(), TimeUnit.MICROSECONDS) < 2)
+			return target.toURI().toURL();
+		Throwable download = null;
+		try {
+			Download d = new Download(url, target);
+			d.run();
+		}catch (Throwable i) {
+			download = i;
+		}
 		if (target.exists()) return target.toURI().toURL();
-		Download d = new Download(url, target);
-		d.run();
-		if (target.exists()) return target.toURI().toURL();
-		else throw new FileNotFoundException(target.getAbsolutePath());
+		else if (download == null) throw new FileNotFoundException(target.getAbsolutePath());
+		else throw new RuntimeException(download);
 	}
 }

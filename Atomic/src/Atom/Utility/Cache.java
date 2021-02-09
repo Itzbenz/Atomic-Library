@@ -58,7 +58,7 @@ public class Cache {
 		if (url == null) return null;
 		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
-		File target = new File(cache, url.getFile().replaceAll("/", "."));
+		File target = new File(cache, url.getHost() + "/" + url.getFile().replaceAll("/", "."));
 		if (target.exists()) return target.toURI().toURL();
 		Download d = new Download(url, target);
 		d.run();

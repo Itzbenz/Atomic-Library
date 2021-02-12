@@ -7,17 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Utility {
@@ -96,7 +86,7 @@ public class Utility {
 		return t3;
 	}
 	
-	public static String[] getArray(ArrayList<String> arrayList) {
+	public static String[] getArray(List<String> arrayList) {
 		String[] arr = new String[arrayList.size()];
 		arr = arrayList.toArray(arr);
 		return arr;
@@ -220,7 +210,7 @@ public class Utility {
 		
 	}
 	
-	public static String joiner(ArrayList<String> datas, String prefix) {
+	public static String joiner(List<String> datas, String prefix) {
 		return joiner(getArray(datas), prefix);
 	}
 	

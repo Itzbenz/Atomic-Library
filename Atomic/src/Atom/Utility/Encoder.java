@@ -22,6 +22,10 @@ public class Encoder {
 		return new String(bytes, Charset.forName("UTF-8"));
 	}
 	
+	public String convertFromBaseToBase(String str, int fromBase, int toBase) {
+		return Integer.toString(Integer.parseInt(str, fromBase), toBase);
+	}
+	
 	public static String urlEncodeUTF8(String s) {
 		try {
 			return URLEncoder.encode(s, "UTF-8");

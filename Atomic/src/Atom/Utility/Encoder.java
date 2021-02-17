@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class Encoder {
-	private static final int MAX_SKIP_BUFFER_SIZE = 2048;
 	private static final int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
 	private static final int DEFAULT_BUFFER_SIZE = 8192;
 	

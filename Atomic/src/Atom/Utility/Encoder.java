@@ -22,7 +22,15 @@ public class Encoder {
 	}
 	
 	public String convertFromBaseToBase(String str, int fromBase, int toBase) {
-		return Integer.toString(Integer.parseInt(str, fromBase), toBase);
+		return Long.toString(Long.parseLong(str, fromBase), toBase);
+	}
+	
+	public long stringToLong(String s) {
+		return stringToLong(s, 26);
+	}
+	
+	public long stringToLong(String s, int base) {
+		return Long.parseLong(s, base);
 	}
 	
 	public static String urlEncodeUTF8(String s) {

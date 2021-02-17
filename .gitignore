@@ -126,3 +126,6 @@ android/libs/
 /Aindustry/build/tmp/compileJava/source-classes-mapping.txt
 Aindustry/build/resources/Main/mod.json
 /Atomic/src-gen/
+/Annotation/build/libs/Annotation-2.0.1.jar
+/Atomic/out/production/resources/dependencies-atomic
+/Desktop/out/production/resources/dependencies-atomic-desktop

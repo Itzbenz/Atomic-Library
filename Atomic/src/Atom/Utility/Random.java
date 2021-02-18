@@ -13,11 +13,19 @@ public class Random extends java.util.Random {
 	}
 	
 	public static String getString(int length) {
+		return getString(length, 125);
+	}
+	
+	public static String getString(int length, int max) {
+		return getString(length, 33, max);
+	}
+	
+	public static String getString(int length, int min, int max) {
 		if (length < 0) return "";
 		StringBuilder sb = new StringBuilder();
 		
 		for (int i = 0; i < length; i++) {
-			sb.append((char) getInt(33, 125));
+			sb.append((char) getInt(min, max));
 		}
 		return sb.toString();
 	}

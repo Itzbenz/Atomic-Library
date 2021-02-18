@@ -40,11 +40,9 @@ public class Repo {
 	public static URL getResource(URL u, String s) {
 		try {
 			URL url = new URL(u.toString() + (u.toString().endsWith("/") ? "" : "/") + s);
-			url.getContent();
-			return url;
-		}catch (Throwable e) {
-			return null;
-		}
+			if (url.getContent() != null) return url;
+		}catch (Throwable ignored) {}
+		return null;
 	}
 	
 	public URL getResource(String s) {

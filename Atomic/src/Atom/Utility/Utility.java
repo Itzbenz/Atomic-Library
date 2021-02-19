@@ -11,17 +11,25 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class Utility {
-
+	
 	public static String jitpack = "https://jitpack.io/";
-
+	
 	public static boolean isRepeatingPattern(String s) {
 		return isRepeatingPattern(s, 5);
 	}
-
+	
+	public static String repeatThisString(String s, int howMany) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < howMany; i++) {
+			sb.append(s);
+		}
+		return sb.toString();
+	}
+	
 	public static String capitalizeEnforce(String s) {
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
-
+	
 	public static <T> T getOrDefault(Map<?, T> map, Object key, T def) {
 		T t = map.get(key);
 		if (t == null) return def;

@@ -66,6 +66,7 @@ subprojects {
     }
     artifacts {
         archives sourcesJar
+        archives jar
     }
     tasks.withType(JavaCompile) {
         new File(projectDir, "resources/").mkdirs()

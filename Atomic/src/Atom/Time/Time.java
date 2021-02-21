@@ -47,11 +47,14 @@ public class Time {
 	}
 	
 	public Time convert(TimeUnit to) {
+		if (tu.equals(to)) return this;//bruh
 		return new Time(to, to.convert(src, tu));
 	}
 	
+	
+	//wtf is this
 	public Time elapsed() {
-		return elapsed(new Time());
+		return elapsed(tu.equals(TimeUnit.NANOSECONDS) ? new Time() : new Time(TimeUnit.MICROSECONDS));
 	}
 	
 	public Time elapsed(Time time) {

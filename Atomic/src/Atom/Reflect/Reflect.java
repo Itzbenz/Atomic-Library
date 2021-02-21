@@ -22,20 +22,20 @@ import java.util.List;
 import java.util.Set;
 
 public class Reflect {
-
-
-
-
-
-	public static String getCallerClass() {
-		return Thread.currentThread().getStackTrace()[3].getClassName();
-	}
-
-
-	public static StackTraceElement getCallerClassStackTrace() {
+	
+	
+	private static int callerOffset() {
 		int def = 3;
 		if (OS.isAndroid) def++;
-		return Thread.currentThread().getStackTrace()[def];
+		return def;
+	}
+	
+	public static String getCallerClass() {
+		return Thread.currentThread().getStackTrace()[callerOffset()].getClassName();
+	}
+	
+	public static StackTraceElement getCallerClassStackTrace() {
+		return Thread.currentThread().getStackTrace()[callerOffset()];
 	}
 	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {

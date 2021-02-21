@@ -1,6 +1,6 @@
 package Atom.Runtime;
 
-import Atom.Manifest;
+import Atom.File.FileUtility;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -30,7 +30,7 @@ public class Compiler {
 		}catch (Throwable t) {
 			throw new RuntimeException("Flawed template", t);
 		}
-		RuntimeClass rc = compile(out, Manifest.workingDir, c);
+		RuntimeClass rc = compile(out, FileUtility.getTempDir(), c);
 		rc.load();
 		rc.invokeMethod("init");
 	}

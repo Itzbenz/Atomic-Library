@@ -14,20 +14,20 @@ import static Atom.Reflect.Reflect.getCurrentJar;
 
 public class Manifest {
 	public static final ArrayList<Library> library = new ArrayList<>();
-	protected static String platform = "Ozone.Core";
+	public static String platform = "Atomic";
 	private static String signature;
 	public static RepoInternal internalRepo = new RepoInternal();
-	public static File currentJar = null, currentFolder = null, workingDir = new File("Atomic/");
-
+	public static File currentJar = null, currentFolder = null;
+	
 	static {
 		try {
 			currentJar = getCurrentJar();
 			currentFolder = currentJar.getParentFile();
-		} catch (Throwable ignored) {
+		}catch (Throwable ignored) {
 		}
 		try {
 			internalRepo.addRepo(getCurrentJar().toURI().toURL());
-		} catch (Throwable ignored) {
+		}catch (Throwable ignored) {
 		}
 		try {
 			signature = Encoder.getString(Digest.sha1(getCurrentJar()));

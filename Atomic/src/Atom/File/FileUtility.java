@@ -10,6 +10,35 @@ import static Atom.Reflect.OS.*;
 
 public class FileUtility {
 	
+	public static File getCurrentWorkingDir() {
+		File f;
+		try {
+			f = new File(System.getProperty("user.dir"));
+			if (!f.exists()) throw new RuntimeException("no u");
+		}catch (Throwable ignored) {
+			try {
+				f = getTempDir();
+				if (!f.exists()) throw new RuntimeException("no u");
+			}catch (Throwable ignoreds) {
+				f = new File("Atomic/");
+			}
+		}
+		return f;
+	}
+	
+	public static File getTempDir() {
+		File f;
+		try {
+			f = new File(System.getProperty("java.io.tmpdir"));
+			if (!f.exists()) f.mkdirs();
+			
+			if (!f.exists()) throw new RuntimeException("no u");
+		}catch (Throwable ignored) {
+			f = new File("cache/");
+		}
+		return f;
+	}
+	
 	public static File getAppdata() {
 		if (isWindows) {
 			return new File(System.getenv("AppData"));
@@ -28,6 +57,8 @@ public class FileUtility {
 			}else {
 				return isMac ? new File(getProperty("user.home") + "/Library/Application Support/") : null;
 			}
+		}else if (isAndroid) {
+			return new File(getTempDir().getParent());
 		}else {
 			return null;
 		}

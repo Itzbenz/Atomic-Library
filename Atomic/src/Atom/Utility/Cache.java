@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class Cache {
-	public static File cache = new File("cache/");
+	public static File cache = FileUtility.getTempDir();
 	public static TimeUnit timeUnitExpire = TimeUnit.DAYS;
 	public static long maxAge = 2;
 	

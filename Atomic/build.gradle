@@ -15,7 +15,7 @@ dependencies{
         because("compile")
     }
 }
-tasks.withType(Jar){
+jar{
     archiveFileName = "${project.archivesBaseName}.jar"
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
@@ -43,3 +43,4 @@ tasks.withType(Jar){
     Files.write(txt.toPath(), sb.toString().getBytes(), StandardOpenOption.WRITE, StandardOpenOption.CREATE)
 
 }
+

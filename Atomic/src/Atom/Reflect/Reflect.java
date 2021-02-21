@@ -33,7 +33,9 @@ public class Reflect {
 
 
 	public static StackTraceElement getCallerClassStackTrace() {
-		return Thread.currentThread().getStackTrace()[3];
+		int def = 3;
+		if (OS.isAndroid) def++;
+		return Thread.currentThread().getStackTrace()[def];
 	}
 	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {

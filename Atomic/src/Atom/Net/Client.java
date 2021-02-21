@@ -30,8 +30,7 @@ public class Client {
 	}
 	
 	public void stop() {
-		inputHandler.interrupt();
-		inputHandler.stop();
+		while (inputHandler.isAlive()) inputHandler.interrupt();
 	}
 	
 	private void inputHandler() {

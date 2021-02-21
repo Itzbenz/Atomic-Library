@@ -1,11 +1,9 @@
 package Atom.Net;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import Atom.Utility.Random;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -13,8 +11,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-
-import Atom.Utility.Random;
 
 public class Servers {
 	// Local server
@@ -80,8 +76,7 @@ public class Servers {
 	
 	public void closeServer() {
 		run = false;
-		connectionHandler.interrupt();
-		connectionHandler.stop();
+		while (connectionHandler.isAlive()) connectionHandler.interrupt();
 	}
 	
 	private void handleConnection() {

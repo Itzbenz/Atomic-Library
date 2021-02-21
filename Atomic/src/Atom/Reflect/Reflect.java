@@ -1,5 +1,6 @@
 package Atom.Reflect;
 
+import Atom.Manifest;
 import Atom.Struct.Filter;
 import Atom.Utility.Random;
 import com.google.gson.JsonElement;
@@ -149,11 +150,19 @@ public class Reflect {
 		return s;
 	}
 	
+	public static String getClasspath(Class<?> c) {
+		return c.getName().replace('.', '/') + ".class";
+	}
+	
 	public static File getCurrentJar(Class<?> clazz) {
 		try {
 			return new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
-		} catch (Throwable t) {
-			return null;//bruh
+		}catch (Throwable t) {
+			try {
+				return new File(Manifest.internalRepo.getResource(getClasspath(clazz)).getFile());//this is brilliant
+			}catch (Throwable tt) {
+				return null;//bruh
+			}
 		}
 	}
 	

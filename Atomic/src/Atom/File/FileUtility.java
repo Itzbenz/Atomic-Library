@@ -17,10 +17,16 @@ public class FileUtility {
 			if (!f.exists()) throw new RuntimeException("no u");
 		}catch (Throwable ignored) {
 			try {
-				f = getTempDir();
+				f = new File(getAppdata(), "Atomic/");
 				if (!f.exists()) throw new RuntimeException("no u");
 			}catch (Throwable ignoreds) {
-				f = new File("Atomic/");
+				try {
+					f = new File(getTempDir(), "Atomic/");
+					if (!f.exists()) throw new RuntimeException("no u");
+				}catch (Throwable i) {
+					f = new File("Atomic/");
+					//gave up already
+				}
 			}
 		}
 		return f;
@@ -34,7 +40,7 @@ public class FileUtility {
 			
 			if (!f.exists()) throw new RuntimeException("no u");
 		}catch (Throwable ignored) {
-			f = new File("cache/");
+			f = new File(getCurrentWorkingDir(), "cache/");
 		}
 		return f;
 	}

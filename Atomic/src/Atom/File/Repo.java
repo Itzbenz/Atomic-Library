@@ -20,6 +20,7 @@ import Atom.Utility.Pool;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,7 +80,15 @@ public class Repo {
 		return new ArrayList<>(repos);
 	}
 	
+	public static URL convertToURLJar(URL u) throws MalformedURLException {
+		return new URL("jar:" + u.toExternalForm() + "!/");
+	}
+	
 	public void addRepo(URL u) {
 		repos.add(u);
+		if (u.getFile().endsWith(".jar")) {
+			try { repos.add(convertToURLJar(u)); }catch (Throwable ignored) { }
+		}
 	}
+	
 }

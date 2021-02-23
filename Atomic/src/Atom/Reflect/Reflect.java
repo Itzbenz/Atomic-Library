@@ -16,6 +16,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,31 @@ public class Reflect {
 		int def = 3;
 		if (OS.isAndroid) def++;
 		return def;
+	}
+	
+	public static Object[] parseParameters(List<String> s, Parameter[] parameters) {
+		return parseParameters(s.toArray(new String[0]), parameters);
+	}
+	
+	public static Object[] parseParameters(String[] s, Parameter[] params) {
+		ArrayList<Object> param = new ArrayList<>();
+		int i = 0;
+		for (Parameter p : params) {
+			Class<?> c = p.getType();
+			if (s.length - i == 0)
+				throw new IllegalArgumentException("No argument left/Not enough argument for param: " + p.toString());
+			String current = s[0];
+			if (c.isPrimitive() || c.equals(String.class)) {
+				Object o = Reflect.parseStringToPrimitive(current, c);
+				if (o == null)
+					throw new IllegalArgumentException("Failed to parse: " + current + " for param: " + p.toString());
+				param.add(o);
+			}else {
+				throw new IllegalArgumentException(p.toString() + " is not primitive parameter");
+			}
+			i++;
+		}
+		return param.toArray(new Object[0]);
 	}
 	
 	public static String getCallerClass() {

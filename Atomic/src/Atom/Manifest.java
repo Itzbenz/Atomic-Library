@@ -7,7 +7,6 @@ import Atom.Utility.Encoder;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.Future;
 
 import static Atom.Reflect.Reflect.getCurrentJar;
 
@@ -83,7 +82,6 @@ public class Manifest {
 		protected String name, downloadURL;
 		protected String version;
 		protected File jar;
-		private Future<File> download = null;
 		
 		public Library() {
 		

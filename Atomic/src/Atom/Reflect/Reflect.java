@@ -25,8 +25,8 @@ import java.util.Set;
 public class Reflect {
 	
 	
-	private static int callerOffset() {
-		int def = 3;
+	public static int callerOffset() {
+		int def = 1;
 		if (OS.isAndroid) def++;
 		return def;
 	}
@@ -57,11 +57,11 @@ public class Reflect {
 	}
 	
 	public static String getCallerClass() {
-		return Thread.currentThread().getStackTrace()[callerOffset()].getClassName();
+		return Thread.currentThread().getStackTrace()[callerOffset() + 2].getClassName();
 	}
 	
 	public static StackTraceElement getCallerClassStackTrace() {
-		return Thread.currentThread().getStackTrace()[callerOffset()];
+		return Thread.currentThread().getStackTrace()[callerOffset() + 2];
 	}
 	
 	public static Object parseStringToPrimitive(String data, Class<?> type) {

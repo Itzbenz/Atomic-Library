@@ -10,13 +10,18 @@ import java.util.Map;
 
 public class EncoderJson {
 	
-	public static HashMap<String, String> jsonToMap(JsonObject jo) {
+	public static HashMap<String, String> jsonToMap(JsonObject jo, String prefix) {
 		HashMap<String, String> map = new HashMap<>();
 		for (Map.Entry<String, JsonElement> s : jo.entrySet()) {
-			if (s.getValue() instanceof JsonPrimitive) map.put(s.getKey(), s.getValue().getAsString());
-			if (s.getValue() instanceof JsonObject) map.putAll(jsonToMap((JsonObject) s.getValue()));
+			String pre = prefix + "." + s.getKey();
+			if (s.getValue() instanceof JsonPrimitive) map.put(pre, s.getValue().getAsString());
+			if (s.getValue() instanceof JsonObject) map.putAll(jsonToMap((JsonObject) s.getValue(), pre));
 		}
 		return map;
+	}
+	
+	public static HashMap<String, String> jsonToMap(JsonObject jo) {
+		return jsonToMap(jo, "");
 	}
 	
 	public static JsonObject mapToJson(HashMap<String, String> h) {

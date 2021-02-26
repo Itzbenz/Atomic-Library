@@ -17,7 +17,7 @@
 package Atom.Utility;
 
 public class MemoryLog extends Log {
-	StringBuilder sb = new StringBuilder();
+	protected StringBuilder sb = new StringBuilder();
 	
 	@Override
 	protected void output(Object raw) {

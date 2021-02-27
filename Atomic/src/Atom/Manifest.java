@@ -25,6 +25,7 @@ public class Manifest {
 		}catch (Throwable ignored) {
 		}
 		try {
+			internalRepo.loadClasspath();
 			internalRepo.addRepo(getCurrentJar().toURI().toURL());
 		}catch (Throwable ignored) {
 		}

@@ -18,6 +18,7 @@ package Atom.File;
 
 import Atom.Utility.Pool;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -33,7 +34,15 @@ public class Repo {
 	public Repo() {
 	
 	}
-	
+	public void loadClasspath(){
+		for (String s : System.getProperty("java.class.path").split(File.pathSeparator)) {
+			try {
+				addRepo(new File(s));
+			}catch (MalformedURLException e) {
+				// ???
+			}
+		}
+	}
 	public Repo(URL... urls) {
 		repos.addAll(Arrays.asList(urls));
 	}
@@ -83,7 +92,9 @@ public class Repo {
 	public static URL convertToURLJar(URL u) throws MalformedURLException {
 		return new URL("jar:" + u.toExternalForm() + "!/");
 	}
-	
+	public void addRepo(File f) throws MalformedURLException {
+		addRepo(f.toURI().toURL());
+	}
 	public void addRepo(URL u) {
 		repos.add(u);
 		if (u.getFile().endsWith(".jar")) {

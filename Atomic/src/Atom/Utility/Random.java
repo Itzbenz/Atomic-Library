@@ -90,7 +90,7 @@ public class Random extends java.util.Random {
 	
 	public static <T> T getRandom(List<T> arrays) {
 		if (arrays.size() == 0) return null;
-		int rnd = getInt(arrays.size());
+		int rnd = getInt(arrays.size() - 1);
 		return arrays.get(rnd);
 	}
 	

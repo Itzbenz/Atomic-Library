@@ -22,16 +22,14 @@ public class Manifest {
 		try {
 			currentJar = getCurrentJar();
 			currentFolder = currentJar.getParentFile();
-		}catch (Throwable ignored) {
-		}
+		}catch (Throwable ignored) { }
 		try {
 			internalRepo.loadClasspath();
 			internalRepo.addRepo(getCurrentJar().toURI().toURL());
-		}catch (Throwable ignored) {
-		}
+		}catch (Throwable ignored) { }
 		try {
 			signature = Encoder.getString(Digest.sha1(getCurrentJar()));
-		} catch (Throwable aa) {
+		}catch (Throwable aa) {
 			signature = aa.toString();
 		}
 		tryLoadExtension();

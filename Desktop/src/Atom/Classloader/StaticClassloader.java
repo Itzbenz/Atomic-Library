@@ -97,10 +97,7 @@ public class StaticClassloader {
 	
 	public static void addURL(URLClassLoader loader, URL url) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
 		if (isAlreadyLoaded(loader, url)) return;
-		if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader) {
-			((JarClassLoader) loader).addURL(url);
-			return;
-		}
+		
 		java.lang.reflect.Method method = java.net.URLClassLoader.class.getDeclaredMethod("addURL", java.net.URL.class);
 		method.setAccessible(true);
 		method.invoke(loader, url);

@@ -22,8 +22,7 @@ public class StaticClassloader {
 	}
 	
 	public static Package[] getPackages(URLClassLoader loader) {
-		if (ClassLoader.getSystemClassLoader() instanceof JarClassLoader)
-			return ((JarClassLoader) loader).getPackages();
+		
 		try {
 			java.lang.reflect.Method method = ClassLoader.class.getDeclaredMethod("getPackages");
 			method.setAccessible(true);

@@ -20,7 +20,6 @@ package Atom.Classloader;
 import Atom.File.FileUtility;
 import Atom.Utility.Cache;
 import Atom.Utility.Pool;
-import io.sentry.Sentry;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -67,7 +66,7 @@ public class AtomClassLoader extends URLClassLoader {
 					if (url.getProtocol().startsWith("http") && url.getFile().endsWith(".jar")) try {
 						return (cache(url));
 					}catch (Throwable e) {
-						Sentry.captureException(e);
+					
 					}
 					return (url);
 				}).get());
@@ -88,7 +87,7 @@ public class AtomClassLoader extends URLClassLoader {
 				if (u.getProtocol().startsWith("http") && u.getFile().endsWith(".jar")) try {
 					return (cache(u));
 				}catch (Throwable e) {
-					Sentry.captureException(e);
+				
 				}
 				return (u);
 			}));

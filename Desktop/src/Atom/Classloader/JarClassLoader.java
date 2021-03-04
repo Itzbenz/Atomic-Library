@@ -7,7 +7,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLStreamHandlerFactory;
 
-public final class JarClassLoader extends URLClassLoader {
+public class JarClassLoader extends URLClassLoader {
 	
 	static {
 		registerAsParallelCapable();

@@ -31,6 +31,23 @@ public class Pool {
 		return t;
 	}
 	
+	public static int recommendedThreadCount() {
+		int mRtnValue = 0;
+		Runtime runtime = Runtime.getRuntime();
+		long maxMemory = runtime.maxMemory();
+		long mTotalMemory = runtime.totalMemory();
+		long freeMemory = runtime.freeMemory();
+		int mAvailableProcessors = runtime.availableProcessors();
+		
+		long mTotalFreeMemory = freeMemory + (maxMemory - mTotalMemory);
+		mRtnValue = (int) (mTotalFreeMemory / 4200000000L);
+		
+		int mNoOfThreads = mAvailableProcessors - 1;
+		if (mNoOfThreads < mRtnValue) mRtnValue = mNoOfThreads;
+		
+		return mRtnValue;
+	}
+	
 	public static Thread daemon(Runnable r) {
 		Thread t = new Thread(r);
 		t.setDaemon(true);

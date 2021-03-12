@@ -1,20 +1,30 @@
 package Atom.Utility;
 
 
+import Atom.File.FileUtility;
+
 import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import Atom.File.FileUtility;
-
 public class Digest {
-
-
+	
+	
+	public static long longHash(CharSequence c) {
+		long h = 1125899906842597L; // prime
+		int len = c.length();
+		
+		for (int i = 0; i < len; i++) {
+			h = 31 * h + c.charAt(i);
+		}
+		return h;
+	}
+	
 	public static byte[] sha256(String text) {
 		return sha256(text.getBytes());
 	}
-
+	
 	public static byte[] sha256(File file) throws IOException {
 		return sha256(FileUtility.readAllBytes(file));
 	}

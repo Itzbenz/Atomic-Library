@@ -98,7 +98,8 @@ public class Repo {
 	}
 	public void addRepo(URL u) {
 		repos.add(u);
-		if (u.getFile().endsWith(".jar")) {
+		String s = u.getFile();
+		if (s.endsWith(".jar") || s.endsWith(".zip")) {
 			try { repos.add(convertToURLJar(u)); }catch (Throwable ignored) { }
 		}
 	}

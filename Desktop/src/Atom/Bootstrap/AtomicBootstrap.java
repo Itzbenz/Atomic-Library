@@ -19,13 +19,12 @@ package Atom.Bootstrap;
 import Atom.Classloader.AtomClassLoader;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashSet;
 
-public class AtomicBootstrap {
+public class AtomicBootstrap implements Bootstrap<AtomClassLoader> {
 	public AtomClassLoader atomClassLoader;
-	protected HashSet<String> loadedList = new HashSet<>();
 	
 	public AtomicBootstrap() {
 		this(null);
@@ -38,24 +37,36 @@ public class AtomicBootstrap {
 	
 	public void loadCurrentClasspath() {
 		moduleCheck("CurrentClasspath");
-		atomClassLoader.addURL(this.getClass().getProtectionDomain().getCodeSource().getLocation());
+		getLoader().addURL(this.getClass().getProtectionDomain().getCodeSource().getLocation());
 	}
 	
 	public void setStatus(String s) {
 		System.out.println(s);
 	}
 	
+	@Override
+	public AtomClassLoader getLoader() {
+		return atomClassLoader;
+	}
+	
 	public void loadClasspath() throws MalformedURLException {
 		moduleCheck("Classpath");
 		setStatus("Loading " + "Classpath" + " Library");
 		for (String s : System.getProperty("java.class.path").split(File.pathSeparator))
-			atomClassLoader.addURL(new File(s));
+			getLoader().addURL(new File(s));
 	}
 	
-	protected void moduleCheck(String name) {
-		if (loadedList.contains(name))
-			throw new RuntimeException(new IllegalStateException("Module: " + name + " already loaded"));
-		loadedList.add(name);
-		setStatus("Loading: " + name);
+	public void loadMain(Class<?> main, String[] arg) throws Throwable {
+		loadMain(main.getName(), arg);
 	}
+	
+	public void loadMain(String classpath, String[] arg) throws Throwable {
+		setStatus("Finished Loading Bootstrap");
+		try {
+			getLoader().loadClass(classpath).getMethod("main", String[].class).invoke(null, (Object) arg);
+		}catch (InvocationTargetException t) {
+			throw (t.getCause() != null ? t.getCause() : t);
+		}
+	}
+	
 }

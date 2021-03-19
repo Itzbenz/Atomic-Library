@@ -122,7 +122,7 @@ public class FileUtility {
 	}
 
 	public static File temp() {
-		File temp = new File(Manifest.currentFolder, System.currentTimeMillis() + ".temp");
+		File temp = new File(getTempDir(), System.currentTimeMillis() + ".temp");
 		temp.deleteOnExit();
 		return temp;
 	}

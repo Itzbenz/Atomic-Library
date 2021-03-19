@@ -24,7 +24,7 @@ public class EncoderJson {
 			int i = 0;
 			for (JsonElement s : jo.getAsJsonArray()) {
 				String pre = prefix + "." + i++;
-				map.putAll(jsonToMap(s));
+				map.putAll(jsonToMap(s, pre));
 			}
 		}else if(jo.isJsonPrimitive()){//in case
 			map.put(prefix, jo.getAsJsonPrimitive().getAsString());

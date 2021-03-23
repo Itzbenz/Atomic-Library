@@ -21,6 +21,15 @@ public class FieldTool {
 		field.set(null, newValue);
 	}
 	
+	public static boolean trySetAccessible(Field f) {
+		try {
+			f.setAccessible(true);
+			return true;
+		}catch (Exception ignored) {}
+		return false;
+	}
+	
+	
 	public static String getFieldDetails(Object o, boolean all) {
 		return getFieldDetails(o, o.getClass(), all, 150);
 	}

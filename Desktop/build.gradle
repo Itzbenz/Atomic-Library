@@ -1,8 +1,8 @@
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 
-sourceCompatibility = 14
-targetCompatibility = 14
+sourceCompatibility = 9
+targetCompatibility = 9
 repositories {
     mavenCentral()
 }

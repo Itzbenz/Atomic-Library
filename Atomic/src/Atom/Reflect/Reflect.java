@@ -13,10 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,16 +82,18 @@ public class Reflect {
 	}
 	
 	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e) {
-		return getExtendedClassFromJson(json, e, Reflect.class.getClassLoader());
+		return getExtendedClassFromJson(json, e, Reflect.class.getClassLoader(), true);
 	}
 	
-	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl) {
+	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl, boolean addAbstractOrInterface) {
 		JsonObject jo = JsonParser.parseString(json).getAsJsonObject().get("store").getAsJsonObject().get("storeMap").getAsJsonObject().get("SubTypesScanner").getAsJsonObject();
 		ArrayList<Class<? extends E>> ar = new ArrayList<>();
 		for (JsonElement j : jo.get(e.getName()).getAsJsonArray()) {
 			try {
 				String c = j.getAsString();
 				Class<? extends E> h = (Class<? extends E>) cl.loadClass(c);
+				if (addAbstractOrInterface) if (Modifier.isAbstract(h.getModifiers()) || h.isInterface())
+					ar.addAll(getExtendedClassFromJson(json, e, cl, true));
 				ar.add(h);
 			}catch (Throwable ignored) {
 			

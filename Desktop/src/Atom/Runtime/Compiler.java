@@ -47,7 +47,7 @@ public class Compiler {
 		source.getParentFile().mkdirs();
 		source.delete();
 		compiled.delete();
-		Files.writeString(source.toPath(), compilationUnit.toString());
+		Files.write(source.toPath(), compilationUnit.toString().getBytes());
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		if (compiler.run(null, out, out, source.getAbsolutePath()) != 0) throw new RuntimeException("Compiler Error");
 		if (!compiled.exists()) throw new FileNotFoundException(compiled.getAbsolutePath() + " not found");

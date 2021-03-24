@@ -8,10 +8,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
+import org.reflections.serializers.JsonSerializer;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -83,6 +86,14 @@ public class Reflect {
 	
 	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e) {
 		return getExtendedClassFromJson(json, e, Reflect.class.getClassLoader(), true);
+	}
+	
+	public static Reflections getReflection(InputStream is, ClassLoader cl) {
+		ConfigurationBuilder config = ConfigurationBuilder.build().setSerializer(new JsonSerializer());
+		config.setClassLoaders(new ClassLoader[]{cl});
+		Reflections reflections = new Reflections(config);
+		reflections.collect(is);
+		return reflections;
 	}
 	
 	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl, boolean addAbstractOrInterface) {

@@ -85,7 +85,7 @@ public class Reflect {
 	}
 	
 	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e) {
-		return getExtendedClassFromJson(json, e, Reflect.class.getClassLoader(), true);
+		return getExtendedClassFromJson(json, e, Reflect.class.getClassLoader(), true, new ArrayList<>());
 	}
 	
 	public static Reflections getReflection(InputStream is, ClassLoader cl) {
@@ -96,17 +96,17 @@ public class Reflect {
 		return reflections;
 	}
 	
-	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl, boolean addAbstractOrInterface) {
+	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl, boolean addSubtype, ArrayList<Class<? extends E>> ar) {
 		JsonObject jo = JsonParser.parseString(json).getAsJsonObject().get("store").getAsJsonObject().get("storeMap").getAsJsonObject().get("SubTypesScanner").getAsJsonObject();
-		ArrayList<Class<? extends E>> ar = new ArrayList<>();
 		JsonElement target = jo.get(e.getName());
-		if(target != null) {
+		if (target != null) {
 			for (JsonElement j : target.getAsJsonArray()) {
 				try {
 					String c = j.getAsString();
 					Class<? extends E> h = (Class<? extends E>) cl.loadClass(c);
-					if (addAbstractOrInterface) if (Modifier.isAbstract(h.getModifiers()) || h.isInterface())
-						ar.addAll(getExtendedClassFromJson(json, e, cl, true));
+					if (ar.contains(h)) continue;
+					if (addSubtype) if (Modifier.isAbstract(h.getModifiers()) || h.isInterface())
+						getExtendedClassFromJson(json, e, cl, true, ar);
 					ar.add(h);
 				}catch (Throwable ignored) {
 				

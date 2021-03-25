@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Reflect {
 	
@@ -96,8 +93,9 @@ public class Reflect {
 		return reflections;
 	}
 	
-	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl, boolean addSubtype, ArrayList<Class<? extends E>> ar) {
-		JsonObject jo = JsonParser.parseString(json).getAsJsonObject().get("store").getAsJsonObject().get("storeMap").getAsJsonObject().get("SubTypesScanner").getAsJsonObject();
+	public static WeakHashMap<String, WeakHashMap<Class, ArrayList<Class>>> cachedExtendedJson = new WeakHashMap<>();
+	
+	public static <E> List<Class<? extends E>> getExtendedClassFromJson(JsonObject jo, Class<E> e, ClassLoader cl, boolean addSubtype, ArrayList<Class<? extends E>> ar) {
 		JsonElement target = jo.get(e.getName());
 		if (target != null) {
 			for (JsonElement j : target.getAsJsonArray()) {
@@ -106,12 +104,29 @@ public class Reflect {
 					Class<? extends E> h = (Class<? extends E>) cl.loadClass(c);
 					if (ar.contains(h)) continue;
 					if (addSubtype) if (Modifier.isAbstract(h.getModifiers()) || h.isInterface())
-						getExtendedClassFromJson(json, e, cl, true, ar);
+						getExtendedClassFromJson(jo, e, cl, true, ar);
 					ar.add(h);
 				}catch (Throwable ignored) {
 				
 				}
 			}
+		}
+		return ar;
+	}
+	
+	public static <E> List<Class<? extends E>> getExtendedClassFromJson(String json, Class<E> e, ClassLoader cl, boolean addSubtype, ArrayList<Class<? extends E>> ar) {
+		if (cachedExtendedJson.containsKey(json) && cachedExtendedJson.get(json).containsKey(e)) {
+			ArrayList<Class> cache = cachedExtendedJson.get(json).get(e);
+			for (Class c : cache)
+				try {
+					ar.add(c);
+				}catch (Throwable ignored) {}
+		}else {
+			JsonObject jo = JsonParser.parseString(json).getAsJsonObject().get("store").getAsJsonObject().get("storeMap").getAsJsonObject().get("SubTypesScanner").getAsJsonObject();
+			ar.addAll(getExtendedClassFromJson(jo, e, cl, addSubtype, ar));
+			WeakHashMap<Class, ArrayList<Class>> weakHashMap = new WeakHashMap<>();
+			weakHashMap.put(e, new ArrayList<>(ar));
+			cachedExtendedJson.put(json, weakHashMap);
 		}
 		return ar;
 	}

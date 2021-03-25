@@ -21,11 +21,20 @@ import java.net.URL;
 public class RepoInternal extends Repo {
     @Override
     public URL getResource(String s) {
-        URL u = super.getResource(s);
-        if (u == null)
-            u = RepoInternal.class.getClassLoader().getResource(s);
-        if (u == null)
-            ClassLoader.getSystemResource(s);
+        URL u = null;
+        try {
+            if (u == null) u = RepoInternal.class.getClassLoader().getResource(s);
+        }catch (Exception ignored) {}
+        ;
+        try {
+            if (u == null) u = super.getResource(s);
+        }catch (Exception ignored) {}
+        ;
+        try {
+            if (u == null) ClassLoader.getSystemResource(s);
+        }catch (Exception ignored) {}
+        ;
+    
         return u;
     }
 

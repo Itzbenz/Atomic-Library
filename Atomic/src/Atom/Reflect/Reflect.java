@@ -2,10 +2,10 @@ package Atom.Reflect;
 
 import Atom.Manifest;
 import Atom.Struct.Filter;
+import Atom.Utility.EncoderJson;
 import Atom.Utility.Random;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.serializers.JsonSerializer;
@@ -103,9 +103,10 @@ public class Reflect {
 					String c = j.getAsString();
 					Class<? extends E> h = (Class<? extends E>) cl.loadClass(c);
 					if (ar.contains(h)) continue;
+					ar.add(h);
 					if (addSubtype) if (Modifier.isAbstract(h.getModifiers()) || h.isInterface())
 						getExtendedClassFromJson(jo, e, cl, true, ar);
-					ar.add(h);
+					
 				}catch (Throwable ignored) {
 				
 				}
@@ -122,7 +123,7 @@ public class Reflect {
 					ar.add(c);
 				}catch (Throwable ignored) {}
 		}else {
-			JsonObject jo = JsonParser.parseString(json).getAsJsonObject().get("store").getAsJsonObject().get("storeMap").getAsJsonObject().get("SubTypesScanner").getAsJsonObject();
+			JsonObject jo = EncoderJson.parseJson(json).getAsJsonObject().get("store").getAsJsonObject().get("storeMap").getAsJsonObject().get("SubTypesScanner").getAsJsonObject();
 			ar.addAll(getExtendedClassFromJson(jo, e, cl, addSubtype, ar));
 			WeakHashMap<Class, ArrayList<Class>> weakHashMap = new WeakHashMap<>();
 			weakHashMap.put(e, new ArrayList<>(ar));
@@ -136,7 +137,7 @@ public class Reflect {
 	}
 	
 	public static <E> Set<Class<? extends E>> getExtendedClass(String packageName, Class<E> e, ClassLoader cl) {
-		Reflections reflections = new Reflections(packageName, SubTypesScanner.class);
+		Reflections reflections = new Reflections(packageName, SubTypesScanner.class, cl);
 		return reflections.getSubTypesOf(e);
 	}
 	

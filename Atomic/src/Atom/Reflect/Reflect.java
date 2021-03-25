@@ -101,11 +101,12 @@ public class Reflect {
 			for (JsonElement j : target.getAsJsonArray()) {
 				try {
 					String c = j.getAsString();
-					Class<? extends E> h = (Class<? extends E>) cl.loadClass(c);
+					Class raw = cl.loadClass(c);
+					Class<? extends E> h = (Class<? extends E>) raw;
 					if (ar.contains(h)) continue;
 					ar.add(h);
 					if (addSubtype) if (Modifier.isAbstract(h.getModifiers()) || h.isInterface())
-						getExtendedClassFromJson(jo, e, cl, true, ar);
+						getExtendedClassFromJson(jo, raw, cl, true, ar);
 					
 				}catch (Throwable ignored) {
 				

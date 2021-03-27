@@ -16,27 +16,32 @@
 
 package Atom.Net;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.util.concurrent.Future;
-
 import Atom.File.FileUtility;
 import Atom.Utility.Encoder;
 import Atom.Utility.Pool;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.concurrent.Future;
+import java.util.function.Consumer;
+
 public class Request {
-
 	public static byte[] get(String url) throws IOException {
-		return Encoder.readAllBytes(new URL(url).openStream());
+		return get(url, c -> {
+		
+		});
 	}
-
+	
+	public static byte[] get(String url, Consumer<URLConnection> c) throws IOException {
+		URLConnection u = new URL(url).openConnection();
+		c.accept(u);
+		return Encoder.readAllBytes(u.getInputStream());
+	}
+	
 	public static Future<File> download(String url, File target) {
 		return Pool.submit(() -> {
 			try {
@@ -83,6 +88,12 @@ public class Request {
 	}
 	
 	public static byte[] post(String url, byte[] postData) throws IOException {
+		return post(url, postData, u -> {
+		
+		});
+	}
+	
+	public static byte[] post(String url, byte[] postData, Consumer<HttpURLConnection> u) throws IOException {
 		URL realUrl = new URL(url);
 		// build connection
 		HttpURLConnection conn = (HttpURLConnection) realUrl.openConnection();
@@ -94,6 +105,7 @@ public class Request {
 		conn.setRequestMethod("POST");
 		conn.setDoOutput(true);
 		conn.setDoInput(true);
+		u.accept(conn);
 		conn.getOutputStream().write(postData);
 		conn.getOutputStream().flush();
 		return Encoder.readAllBytes(conn.getInputStream());

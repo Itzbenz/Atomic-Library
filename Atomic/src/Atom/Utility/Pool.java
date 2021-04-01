@@ -12,6 +12,12 @@ public class Pool {
 		t.setDaemon(true);
 		return t;
 	});
+	public static ThreadFactory daemonFactory = r -> {
+		Thread t = new Thread(r);
+		t.setDaemon(true);
+		t.setName(Reflect.getCallerClassStackTrace(1).toString());
+		return t;
+	};
 	
 	public static Future<?> submit(RunnableFuture<?> future) {
 		return service.submit(future);
@@ -49,9 +55,6 @@ public class Pool {
 	}
 	
 	public static Thread daemon(Runnable r) {
-		Thread t = new Thread(r);
-		t.setDaemon(true);
-		t.setName(Reflect.getCallerClassStackTrace().toString());
-		return t;
+		return daemonFactory.newThread(r);
 	}
 }

@@ -57,6 +57,10 @@ public class Reflect {
 		return Thread.currentThread().getStackTrace()[callerOffset() + 2].getClassName();
 	}
 	
+	public static StackTraceElement getCallerClassStackTrace(int offset) {
+		return Thread.currentThread().getStackTrace()[callerOffset() + 2 + offset];
+	}
+	
 	public static StackTraceElement getCallerClassStackTrace() {
 		return Thread.currentThread().getStackTrace()[callerOffset() + 2];
 	}

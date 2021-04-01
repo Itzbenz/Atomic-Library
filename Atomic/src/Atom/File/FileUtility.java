@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import static Atom.Reflect.OS.*;
-
+//agh
 public class FileUtility {
 	
 	public static ArrayList<File> findAll(File parent, Filter<File> filter) {

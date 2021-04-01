@@ -31,6 +31,15 @@ public class FileUtility {
 		return files;
 	}
 	
+	public static String getExtension(File f) {
+		String extension = "";
+		int i = f.getName().lastIndexOf('.');
+		if (i > 0) {
+			extension = f.getName().substring(i + 1);
+		}
+		return extension;
+	}
+	
 	public static File getCurrentWorkingDir() {
 		File f;
 		try {

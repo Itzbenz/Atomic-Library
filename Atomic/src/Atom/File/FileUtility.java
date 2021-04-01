@@ -1,14 +1,35 @@
 package Atom.File;
 
 import Atom.Manifest;
+import Atom.Struct.Filter;
 import Atom.Utility.Encoder;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static Atom.Reflect.OS.*;
 
 public class FileUtility {
+	
+	public static ArrayList<File> findAll(File parent, Filter<File> filter) {
+		ArrayList<File> files = new ArrayList<>();
+		HashSet<File> needToRecurse = new HashSet<>();
+		needToRecurse.add(parent);
+		if (!parent.isDirectory()) {
+			files.add(parent);
+			return files;
+		}
+		while (!needToRecurse.isEmpty()) {
+			File f = needToRecurse.iterator().next();
+			for (File fe : f.listFiles(filter::accept)) {
+				files.add(fe);
+				if (fe.isDirectory()) needToRecurse.add(fe);
+			}
+			needToRecurse.remove(f);
+		}
+		return files;
+	}
 	
 	public static File getCurrentWorkingDir() {
 		File f;

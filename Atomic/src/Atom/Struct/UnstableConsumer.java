@@ -31,7 +31,7 @@ import java.util.Objects;
  * @since 1.8
  */
 
-//hack work for 26 > LOL
+
 @FunctionalInterface
 public interface UnstableConsumer<T> {
 	

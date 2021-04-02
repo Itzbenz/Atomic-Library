@@ -3,10 +3,97 @@ package Atom.Utility;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 //Random get more random when used really often
 public class Random extends java.util.Random {
-	private static final Random random = new Random();
+	private static final java.util.Random atomicRandom = new java.util.Random();
+	
+	public static synchronized void seed(long seed) {
+		atomicRandom.setSeed(seed);
+	}
+	
+	public static void getNextBytes(byte[] bytes) {
+		atomicRandom.nextBytes(bytes);
+	}
+	
+	public static int getNextInt() {
+		return atomicRandom.nextInt();
+	}
+	
+	public static int getNextInt(int bound) {
+		return atomicRandom.nextInt(bound);
+	}
+	
+	public static long getNextLong() {
+		return atomicRandom.nextLong();
+	}
+	
+	public static boolean getNextBoolean() {
+		return atomicRandom.nextBoolean();
+	}
+	
+	public static float getNextFloat() {
+		return atomicRandom.nextFloat();
+	}
+	
+	public static double getNextDouble() {
+		return atomicRandom.nextDouble();
+	}
+	
+	public static synchronized double getNextGaussian() {
+		return atomicRandom.nextGaussian();
+	}
+	
+	public static IntStream getInts(long streamSize) {
+		return atomicRandom.ints(streamSize);
+	}
+	
+	public static IntStream getInts() {
+		return atomicRandom.ints();
+	}
+	
+	public static IntStream getInts(long streamSize, int randomNumberOrigin, int randomNumberBound) {
+		return atomicRandom.ints(streamSize, randomNumberOrigin, randomNumberBound);
+	}
+	
+	public static IntStream getInts(int randomNumberOrigin, int randomNumberBound) {
+		return atomicRandom.ints(randomNumberOrigin, randomNumberBound);
+	}
+	
+	public static LongStream getLongs(long streamSize) {
+		return atomicRandom.longs(streamSize);
+	}
+	
+	public static LongStream getLongs() {
+		return atomicRandom.longs();
+	}
+	
+	public static LongStream getLongs(long streamSize, long randomNumberOrigin, long randomNumberBound) {
+		return atomicRandom.longs(streamSize, randomNumberOrigin, randomNumberBound);
+	}
+	
+	public static LongStream getLongs(long randomNumberOrigin, long randomNumberBound) {
+		return atomicRandom.longs(randomNumberOrigin, randomNumberBound);
+	}
+	
+	public static DoubleStream getDoubles(long streamSize) {
+		return atomicRandom.doubles(streamSize);
+	}
+	
+	public static DoubleStream getDoubles() {
+		return atomicRandom.doubles();
+	}
+	
+	public static DoubleStream getDoubles(long streamSize, double randomNumberOrigin, double randomNumberBound) {
+		return atomicRandom.doubles(streamSize, randomNumberOrigin, randomNumberBound);
+	}
+	
+	public static DoubleStream getDoubles(double randomNumberOrigin, double randomNumberBound) {
+		return atomicRandom.doubles(randomNumberOrigin, randomNumberBound);
+	}
 	
 	public static String getString() {
 		return getString(8);
@@ -31,12 +118,12 @@ public class Random extends java.util.Random {
 	}
 	
 	public static int getRandomColor() {
-		return random.nextInt(0xffffff + 1);
+		return atomicRandom.nextInt(0xffffff + 1);
 	}
 	
 	public static String getRandomHexColor() {
-		int nextInt = Random.getInt(5000000, 16777215);
-		return String.format("#%06x", nextInt);
+		int getNextInt = Random.getInt(5000000, 16777215);
+		return String.format("#%06x", getNextInt);
 	}
 	
 	public static String getHex(int h) {
@@ -48,23 +135,23 @@ public class Random extends java.util.Random {
 	}
 	
 	public static float getFloat() {
-		return random.nextFloat();
+		return atomicRandom.nextFloat();
 	}
 	
 	public static double getDouble() {
-		return random.nextDouble();
+		return atomicRandom.nextDouble();
 	}
 	
 	public static long getLong() {
-		return random.nextLong();
+		return atomicRandom.nextLong();
 	}
 	
 	public static boolean getBool() {
-		return random.nextBoolean();
+		return atomicRandom.nextBoolean();
 	}
 	
 	public static int getInt() {
-		return random.nextInt();
+		return atomicRandom.nextInt();
 	}
 	
 	public static int getInt(int max) {
@@ -72,7 +159,7 @@ public class Random extends java.util.Random {
 	}
 	
 	public static int getInt(int min, int max) {
-		return random.nextInt((max - min) + 1) + min;
+		return atomicRandom.nextInt((max - min) + 1) + min;
 	}
 	
 	public static <T> T getRandom(Iterator<T> arr) {
@@ -101,7 +188,7 @@ public class Random extends java.util.Random {
 	}
 	
 	public static long getLong(long min, long max) {
-		return min + ((long) (random.nextDouble() * (max - min)));
+		return min + ((long) (atomicRandom.nextDouble() * (max - min)));
 	}
 	
 	public static long getLong(long max) {
@@ -109,7 +196,7 @@ public class Random extends java.util.Random {
 	}
 	
 	public static double getDouble(double min, double max) {
-		return min + (random.nextDouble() * (max - min));
+		return min + (atomicRandom.nextDouble() * (max - min));
 	}
 	
 	public static double getDouble(double max) {
@@ -117,7 +204,7 @@ public class Random extends java.util.Random {
 	}
 	
 	public static float getFloat(float min, float max) {
-		return min + (random.nextFloat() * (max - min));
+		return min + (atomicRandom.nextFloat() * (max - min));
 	}
 	
 	public static float getFloat(float max) {

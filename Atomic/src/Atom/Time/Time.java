@@ -30,7 +30,7 @@ public class Time {
 	}
 	
 	public Time(TimeUnit tu) {
-		this(tu, tu.convert(System.currentTimeMillis(), TimeUnit.MICROSECONDS));
+		this(tu, tu.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS));
 	}
 	
 	public Time(TimeUnit tu, long src) {
@@ -54,7 +54,7 @@ public class Time {
 	
 	//wtf is this
 	public Time elapsed() {
-		return elapsed(tu.equals(TimeUnit.NANOSECONDS) ? new Time() : new Time(TimeUnit.MICROSECONDS));
+		return elapsed(tu.equals(TimeUnit.NANOSECONDS) ? new Time() : new Time(TimeUnit.MILLISECONDS));
 	}
 	
 	public Time elapsed(Time time) {
@@ -62,6 +62,7 @@ public class Time {
 		long calc = tg - src;
 		return new Time(tu, calc);
 	}
+	
 	
 	public String elapsedS(Time time) {
 		return elapsed(time).toString();

@@ -16,12 +16,14 @@ public class Meth {
 		return Collections.min(b);
 	}
 	
-	public static double avg(long[] arr) {
+	public static double avg(Iterable<Long> arr) {
 		double sum = 0;
+		int length = 0;
 		for (long l : arr) {
 			sum += l;
+			length++;
 		}
-		return sum / arr.length;
+		return sum / length;
 	}
 	
 	public static int positive(int i) {

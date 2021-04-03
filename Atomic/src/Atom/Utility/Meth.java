@@ -17,13 +17,13 @@ public class Meth {
 	}
 	
 	public static double avg(Iterable<Long> arr) {
-		double sum = 0;
+		long sum = 0;
 		int length = 0;
 		for (long l : arr) {
 			sum += l;
 			length++;
 		}
-		return sum / length;
+		return (double) sum / length;
 	}
 	
 	public static int positive(int i) {

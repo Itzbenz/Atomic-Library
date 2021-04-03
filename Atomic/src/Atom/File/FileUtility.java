@@ -22,8 +22,8 @@ public class FileUtility {
 		}
 		while (!needToRecurse.isEmpty()) {
 			File f = needToRecurse.iterator().next();
-			for (File fe : f.listFiles(filter::accept)) {
-				files.add(fe);
+			for (File fe : f.listFiles()) {
+				if (filter.accept(fe)) files.add(fe);
 				if (fe.isDirectory()) needToRecurse.add(fe);
 			}
 			needToRecurse.remove(f);

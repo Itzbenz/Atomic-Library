@@ -218,11 +218,11 @@ public class Utility {
 		
 	}
 	
-	public static String joiner(List<String> datas, String prefix) {
-		return joiner(getArray(datas), prefix);
+	public static String joiner(List<?> datas, Object prefix) {
+		return joiner(datas.toArray(new Object[0]), prefix);
 	}
 	
-	public static String joiner(String[] datas, String prefix) {
+	public static String joiner(Object[] datas, Object prefix) {
 		StringBuilder data = new StringBuilder();
 		for (int i = 0; i < datas.length; i++) {
 			data.append(datas[i]);

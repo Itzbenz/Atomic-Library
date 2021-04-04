@@ -74,9 +74,13 @@ public class Repo {
 		repos.addAll(Arrays.asList(urls));
 	}
 	
+	public static URL appendURL(URL u, String s) throws MalformedURLException {
+		return new URL(u.toString() + (u.toString().endsWith("/") ? "" : "/") + s);
+	}
+	
 	public static URL getResource(URL u, String s) {
 		try {
-			URL url = new URL(u.toString() + (u.toString().endsWith("/") ? "" : "/") + s);
+			URL url = appendURL(u, s);
 			if (url.getContent() != null) return url;
 		}catch (Throwable ignored) {}
 		return null;

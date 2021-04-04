@@ -16,6 +16,7 @@
 
 package Atom.File;
 
+import Atom.Utility.Encoder;
 import Atom.Utility.Pool;
 
 import java.io.File;
@@ -25,6 +26,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -35,7 +38,29 @@ public class Repo {
 	
 	}
 	
-	public void loadClasspath(){
+	public ArrayList<String> readArrayString(String path, String delimiter) throws IOException {
+		return new ArrayList<>(Arrays.asList(readString(path).split(delimiter)));
+	}
+	
+	public Properties readProperty(String path) throws IOException {
+		Properties p = new Properties();
+		p.load(getResourceAsStream(path));
+		return p;
+	}
+	
+	public HashMap<String, String> readMap(String path) throws IOException {
+		return Encoder.parseProperty(getResourceAsStream(path));
+	}
+	
+	public ArrayList<String> readArrayString(String path) throws IOException {
+		return readArrayString(path, System.lineSeparator());
+	}
+	
+	public String readString(String path) throws IOException {
+		return Encoder.readString(getResourceAsStream(path));
+	}
+	
+	public void loadClasspath() {
 		for (String s : System.getProperty("java.class.path").split(File.pathSeparator)) {
 			try {
 				addRepo(new File(s));
@@ -44,6 +69,7 @@ public class Repo {
 			}
 		}
 	}
+	
 	public Repo(URL... urls) {
 		repos.addAll(Arrays.asList(urls));
 	}

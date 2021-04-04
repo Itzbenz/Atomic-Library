@@ -72,7 +72,7 @@ public class Cache {
 		if (url.getProtocol().startsWith("file")) return url;
 		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
 		File target = urlToFile(url);
-		if (target.exists() && timeUnitExpire.convert(System.currentTimeMillis() - Cache.urlToFile(url).lastModified(), TimeUnit.MICROSECONDS) < maxAge)
+		if (target.exists() && timeUnitExpire.convert(System.currentTimeMillis() - Cache.urlToFile(url).lastModified(), TimeUnit.MILLISECONDS) < maxAge)
 			return target.toURI().toURL();
 		Throwable download = null;
 		try {

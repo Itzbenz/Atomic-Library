@@ -22,7 +22,6 @@ import Atom.Utility.Pool;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
@@ -41,7 +40,7 @@ public class Request {
 	
 	//Get redirect if no redirect return current
 	public static URL getRedirect(URL url) throws IOException {
-		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
+		if (!url.getProtocol().startsWith("http")) return url;
 		HttpURLConnection http = (HttpURLConnection) url.openConnection();
 		Map<String, List<String>> header = http.getHeaderFields();
 		while (isRedirected(header)) {

@@ -17,7 +17,7 @@
 package Atom.Utility;
 
 import Atom.File.FileUtility;
-import Atom.Net.Download;
+import Atom.Net.Request;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -76,8 +76,7 @@ public class Cache {
 			return target.toURI().toURL();
 		Throwable download = null;
 		try {
-			Download d = new Download(url, target);
-			d.run();
+			Request.downloadSync(url.toString(), target);
 		}catch (Throwable i) {
 			download = i;
 		}

@@ -22,6 +22,7 @@ import Atom.Utility.Pool;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
@@ -38,7 +39,20 @@ public class Request {
 		});
 	}
 	
-	private static boolean isRedirected(Map<String, List<String>> header) {
+	//Get redirect if no redirect return current
+	public static URL getRedirect(URL url) throws IOException {
+		if (!url.getProtocol().startsWith("http")) throw new MalformedURLException("URL is not http");
+		HttpURLConnection http = (HttpURLConnection) url.openConnection();
+		Map<String, List<String>> header = http.getHeaderFields();
+		while (isRedirected(header)) {
+			url = new URL(header.get("Location").get(0));
+			http = (HttpURLConnection) url.openConnection();
+			header = http.getHeaderFields();
+		}
+		return url;
+	}
+	
+	public static boolean isRedirected(Map<String, List<String>> header) {
 		for (String hv : header.get(null)) {
 			if (hv.contains(" 301 ") || hv.contains(" 302 ")) return true;
 		}
@@ -62,15 +76,8 @@ public class Request {
 	}
 	
 	public static File downloadSync(String url, File target) throws IOException {
-		URL urls = new URL(url);
-		HttpURLConnection http = (HttpURLConnection) urls.openConnection();
-		Map<String, List<String>> header = http.getHeaderFields();
-		while (isRedirected(header)) {
-			url = header.get("Location").get(0);
-			urls = new URL(url);
-			http = (HttpURLConnection) urls.openConnection();
-			header = http.getHeaderFields();
-		}
+		URL urls = getRedirect(new URL(url));
+		
 		File temp = FileUtility.temp();
 		ReadableByteChannel rbc = Channels.newChannel(urls.openStream());
 		if (target.exists()) target.delete();

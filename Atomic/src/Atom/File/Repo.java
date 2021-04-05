@@ -16,6 +16,7 @@
 
 package Atom.File;
 
+import Atom.Net.Request;
 import Atom.Utility.Encoder;
 import Atom.Utility.Pool;
 
@@ -81,6 +82,7 @@ public class Repo {
 	public static URL getResource(URL u, String s) {
 		try {
 			URL url = appendURL(u, s);
+			url = Request.getRedirect(url);
 			if (url.getContent() != null) return url;
 		}catch (Throwable ignored) {}
 		return null;
@@ -117,7 +119,7 @@ public class Repo {
 	}
 	
 	public ArrayList<URL> getRepos() {
-		return new ArrayList<>(repos);
+		return repos;
 	}
 	
 	public static URL convertToURLJar(URL u) throws MalformedURLException {

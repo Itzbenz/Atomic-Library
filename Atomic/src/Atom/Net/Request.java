@@ -26,6 +26,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
@@ -34,6 +36,13 @@ public class Request {
 		return get(url, c -> {
 		
 		});
+	}
+	
+	private static boolean isRedirected(Map<String, List<String>> header) {
+		for (String hv : header.get(null)) {
+			if (hv.contains(" 301 ") || hv.contains(" 302 ")) return true;
+		}
+		return false;
 	}
 	
 	public static byte[] get(String url, Consumer<URLConnection> c) throws IOException {
@@ -54,6 +63,14 @@ public class Request {
 	
 	public static File downloadSync(String url, File target) throws IOException {
 		URL urls = new URL(url);
+		HttpURLConnection http = (HttpURLConnection) urls.openConnection();
+		Map<String, List<String>> header = http.getHeaderFields();
+		while (isRedirected(header)) {
+			url = header.get("Location").get(0);
+			urls = new URL(url);
+			http = (HttpURLConnection) urls.openConnection();
+			header = http.getHeaderFields();
+		}
 		File temp = FileUtility.temp();
 		ReadableByteChannel rbc = Channels.newChannel(urls.openStream());
 		if (target.exists()) target.delete();

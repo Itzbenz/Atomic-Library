@@ -128,25 +128,26 @@ public class FileUtility {
 	}
 
 	public static boolean write(File dst, byte[] bytes, boolean append) {
+		makeFile(dst);
 		try (OutputStream out = new FileOutputStream(dst, append)) {
 			out.write(bytes);
 			out.flush();
 			out.close();
 			return true;
-		} catch (Throwable t) {
+		}catch (Throwable t) {
 			return false;
 		}
-
+		
 	}
 
 
 	public static boolean makeFile(File file) {
 		try {
 			file.getParentFile().mkdirs();
-		}catch (Throwable javabeinggay) {}
+		}catch (Exception javabeinggay) {}
 		try {
 			return file.createNewFile();
-		}catch (Throwable ignored) {
+		}catch (Exception ignored) {
 		}
 		return false;
 	}

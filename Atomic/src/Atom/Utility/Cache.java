@@ -73,6 +73,7 @@ public class Cache {
 		File target = urlToFile(url);
 		if (target.exists() && timeUnitExpire.convert(System.currentTimeMillis() - Cache.urlToFile(url).lastModified(), TimeUnit.MILLISECONDS) < maxAge)
 			return target.toURI().toURL();
+		else target.delete();
 		Exception download = null;
 		try {
 			updateCache(url, Encoder.readAllBytes(url.openStream()));

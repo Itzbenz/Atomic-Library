@@ -35,4 +35,8 @@ public class Timer {
 		return b;
 	}
 	
+	public void reset() {
+		last = System.currentTimeMillis();
+	}
+	
 }

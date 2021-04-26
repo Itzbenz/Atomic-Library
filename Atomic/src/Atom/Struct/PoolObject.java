@@ -9,20 +9,20 @@ package Atom.Struct;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Pool<T> {
+public abstract class PoolObject<T> {
 	protected final int max;
 	protected final ArrayList<T> freeObjects;
 	protected int peak;
 	
-	public Pool() {
+	public PoolObject() {
 		this(16, 2147483647);
 	}
 	
-	public Pool(int initialCapacity) {
+	public PoolObject(int initialCapacity) {
 		this(initialCapacity, 2147483647);
 	}
 	
-	public Pool(int initialCapacity, int max) {
+	public PoolObject(int initialCapacity, int max) {
 		this.freeObjects = new ArrayList<>(initialCapacity);
 		this.max = max;
 	}
@@ -55,8 +55,8 @@ public abstract class Pool<T> {
 	}
 	
 	protected void reset(T object) {
-		if (object instanceof Pool.PoolObject) {
-			((PoolObject) object).reset();
+		if (object instanceof Object) {
+			((Object) object).reset();
 		}
 		
 	}
@@ -89,7 +89,7 @@ public abstract class Pool<T> {
 		return this.freeObjects.size();
 	}
 	
-	public interface PoolObject {
+	public interface Object {
 		void reset();
 	}
 }

@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//use json please
 public class SerializeData {
 	
 	
@@ -18,6 +18,8 @@ public class SerializeData {
 		FileUtility.copy(temp, file);
 	}
 	
+	//wtf is this
+	@Deprecated
 	public static void dataOut(DataArray<Object> ish, File file) throws IOException {
 		dataOut((Object) ish, file);
 	}
@@ -41,6 +43,7 @@ public class SerializeData {
 		return iHandler;
 	}
 	
+	@Deprecated
 	public static class DataArray<E> implements Serializable {
 		public List<E> arrayList;
 		

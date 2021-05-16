@@ -138,6 +138,26 @@ public class Encoder {
 		return readAllBytes(is, Integer.MAX_VALUE);
 	}
 	
+	public static Properties propertiesFromString(String s) {
+		Properties p = new Properties();
+		try {
+			p.load(new StringReader(s));
+		}catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return p;
+	}
+	
+	public static String getStringFromProperties(Properties p, Object comments) {
+		StringWriter writer = new StringWriter();
+		try {
+			p.store(writer, comments + "");
+		}catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return writer.getBuffer().toString();
+	}
+	
 	public static String property(Map<String, String> se) {
 		StringBuilder sb = new StringBuilder();
 		for (Map.Entry<String, String> s : se.entrySet())

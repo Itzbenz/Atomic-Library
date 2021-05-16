@@ -43,11 +43,16 @@ public class Request {
 		if (!url.getProtocol().startsWith("http")) return url;
 		HttpURLConnection http = (HttpURLConnection) url.openConnection();
 		Map<String, List<String>> header = http.getHeaderFields();
+		int max = 0;
 		while (isRedirected(header)) {
+			http.disconnect();
 			url = new URL(header.get("Location").get(0));
 			http = (HttpURLConnection) url.openConnection();
 			header = http.getHeaderFields();
+			max++;
+			if (max >= Byte.MAX_VALUE) throw new IOException("Max Redirect");
 		}
+		http.disconnect();
 		return url;
 	}
 	

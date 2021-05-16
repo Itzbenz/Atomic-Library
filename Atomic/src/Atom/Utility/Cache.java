@@ -17,6 +17,7 @@
 package Atom.Utility;
 
 import Atom.File.FileUtility;
+import Atom.Net.Request;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,6 +62,11 @@ public class Cache {
 		return new File(cache, url.getHost() + "/" + url.getFile().replaceAll("/", "."));
 	}
 	
+	public static boolean updateCache(URL url) throws IOException {
+		url = Request.getRedirect(url);
+		return updateCache(url, Encoder.readAllBytes(url.openStream()));
+	}
+	
 	public static boolean updateCache(URL url, byte[] bytes) {
 		File target = urlToFile(url);
 		return FileUtility.write(target, bytes);
@@ -80,7 +86,7 @@ public class Cache {
 		else target.delete();
 		Exception download = null;
 		try {
-			updateCache(url, Encoder.readAllBytes(url.openStream()));
+			updateCache(url);
 		}catch (Exception t) {
 			download = t;
 		}

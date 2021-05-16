@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Cache {
     public static File cache = FileUtility.getTempDir();
+    public static String delimiter = ".";
     public static TimeUnit timeUnitExpire = TimeUnit.DAYS;
     public static long maxAge = 2;
     
@@ -59,7 +60,7 @@ public class Cache {
     }
     
     public static File urlToFile(URL url) {
-        return new File(cache, url.getHost() + "/" + url.getFile().replaceAll("/", "."));
+        return new File(cache, url.getHost() + "/" + url.getFile().replaceAll("/", delimiter));
     }
     
     public static boolean updateCache(URL url) throws IOException {

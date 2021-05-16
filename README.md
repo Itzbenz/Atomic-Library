@@ -10,6 +10,7 @@ repositories {
 
 ```groovy
 dependencies {
+    implementation "com.github.o7-Fire:Atomic-Library:-SNAPSHOT"
     implementation "com.github.o7-Fire:Atomic-Library:Atomic:-SNAPSHOT"
     implementation "com.github.o7-Fire:Atomic-Library:Desktop:-SNAPSHOT"
 }

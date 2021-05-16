@@ -9,17 +9,17 @@ import java.util.HashMap;
 import java.util.WeakHashMap;
 
 public class EncoderJson {
-	public static Gson gson = new Gson();
-	public static WeakHashMap<String, JsonElement> cache = new WeakHashMap<>();
-	
-	public static JsonElement parseJson(String s) {
-		if (!cache.containsKey(s)) {
-			cache.put(s, JsonParser.parseString(s));
-		}
-		return cache.get(s);
-	}
-	
-	public static JsonObject mapToJson(HashMap<String, String> h) {
-		return gson.toJsonTree(h).getAsJsonObject();
-	}
+    public static Gson gson = new Gson();
+    public static WeakHashMap<String, JsonElement> cache = new WeakHashMap<>();
+    
+    public static JsonElement parseJson(String s) {
+        if (!cache.containsKey(s)) {
+            cache.put(s, JsonParser.parseString(s));
+        }
+        return cache.get(s);
+    }
+    
+    public static JsonObject mapToJson(HashMap<String, String> h) {
+        return gson.toJsonTree(h).getAsJsonObject();
+    }
 }

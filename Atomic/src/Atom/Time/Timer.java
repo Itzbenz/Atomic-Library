@@ -17,26 +17,27 @@
 package Atom.Time;
 
 import java.util.concurrent.TimeUnit;
+
 //aawtf
 public class Timer {
-	final long duration;
-	final TimeUnit durationUnit;
-	long last = System.currentTimeMillis();
-	
-	public Timer(TimeUnit t, long d) {
-		duration = d;
-		durationUnit = t;
-	}
-	
-	public boolean get() {
-		long elapsed = durationUnit.convert(System.currentTimeMillis() - last, TimeUnit.MILLISECONDS);
-		boolean b = elapsed > duration;
-		if (b) last = System.currentTimeMillis();
-		return b;
-	}
-	
-	public void reset() {
-		last = System.currentTimeMillis();
-	}
-	
+    final long duration;
+    final TimeUnit durationUnit;
+    long last = System.currentTimeMillis();
+    
+    public Timer(TimeUnit t, long d) {
+        duration = d;
+        durationUnit = t;
+    }
+    
+    public boolean get() {
+        long elapsed = durationUnit.convert(System.currentTimeMillis() - last, TimeUnit.MILLISECONDS);
+        boolean b = elapsed > duration;
+        if (b) last = System.currentTimeMillis();
+        return b;
+    }
+    
+    public void reset() {
+        last = System.currentTimeMillis();
+    }
+    
 }

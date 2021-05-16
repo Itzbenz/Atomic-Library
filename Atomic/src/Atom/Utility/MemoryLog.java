@@ -17,15 +17,15 @@
 package Atom.Utility;
 
 public class MemoryLog extends Log {
-	protected StringBuilder sb = new StringBuilder();
-	
-	@Override
-	protected void output(Object raw) {
-		sb.append(raw.toString());
-	}
-	
-	@Override
-	public String toString() {
-		return sb.toString();
-	}
+    protected StringBuilder sb = new StringBuilder();
+    
+    @Override
+    protected void output(Object raw) {
+        sb.append(raw.toString());
+    }
+    
+    @Override
+    public String toString() {
+        return sb.toString();
+    }
 }

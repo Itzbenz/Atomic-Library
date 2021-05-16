@@ -22,64 +22,64 @@ import Atom.Utility.Utility;
 import java.util.concurrent.TimeUnit;
 
 public class Time {
-	final TimeUnit tu;
-	final long src;
-	
-	public Time() {
-		this(TimeUnit.NANOSECONDS, System.nanoTime());
-	}
-	
-	public Time(TimeUnit tu) {
-		this(tu, tu.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS));
-	}
-	
-	public Time(TimeUnit tu, long src) {
-		this.tu = tu;
-		this.src = src;
-	}
-	
-	public TimeUnit getTimeUnit() {
-		return tu;
-	}
-	
-	public long getSrc() {
-		return src;
-	}
-	
-	public Time convert(TimeUnit to) {
-		if (tu.equals(to)) return this;//bruh
-		return new Time(to, to.convert(src, tu));
-	}
-	
-	
-	//wtf is this
-	public Time elapsed() {
-		return elapsed(tu.equals(TimeUnit.NANOSECONDS) ? new Time() : new Time(TimeUnit.MILLISECONDS));
-	}
-	
-	public Time elapsed(Time time) {
-		long tg = time.convert(tu).src;
-		long calc = tg - src;
-		return new Time(tu, calc);
-	}
-	
-	
-	public String elapsedS(Time time) {
-		return elapsed(time).toString();
-	}
-	
-	public String elapsedS() {
-		return elapsed().toString();
-	}
-	
-	public Time elapsedF(Time time) {
-		long tg = time.convert(tu).src;
-		long calc = src - tg;
-		return new Time(tu, Meth.negative(calc));
-	}
-	
-	@Override
-	public String toString() {
-		return src + " " + Utility.capitalizeEnforce(tu.toString());
-	}
+    final TimeUnit tu;
+    final long src;
+    
+    public Time() {
+        this(TimeUnit.NANOSECONDS, System.nanoTime());
+    }
+    
+    public Time(TimeUnit tu) {
+        this(tu, tu.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS));
+    }
+    
+    public Time(TimeUnit tu, long src) {
+        this.tu = tu;
+        this.src = src;
+    }
+    
+    public TimeUnit getTimeUnit() {
+        return tu;
+    }
+    
+    public long getSrc() {
+        return src;
+    }
+    
+    public Time convert(TimeUnit to) {
+        if (tu.equals(to)) return this;//bruh
+        return new Time(to, to.convert(src, tu));
+    }
+    
+    
+    //wtf is this
+    public Time elapsed() {
+        return elapsed(tu.equals(TimeUnit.NANOSECONDS) ? new Time() : new Time(TimeUnit.MILLISECONDS));
+    }
+    
+    public Time elapsed(Time time) {
+        long tg = time.convert(tu).src;
+        long calc = tg - src;
+        return new Time(tu, calc);
+    }
+    
+    
+    public String elapsedS(Time time) {
+        return elapsed(time).toString();
+    }
+    
+    public String elapsedS() {
+        return elapsed().toString();
+    }
+    
+    public Time elapsedF(Time time) {
+        long tg = time.convert(tu).src;
+        long calc = src - tg;
+        return new Time(tu, Meth.negative(calc));
+    }
+    
+    @Override
+    public String toString() {
+        return src + " " + Utility.capitalizeEnforce(tu.toString());
+    }
 }

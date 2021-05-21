@@ -21,6 +21,23 @@ import java.util.*;
 
 public class Reflect {
     
+    public static final DebugType DEBUG_TYPE;
+    
+    static {
+        DEBUG_TYPE = getDebugType();
+    }
+    
+    public static DebugType getDebugType() {
+        if (System.getProperty("intellij.debug.agent") != null) return DebugType.IntellijAgent;
+        try {
+            if (java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("-agentlib:jdwp") > 0){
+                return DebugType.AgentLib;
+            }
+        }catch(Throwable ignored){}
+        return DebugType.None;
+    }
+    
+    public enum DebugType {AgentLib, IntellijAgent, None}
     
     public static WeakHashMap<String, WeakHashMap<Class, ArrayList<Class>>> cachedExtendedJson = new WeakHashMap<>();
     
@@ -33,6 +50,7 @@ public class Reflect {
     public static Object[] parseParameters(List<String> s, Parameter[] parameters) {
         return parseParameters(s.toArray(new String[0]), parameters);
     }
+    
     
     public static Object[] parseParameters(String[] s, Parameter[] params) {
         ArrayList<Object> param = new ArrayList<>();

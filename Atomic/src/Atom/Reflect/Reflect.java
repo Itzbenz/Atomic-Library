@@ -21,7 +21,7 @@ import java.util.*;
 
 public class Reflect {
     
-    public static final DebugType DEBUG_TYPE;
+    public static DebugType DEBUG_TYPE;
     
     static {
         DEBUG_TYPE = getDebugType();
@@ -37,7 +37,7 @@ public class Reflect {
         return DebugType.None;
     }
     
-    public enum DebugType {AgentLib, IntellijAgent, None}
+    public enum DebugType {AgentLib, IntellijAgent, DevEnvironment, UserPreference, None}
     
     public static WeakHashMap<String, WeakHashMap<Class, ArrayList<Class>>> cachedExtendedJson = new WeakHashMap<>();
     

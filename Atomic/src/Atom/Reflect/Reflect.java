@@ -177,47 +177,58 @@ public class Reflect {
         cli.append(" jar ");
         cli.append(jar.getAbsolutePath());
         String s = cli.toString();
-        new Thread(() -> {
-            try {
-                Runtime.getRuntime().exec(s);
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-        System.exit(0);
+        runExit(s);
     }
     
-    private static StringBuilder getRestartArg() {
+    public static StringBuilder getRestartArg() {
         StringBuilder cli = new StringBuilder();
         cli.append(System.getProperty("java.home")).append(File.separator).append("bin").append(File.separator).append("java").append(OS.isWindows ? ".exe " : " ");
         try {
             for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
                 cli.append(jvmArg).append(" ");
             }
-        }catch (Throwable ignored) {
+        }catch(Throwable ignored){
         }
         return cli;
     }
     
-    public static void restart(String mainClass, List<String> classpath) {
-        StringBuilder cli = getRestartArg();
-        cli.append("-cp ");
-        for (String s : classpath)
-            cli.append(s).append(System.getProperty("path.separator"));
-        if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length() - 1)))) {
-            cli = new StringBuilder(cli.substring(0, cli.length() - 1));
-        }
-        cli.append(" ");
-        cli.append(mainClass);
-        String s = cli.toString();
+    public static void runExit(String cmd) {
+        runExit(cmd, null, null);
+    }
+    
+    public static void runExit(String cmd, String[] envp, File dir) {
         new Thread(() -> {
             try {
-                Runtime.getRuntime().exec(s);
-            }catch (IOException e) {
+                Runtime.getRuntime().exec(cmd, envp, dir);
+            }catch(IOException e){
                 e.printStackTrace();
             }
         }).start();
         System.exit(0);
+    }
+    
+    public static void restart(String mainClass, String... args) {
+        try {
+            restart(mainClass, Arrays.asList(ManagementFactory.getRuntimeMXBean().getClassPath().split(File.pathSeparator)), args);
+        }catch(Exception e){
+        
+        }
+    }
+    
+    public static void restart(String mainClass, Iterable<String> classpath, String... args) {
+        StringBuilder cli = getRestartArg();
+        cli.append("-cp ");
+        for (String s : classpath)
+            cli.append(s).append(System.getProperty("path.separator"));
+        if (System.getProperty("path.separator").equals(String.valueOf(cli.charAt(cli.length() - 1)))){
+            cli = new StringBuilder(cli.substring(0, cli.length() - 1));
+        }
+        cli.append(" ");
+        cli.append(mainClass);
+        for (String s : args)
+            cli.append(" ").append(s);
+        String s = cli.toString();
+        runExit(s);
     }
     
     public static String getMainClassName() {

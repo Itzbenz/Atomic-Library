@@ -3,10 +3,7 @@ package Atom.Utility;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -24,6 +21,24 @@ public class Utility {
             sb.append(s);
         }
         return sb.toString();
+    }
+    
+    public static void getInput(Map<String, Consumer<String>> map) {
+        getInput(map, System.out, new BufferedReader(new InputStreamReader(System.in)));
+    }
+    
+    public static void getInput(Map<String, Consumer<String>> map, PrintStream out, BufferedReader br) {
+        for (Map.Entry<String, Consumer<String>> s : map.entrySet()) {
+            boolean success = false;
+            while (!success) try {
+                out.println(s.getKey() + ": ");
+                s.getValue().accept(br.readLine());
+                success = true;
+            }catch(IOException | RuntimeException e){
+                out.println(e);
+                out.println("Try again");
+            }
+        }
     }
     
     public static String capitalizeEnforce(String s) {

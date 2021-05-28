@@ -5,6 +5,7 @@ import Atom.Struct.Filter;
 import Atom.Utility.Encoder;
 
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -12,7 +13,9 @@ import static Atom.Reflect.OS.*;
 
 //agh
 public class FileUtility {
-    
+    public static URL convertToURLJar(URL u) throws MalformedURLException {
+        return new URL("jar:" + u.toExternalForm() + "!/");
+    }
     public static ArrayList<File> findAll(File parent, Filter<File> filter) {
         ArrayList<File> files = new ArrayList<>();
         HashSet<File> needToRecurse = new HashSet<>();

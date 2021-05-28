@@ -17,6 +17,7 @@
 package Atom.File;
 
 import Atom.Net.Request;
+import Atom.Struct.InstantFuture;
 import Atom.Utility.Encoder;
 import Atom.Utility.Pool;
 
@@ -56,9 +57,7 @@ public class Repo {
         return null;
     }
     
-    public static URL convertToURLJar(URL u) throws MalformedURLException {
-        return new URL("jar:" + u.toExternalForm() + "!/");
-    }
+ 
     
     public ArrayList<String> readArrayString(String path, String delimiter) throws IOException {
         return new ArrayList<>(Arrays.asList(readString(path).split(delimiter)));
@@ -103,8 +102,19 @@ public class Repo {
     
     protected ArrayList<Future<URL>> parallelSearch(String s) {
         ArrayList<Future<URL>> futures = new ArrayList<>();
-        for (URL u : repos)
-            futures.add(Pool.submit(() -> getResource(u, s)));
+        boolean concurrent = repos.size() > 5;
+        for (URL u : repos) {
+            if (concurrent){
+                futures.add(Pool.submit(() -> getResource(u, s)));
+            }else {
+                futures.add(new InstantFuture<URL>() {
+                    @Override
+                    public URL get() {
+                        return getResource(u,s);
+                    }
+                });
+            }
+        }
         return futures;
     }
     
@@ -132,10 +142,6 @@ public class Repo {
     
     public void addRepo(URL u) {
         repos.add(u);
-        String s = u.getFile();
-        if (s.endsWith(".jar") || s.endsWith(".zip")) {
-            try { repos.add(convertToURLJar(u)); }catch (Throwable ignored) { }
-        }
     }
     
 }

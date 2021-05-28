@@ -22,18 +22,20 @@ import java.util.*;
 public class Reflect {
     
     public static DebugType DEBUG_TYPE;
-    
+    public static boolean debug;
     static {
         DEBUG_TYPE = getDebugType();
     }
     
     public static DebugType getDebugType() {
+        debug = true;
         if (System.getProperty("intellij.debug.agent") != null) return DebugType.IntellijAgent;
         try {
             if (java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("-agentlib:jdwp") > 0){
                 return DebugType.AgentLib;
             }
         }catch(Throwable ignored){}
+        debug = false;
         return DebugType.None;
     }
     

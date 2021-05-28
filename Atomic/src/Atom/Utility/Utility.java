@@ -246,10 +246,9 @@ public class Utility {
         return data.toString();
     }
     
-    public static void convertThreadToInputListener(String enterCommandName, Consumer<String> listener) throws IOException {
+    public static void convertThreadToInputListener(Consumer<String> listener) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (!Thread.interrupted()) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print(enterCommandName);
             listener.accept(br.readLine());
         }
     }

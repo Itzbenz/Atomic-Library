@@ -5,6 +5,7 @@ import Atom.Struct.Filter;
 import Atom.Utility.Encoder;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;

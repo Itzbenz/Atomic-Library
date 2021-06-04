@@ -1,10 +1,10 @@
-package Atom.Struct;
+package Atom.IO;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class OutputStreamString extends OutputStream {
-    protected StringBuilder stringBuilder;
+    public StringBuilder stringBuilder;
     
     public OutputStreamString(StringBuilder sb) {
         stringBuilder = sb;
@@ -19,9 +19,6 @@ public class OutputStreamString extends OutputStream {
         stringBuilder.append((char) b);
     }
     
-    public StringBuilder getStringBuilder() {
-        return stringBuilder;
-    }
     
     @Override
     public String toString() {

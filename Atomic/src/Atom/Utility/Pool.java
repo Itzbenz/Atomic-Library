@@ -12,12 +12,30 @@ public class Pool {
         t.setDaemon(true);
         return t;
     });
+    public static ExecutorService parallelAsync = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() - 1, r -> {
+        Thread t = Executors.defaultThreadFactory().newThread(r);
+        t.setName(t.getName() + "-Atomic-Executor");
+        t.setDaemon(true);
+        return t;
+    });
     public static ThreadFactory daemonFactory = r -> {
         Thread t = new Thread(r);
         t.setDaemon(true);
         t.setName(Reflect.getCallerClassStackTrace(1).toString());
         return t;
     };
+    
+    public static Future<?> async(RunnableFuture<?> future) {
+        return parallelAsync.submit(future);
+    }
+    
+    public static <V> Future<V> async(Callable<V> future) {
+        return parallelAsync.submit(future);
+    }
+    
+    public static Future<?> async(Runnable r) {
+        return parallelAsync.submit(r);
+    }
     
     public static Future<?> submit(RunnableFuture<?> future) {
         return service.submit(future);
@@ -30,6 +48,7 @@ public class Pool {
     public static Future<?> submit(Runnable r) {
         return service.submit(r);
     }
+    
     
     public static Thread thread(Runnable r) {
         Thread t = new Thread(r);

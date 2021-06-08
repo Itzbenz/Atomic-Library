@@ -23,6 +23,19 @@ public class Utility {
         return sb.toString();
     }
     
+    public static String classArrayToStringArray(Iterable<Class<?>> classes, boolean canonical) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Class<?> aClass : classes) {
+            if (canonical) sb.append(aClass.getCanonicalName());
+            else sb.append(aClass.getSimpleName());
+            sb.append(", ");
+        }
+        
+        sb.append("]");
+        return sb.toString();
+    }
+    
     public static void getInput(Map<String, Consumer<String>> map) {
         getInput(map, System.out, new BufferedReader(new InputStreamReader(System.in)));
     }

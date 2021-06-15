@@ -33,11 +33,10 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
-    apply plugin: "maven"
-    apply plugin: "maven-publish"
+
 
     group 'com.o7-Fire'
-    version '2.0.1'
+    version '3.0.1'
 
     ext {
         smh = {

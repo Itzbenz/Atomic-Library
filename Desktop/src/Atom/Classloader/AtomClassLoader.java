@@ -166,7 +166,7 @@ public class AtomClassLoader extends URLClassLoader {
 			try {clazz =  findClass(name); }catch(Throwable ignored){}
 		}
 		if(clazz == null){
-			try {clazz =  loadClass(name); }catch(Throwable ignored){}
+			try {clazz =  super.loadClass(name); }catch(Throwable ignored){}
 		}
 		if(!parentLoaded){
 			try {clazz =  loadParentClass(name);}catch(Throwable ignored){}

@@ -155,13 +155,23 @@ public class AtomClassLoader extends URLClassLoader {
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		boolean parentLoaded = false;
-		if (parentFirst(name)) try { return loadParentClass(name); }catch (Throwable ignored) {parentLoaded = true;}
+		Class<?> clazz = null;
+		if (parentFirst(name)) try { clazz = loadParentClass(name); }catch (Throwable ignored) {parentLoaded = true;}
+		
 		//Note: don't mess with java
-		try{return findLoadedClass(name);} catch(Throwable ignored){}
-		try { return findClass(name); }catch (Throwable ignored) {}
-		try{return loadClass(name); }catch(Throwable ignored){}
-		if(!parentLoaded)
-		try {return loadParentClass(name);}catch (Throwable ignored) {}
+		if(clazz == null){
+			try {return findLoadedClass(name);}catch(Throwable ignored){}
+		}
+		if(clazz == null){
+			try {return findClass(name); }catch(Throwable ignored){}
+		}
+		if(clazz == null){
+			try {return loadClass(name); }catch(Throwable ignored){}
+		}
+		if(!parentLoaded){
+			try {return loadParentClass(name);}catch(Throwable ignored){}
+		}
+		if(clazz != null)return clazz;
 		throw new ClassNotFoundException("Java being gay again: " + name + " not found " + (parentFirst(name) ? "parent first " : "child first"));
 	}
 	

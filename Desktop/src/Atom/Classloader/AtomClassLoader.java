@@ -160,16 +160,16 @@ public class AtomClassLoader extends URLClassLoader {
 		
 		//Note: don't mess with java
 		if(clazz == null){
-			try {return findLoadedClass(name);}catch(Throwable ignored){}
+			try {clazz =  findLoadedClass(name);}catch(Throwable ignored){}
 		}
 		if(clazz == null){
-			try {return findClass(name); }catch(Throwable ignored){}
+			try {clazz =  findClass(name); }catch(Throwable ignored){}
 		}
 		if(clazz == null){
-			try {return loadClass(name); }catch(Throwable ignored){}
+			try {clazz =  loadClass(name); }catch(Throwable ignored){}
 		}
 		if(!parentLoaded){
-			try {return loadParentClass(name);}catch(Throwable ignored){}
+			try {clazz =  loadParentClass(name);}catch(Throwable ignored){}
 		}
 		if(clazz != null)return clazz;
 		throw new ClassNotFoundException("Java being gay again: " + name + " not found " + (parentFirst(name) ? "parent first " : "child first"));

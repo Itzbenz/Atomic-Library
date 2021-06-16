@@ -42,7 +42,7 @@ public class AtomClassLoader extends URLClassLoader {
 		cache.mkdirs();
 		registerAsParallelCapable();
 	}
-	
+	public boolean disableParent = false;
 	public ArrayList<String> parentFirst = new ArrayList<>();
 	
 	public AtomClassLoader(URL[] urls, ClassLoader parent) {
@@ -156,6 +156,7 @@ public class AtomClassLoader extends URLClassLoader {
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		boolean parentLoaded = false;
 		Class<?> clazz = null;
+		if(!disableParent)
 		if (parentFirst(name)) try { clazz = loadParentClass(name); }catch (Throwable ignored) {parentLoaded = true;}
 		
 		//Note: don't mess with java
@@ -165,9 +166,11 @@ public class AtomClassLoader extends URLClassLoader {
 		if(clazz == null){
 			try {clazz =  findClass(name); }catch(Throwable ignored){}
 		}
+		if(!disableParent)
 		if(clazz == null){
 			try {clazz =  super.loadClass(name); }catch(Throwable ignored){}
 		}
+		if(!disableParent)
 		if(!parentLoaded){
 			try {clazz =  loadParentClass(name);}catch(Throwable ignored){}
 		}

@@ -125,6 +125,11 @@ public class AtomClassLoader extends URLClassLoader {
 		return url;
 	}
 	
+	@Override
+	public Class<?> findClass(String name) throws ClassNotFoundException {
+		return super.findClass(name);
+	}
+	
 	@Nullable
 	@Override
 	public URL getResource(String name) {
@@ -149,11 +154,11 @@ public class AtomClassLoader extends URLClassLoader {
 	
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
-		if (parentFirst(name)) try { return loadParentClass(name); }catch (Throwable ignored) {}
-		
-		
+		boolean parentLoaded = false;
+		if (parentFirst(name)) try { return loadParentClass(name); }catch (Throwable ignored) {parentLoaded = true;}
 		//Note: don't mess with java
 		try { return super.loadClass(name); }catch (Throwable ignored) {}
+		if(!parentLoaded)
 		try {return loadParentClass(name);}catch (Throwable ignored) {}
 		throw new ClassNotFoundException("Java being gay again: " + name + " not found " + (parentFirst(name) ? "parent first " : "child first"));
 	}

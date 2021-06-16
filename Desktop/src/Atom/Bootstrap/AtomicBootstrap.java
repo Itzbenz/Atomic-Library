@@ -57,13 +57,15 @@ public class AtomicBootstrap implements Bootstrap<AtomClassLoader> {
 	}
 	
 	public void loadMain(Class<?> main, String[] arg) throws Throwable {
-		loadMain(main.getName(), arg);
+		setStatus("Finished Loading Bootstrap");
+		main.getMethod("main", String[].class).invoke(null, (Object) arg);
 	}
 	
+	
 	public void loadMain(String classpath, String[] arg) throws Throwable {
-		setStatus("Finished Loading Bootstrap");
+	
 		try {
-			getLoader().loadClass(classpath).getMethod("main", String[].class).invoke(null, (Object) arg);
+			loadMain(getLoader().loadClass(classpath),arg);
 		}catch (InvocationTargetException t) {
 			throw (t.getCause() != null ? t.getCause() : t);
 		}

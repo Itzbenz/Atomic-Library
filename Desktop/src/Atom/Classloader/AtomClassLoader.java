@@ -184,9 +184,9 @@ public class AtomClassLoader extends URLClassLoader {
 	}
 	
 	public Class<?> loadParentClass(String name) throws ClassNotFoundException {
+		try {return this.getClass().getClassLoader().loadClass(name);}catch (Throwable ignored) {}
 		try {return ClassLoader.getSystemClassLoader().loadClass(name);}catch (Throwable ignored) {}
 		try {return ClassLoader.getPlatformClassLoader().loadClass(name);}catch (Throwable ignored) {}
-		try {return this.getClass().getClassLoader().loadClass(name);}catch (Throwable ignored) {}
 		return AtomClassLoader.class.getClassLoader().loadClass(name);
 	}
 }

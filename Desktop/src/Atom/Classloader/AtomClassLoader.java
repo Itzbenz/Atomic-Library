@@ -157,7 +157,9 @@ public class AtomClassLoader extends URLClassLoader {
 		boolean parentLoaded = false;
 		if (parentFirst(name)) try { return loadParentClass(name); }catch (Throwable ignored) {parentLoaded = true;}
 		//Note: don't mess with java
-		try { return super.loadClass(name); }catch (Throwable ignored) {}
+		try{return findLoadedClass(name);} catch(Throwable ignored){}
+		try { return findClass(name); }catch (Throwable ignored) {}
+		try{return loadClass(name); }catch(Throwable ignored){}
 		if(!parentLoaded)
 		try {return loadParentClass(name);}catch (Throwable ignored) {}
 		throw new ClassNotFoundException("Java being gay again: " + name + " not found " + (parentFirst(name) ? "parent first " : "child first"));

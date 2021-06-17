@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DiscordWebhookStandalone {
+public  class DiscordWebhookStandalone {
     private static final ExecutorService staticExecutorService = Executors.newCachedThreadPool();
     public URL realUrl = null;
     public String url;

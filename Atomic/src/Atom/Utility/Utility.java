@@ -14,6 +14,7 @@ public class Utility {
     public static boolean isRepeatingPattern(String s) {
         return isRepeatingPattern(s, 5);
     }
+
     
     public static String repeatThisString(String s, int howMany) {
         StringBuilder sb = new StringBuilder();

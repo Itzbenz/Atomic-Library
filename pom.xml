@@ -6,6 +6,13 @@
     <groupId>org.o7-Fire</groupId>
     <artifactId>atomic-library</artifactId>
     <version>4.0.2</version>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Atomic Library</name>
+            <url>https://maven.pkg.github.com/Itzbenz/Atomic-Library</url>
+        </repository>
+    </distributionManagement>
     <modules>
         <module>atom</module>
         <module>desktop</module>

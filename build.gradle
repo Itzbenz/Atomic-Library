@@ -44,9 +44,8 @@ subprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/o7-Fire/Atomic-Library")
                 credentials {
-
-                    username = project.getProperties().get("USERNAME")
-                    password = project.getProperties().get("TOKEN")
+                    username = rootProject.getProperties().get("USERNAME")
+                    password = rootProject.getProperties().get("TOKEN")
                 }
             }
         }

@@ -36,7 +36,7 @@ subprojects {
     apply plugin: "maven-publish"
 
     group 'org.o7-Fire.Glopion.Bootstrapper'
-    version '3.0.1'
+    version '4.0.1'
 
     publishing {
         repositories {
@@ -44,7 +44,7 @@ subprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/o7-Fire/Atomic-Library")
                 credentials {
-                    username = "Itzbenz"
+                    username = "o7-Fire"
                     password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
                 }
             }
@@ -65,7 +65,7 @@ subprojects {
         if (findProject(module) != null) {
             return project(module)
         } else {
-            return project(":Atom" + module)
+            return project(":atom" + module)
         }
     }
 

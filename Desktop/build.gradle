@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly aproj(":Atomic")
+    compileOnly aproj(":atomic")
     compileOnly ('com.github.javaparser:javaparser-core:3.16.2'){
         because("runtime")
     }
@@ -20,8 +20,8 @@ dependencies {
     }
 }
 jar{
-    dependsOn ":Atomic:jar"
-    archiveFileName = "desktop.jar"
+    dependsOn ":atomic:jar"
+    archiveFileName = "${project.archivesBaseName}.jar"
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }

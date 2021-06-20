@@ -1,4 +1,4 @@
 //include 'Android'
-include 'Atomic'
-include 'Desktop'
-rootProject.name = 'Atom'
+include 'atomic'
+include 'desktop'
+rootProject.name = 'atom'

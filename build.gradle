@@ -44,8 +44,8 @@ subprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/o7-Fire/Atomic-Library")
                 credentials {
-                    username = "o7-Fire"
-                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                    username = "Nexity"
+                    password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
                 }
             }
         }
@@ -56,6 +56,7 @@ subprojects {
         }
     }
     ext {
+    println System.getenv("TOKEN") != null
         smh = {
             delete "src-gen/"
             delete "build/"

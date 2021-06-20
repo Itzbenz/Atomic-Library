@@ -16,7 +16,7 @@ dependencies{
     }
 }
 jar{
-    archiveFileName = "${project.archivesBaseName}.jar"
+    archiveFileName = "atomic.jar"
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }

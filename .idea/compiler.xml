@@ -6,14 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="atom" />
-        <module name="desktop" />
+        <module name="atomic-library-atom" />
+        <module name="atomic-library-desktop" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="atom" target="1.8" />
       <module name="atomic-library" target="1.5" />
-      <module name="desktop" target="9" />
+      <module name="atomic-library-atom" target="1.8" />
+      <module name="atomic-library-desktop" target="9" />
       <module name="h" target="1.5" />
       <module name="untitled" target="1.5" />
     </bytecodeTargetLevel>

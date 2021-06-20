@@ -1,17 +1,28 @@
-[![](https://jitpack.io/v/o7-Fire/Atomic-Library.svg)](https://jitpack.io/#o7-Fire/Atomic-Library)
 ---
 A frankenstein library that nobody ask for
 
-```groovy
-repositories {
-    maven { url 'https://jitpack.io' }
-}
+```xml
+
+<dependency>
+    <groupId>org.o7-Fire</groupId>
+    <artifactId>atomic-library-atom</artifactId>
+    <version>4.0.3</version>
+</dependency>
+```
+
+```xml
+
+<dependency>
+    <groupId>org.o7-Fire</groupId>
+    <artifactId>atomic-library-desktop</artifactId>
+    <version>4.0.3</version>
+</dependency>
 ```
 
 ```groovy
-dependencies {
-    implementation "com.github.o7-Fire:Atomic-Library:-SNAPSHOT"
-    implementation "com.github.o7-Fire:Atomic-Library:Atomic:-SNAPSHOT"
-    implementation "com.github.o7-Fire:Atomic-Library:Desktop:-SNAPSHOT"
-}
+implementation "org.o7-Fire:atomic-library-atom:4.0.3"
+```
+
+```groovy
+implementation "org.o7-Fire:atomic-library-desktop:4.0.3"
 ```

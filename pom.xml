@@ -14,7 +14,7 @@
         </repository>
     </distributionManagement>
     <modules>
-        <module>atom</module>
-        <module>desktop</module>
+        <module>atomic-library-atom</module>
+        <module>atomic-library-desktop</module>
     </modules>
 </project>

@@ -10,7 +10,7 @@
         <repository>
             <id>github</id>
             <name>Atomic Library</name>
-            <url>https://maven.pkg.github.com/Itzbenz/Atomic-Library</url>
+            <url>https://maven.pkg.github.com/o7-Fire/Atomic-Library</url>
         </repository>
     </distributionManagement>
     <modules>

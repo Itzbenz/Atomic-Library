@@ -6,10 +6,10 @@
     <parent>
         <artifactId>atomic-library</artifactId>
         <groupId>org.o7-Fire</groupId>
-        <version>4.0.2</version>
+        <version>4.0.3</version>
     </parent>
     <artifactId>desktop</artifactId>
-    <version>4.0.2</version>
+    <version>${parent.version}</version>
     <build>
         <sourceDirectory>./src</sourceDirectory>
     </build>
